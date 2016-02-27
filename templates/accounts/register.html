@@ -1,0 +1,42 @@
+{% extends "bootstrap_base.html" %}
+{% block title %} 用户注册 {% endblock %}
+{% block content %}
+<div class="container register">
+  <div class="row">
+    <div style="border-bottom:1px solid #eee; margin-bottom: 10px;" class="col-sm-offset-2 col-sm-5 text-center">
+      <h3><strong>新建用户</strong></h3>
+    </div>
+  </div>
+  <form action="{% url 'accounts:register' %}" method="post">
+{% csrf_token %}
+    {% for field in form %}
+      <div class="row">
+        <div class="form-group">
+          <div class="col-sm-offset-2 col-sm-2">
+            <label class="input-lg">{{ field.label_tag }}</label>
+          </div>
+          <div class="col-sm-3">
+               {{field}}
+               <span style="font-size:10px" class="helptext">{{field.help_text}}</span>
+          </div>
+          {% if form.errors %}
+            <div class="col-sm-5 text-danger">
+              {{ field.errors }}
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    {% endfor %}
+  <div class="row" >
+    <div class="col-sm-offset-2 col-sm-5 text-center" style="border-top: 1px solid #eee; padding-top: 10px; margin-top: 10px;">
+      <button class="btn btn-primary" type="submit" value="新建">注册用户</button>
+    </div>
+  </div>
+  </form>
+</div>
+<script>
+  $("input").toggleClass('form-control input-lg');
+  $("select").toggleClass('form-control input-lg');
+</script>
+{% endblock %}
+

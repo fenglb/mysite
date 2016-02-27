@@ -1,0 +1,34 @@
+{% load staticfiles %}
+<script type="text/javascript" language="javascript" src="{% static 'jsme/jsme.nocache.js' %}"></script>
+<script type="text/javascript">
+    //this function will be called after the JavaScriptApplet code has been loaded.
+function saveJMECookie() {
+  var jme = document.JME.jmeFile();
+  document.cookie = "jme="+jme+";expires=Thu, 31 Dec 2020 00:00:00 GMT; path=/";
+};
+
+function readJMECookie() {
+  var editor = document.JME;
+  if (editor.smiles().length > 0) return; // editing already started
+  var ca = document.cookie.split(';');
+  for(var i=0;i < ca.length;i++) {
+    var c = ca[i];
+    while (c.charAt(0)==' ') c = c.substring(1,c.length);
+    if (c.indexOf("jme=") == 0) {
+      var jme = c.substring(4,c.length);
+      //alert("jme="+jme);
+      editor.readMolecule(jme);
+      return;
+    }
+  }
+}
+function jsmeOnLoad() {
+	jsmeApplet = new JSApplet.JSME("jsme_container", "400px", "400px");
+	document.JME = jsmeApplet;
+	readJMECookie();
+};
+
+window.onbeforeunload= function() {saveJMECookie();}
+</script>
+<div id="jsme_container"></div>
+

@@ -1,0 +1,33 @@
+{% extends "bootstrap_base.html" %}
+{% block title %} 个人中心 {% endblock %}
+{% block css_js %}
+{% endblock %}
+{% block content %}
+<div class="container">
+  <div class="row">
+    <div class="col-sm-2" style="padding-top:16px">
+      <p><img class="img-rounded" src="{{ user.profile_image.url }}" alt="{{ user.surname }}的照片"/></p>
+      <p> {{ user.surname }}[{{ user.username }}] {{user.get_position_name}}</p>
+      {% if user.position == 'visit' %}
+        <p>编号：{{ user.identify }}</p>
+        <p>领导：{{ user.person_in_charge.surname0 }} </p>
+      {% elif user.position == 'student' %}
+        <p>学号：{{ user.identify }}</p>
+        <p>课题组：{{ user.person_in_charge.surname0 }}</p>
+      {% else %}
+        <p>教工号：{{ user.identify }}</p>
+        <p>课题组：{{ user.person_in_charge.surname0 }}</p>
+      {% endif %}
+      <p><a href="{% url 'accounts:password_change' %}">更改密码</a></p>
+      <p><a href="{% url 'accounts:userinfo' %}">个人资料</a>
+        {% if user.person_in_charge.surname0 == '默认[找不到]' %}
+          <small style="color:red; font-size:8px;">请更改个人信息!</small>
+        {% endif %}
+      </p>
+      <p><a href="{% url 'accounts:apermission' %}">权限申请[门禁/仪器]</a></p>
+    </div>
+    <div class="col-sm-10">
+    </div>
+  </div>
+</div>
+{% endblock %}

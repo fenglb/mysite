@@ -1,0 +1,113 @@
+html, body {
+    margin: auto;
+}
+body {
+    background: #FFFFFF repeat;
+}
+* {
+  font-family: "Georgia", "times", "AR PL UMing CN", "STSong", "SimSun", serif;
+}
+.header-item {
+  color: #ffffff;
+  background-color: #1861ad;
+  border-bottom: 1px solid #333;
+  font-family: Georgia, "AR PL UMing CN", "STSong", "SimSun", serif;
+}
+.nav-item{
+	background-color: #7d0552;
+}
+.navbar-toggle .icon-bar {
+  background-color: #fff;
+}
+.navbar {
+	font-size: 20px;
+}
+.navbar .navbar-inner {
+	background-color: #7d0552;
+}
+.navbar-nav > li > a {
+	color: #fff;
+  font-family: "AR PL UKai CN", "KaiTi", "STKaiti", monospace;
+  font-weight: bold;
+}
+.navbar-nav > li > a:hover {
+	background-color: #b93b8f!important;
+	border-radius: 2px;
+}
+.user_header {
+  font-size: 14px;
+  font-family: "AR PL UKai CN", "KaiTi", "STKaiti", monospace;
+	color: #fff;
+}
+.user_header a {
+  font-family: "AR PL UKai CN", "KaiTi", "STKaiti", monospace;
+	color: #fff;
+}
+
+.content-item {
+  padding-bottom: 10px;
+}
+.footer-item {
+  border-top: 1px solid #aaaaaa;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  font-family: cursive;
+  font-size: 12px;
+}
+
+.carousel {
+  margin-top: -20px;
+  height: 400px;
+  border-bottom: solid 1px #555;
+}
+.carousel .item, .active, .carousel-inner {
+  height: 100%;
+}
+
+.fill {
+  width: 100%;
+  height: 100%;
+  background-position: center;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  background-size: cover;
+  -o-background-size: cover;
+}
+
+.lab-new {
+  padding-top: 30px;
+  margin-bottom: 1px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #e5e5e5;
+  background-color: #fefcff;
+}
+.research {
+  padding: 50px 0px 50px;
+}
+.research .item {
+  display: block;
+}
+.research .item .content p {
+  font-size: 12px;
+  font-family: "AR PL UKai CN", "KaiTi", "STKaiti", monospace;
+}
+.content-box {
+  display: block;
+  overflow: hidden;
+  border-bottom: solid 1px #eee;
+}
+
+.inst {
+  padding: 50px 0px 50px;
+  border-bottom: 1px solid #eee;
+}
+
+.staff {
+  padding: 50px 0px 50px;
+}
+.staff img {
+  padding-bottom: 10px;
+}
+.staff p {
+  margin: 0 0 0px;
+}

@@ -1,0 +1,81 @@
+{% extends "bootstrap_base.html" %}
+{% block title %} 仪器预约 {% endblock %}
+{% block css_js %}
+{% load staticfiles %}
+<script src="{% static 'js/jquery.min.js' %}"></script>
+<script src="{% static 'js/moment.min.js' %}"></script>
+<script src="{% static 'js/fullcalendar.js' %}"></script>
+<link href="{% static 'css/fullcalendar.css' %}" rel="stylesheet" />
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('#calendar').fullCalendar({
+		    header: {
+				left: 'prev,next today',
+				center: 'title',
+				right: 'month, customWeek, basicWeek'
+			    },
+		    defaultDate: '{% now "Y-m-d" %}',
+		    events: { url: "{% url 'schedule:getEvent' %}", },
+		    timeFormat: 'H:mm',
+		    eventLimit: true,
+		    displayEventEnd: true,
+		    views: {
+			  customWeek: { 
+			  type: 'agenda',
+			  buttonText: 'agenda',
+			  duration: { week:  1, },
+			  slotDuration: '00:15:00',
+			  }
+		    },
+        eventClick: function(calEvent, jsEvent, view) {
+          alert('Event: ' + calEvent.title + 'Cor: ' + jsEvent.pageX + ',' + jsEvent.pageY);
+          $(this).css('border-color', 'red');
+        },
+		});
+	});
+</script>
+<style>
+    body {
+	    padding: 0;
+    }
+
+    #calendar {
+	    max-width: 80%;
+	    margin: 0 auto;
+	    font-size: 14px;
+    }
+   #calendar .fc-content {
+     font-size: 12px;
+   }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fuild">
+{% if user.is_authenticated %}
+  <p> Welcome, {{ user.surname }}. 
+    <a href="{% url 'accounts:logout' %}">Logout</a>
+    <a href="{% url 'accounts:password_change' %}"> [Change Password]</a>
+    You can appoint the instrument:
+
+    {% for inst in grouplist %}
+      <a href="{% url 'schedule:setAppointment' inst %} ">[{{inst}}]</a>
+    {% endfor %} 
+
+    {% if not grouplist %}
+      None! Please contact the admin!
+    {% endif %}
+  </p>
+{% else %}
+  <p> Welcome, Please 
+    <a href="{% url 'accounts:login' %}">login</a>
+    or
+    <a href="{% url 'accounts:register' %}">register</a>
+    </p>
+{% endif %}
+
+<div id='calendar'></div>
+
+</div>
+{% endblock %}

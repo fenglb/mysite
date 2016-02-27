@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %} 关于我们 {% endblock %}
+{% block about %} active {% endblock %}
+{% load staticfiles %}
+
+{% block content %} 
+
+<div class="ui cards">
+{% for staff in Staff %}
+  <div class="card">
+    <div class="image">
+      <a href={{ staff.linker }}><img src="{% static staff.photo %}" /></a>
+    </div>
+    <div class="content">
+      <a class="header">{{ staff.name }}</a>
+      <div class="meta">
+	{{ staff.description }}
+      </div>
+      <div class="description">
+	...
+      </div>
+  </div>
+  </div>
+{% endfor %}
+</div>
+{% endblock %}

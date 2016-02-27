@@ -1,0 +1,86 @@
+{% extends "bootstrap_base.html" %}
+{% block title %} 权限申请 {% endblock %}
+{% block content %}
+<div class="container register">
+  <div class="row">
+  <div class="col-sm-6">
+    <div class="row">
+      <div style="margin-bottom: 10px;" class="text-center">
+        <h3><strong>门禁权限申请</strong></h3>
+      </div>
+    </div>
+
+    <form action="{% url 'accounts:apermission' %}" method="post">
+    {% csrf_token %}
+
+      <div class="row">
+        <div class="form-group">
+          <div class="col-sm-4">
+            <label class="input-lg">{{ form.entrance.label_tag }}</label>
+          </div>
+          <div class="col-sm-8">
+               {{form.user}}
+               {{form.entrance}}
+               <span style="font-size:10px" class="helptext">{{field.help_text}}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="form-group">
+          <div class="col-sm-4">
+            <label class="input-lg">{{ form.reason.label_tag }}</label>
+          </div>
+          <div class="col-sm-8">
+               {{form.reason}}
+               <span style="font-size:10px" class="helptext">{{field.help_text}}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="form-group">
+          <div class="col-sm-4">
+            <label class="input-lg">{{ form.expired_time.label_tag }}</label>
+          </div>
+          <div class="col-sm-8">
+               {{form.expired_time}}
+               <span style="font-size:10px" class="helptext">{{field.help_text}}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="row" >
+        <div class="text-center" style="padding-top: 10px; margin-top: 10px;">
+          <button class="btn btn-primary" type="submit" value="submit">== 提交门禁申请 ==</button>
+        </div>
+     </div>
+
+    </form>
+    </div>
+
+  <div class="col-sm-6">
+    <div class="row">
+      <div style="margin-bottom: 10px;" class="text-center">
+        <h3><strong>仪器培训申请</strong></h3>
+      </div>
+    </div>
+    <div class="row" >
+      <div class="text-center" style="padding-top: 10px; margin-top: 10px;">
+        <button class="btn btn-primary" type="submit" value="submit">== 提交培训申请 ==</button>
+      </div>
+   </div>
+  </div>
+
+  </div>
+
+</div>
+<script>
+  $("input").toggleClass('form-control input-lg');
+  $("select[name=user]").hide();
+  $("li>label").toggleClass('checkbox-inline');
+  $("input[name=entrance]").removeClass('form-control input-lg');
+  $("textarea").toggleClass('form-control input-lg');
+</script>
+{% endblock %}
+

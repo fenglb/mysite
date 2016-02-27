@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="utf-8">
+    {% load staticfiles %}
+    <link rel="stylesheet" type="text/css" media="all" href="{% static 'css/main.css' %}">
+    <script type="text/javascript" src="{% static 'dist/semantic.min.js' %}"></script>
+    <link rel="stylesheet" type="text/css" class="ui" href="{% static 'dist/semantic.min.css' %}">
+    <link rel="stylesheet" type="text/css" media="all" href="{% static 'css/flexslider.css' %}">
+    <script type="text/javascript" src="{% static 'js/jquery-1.11.1.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/jquery.flexslider-min.js' %}"></script>
+    <title>{% block title %}{% endblock %}</title>
+    {% block css_js %}{% endblock %}
+</head>
+<body>
+    <div class="wrapper">
+    <h2 class="ui header">
+        <img src="{% static 'images/logo.png' %}" width="80px">
+        <div class="content">
+            厦门大学高场核磁研究中心 
+            <div class="sub header">High-Field Nuclear Magnetic Resonance Research Center </div>
+        </div>
+    </h2>
+    <div class="ui small inverted fluid seven item menu">
+    <a class="{% block home %}{% endblock %} item" href="/">
+        <i class="home icon"></i>首页
+    </a>
+    <a class="{% block about %}{% endblock %} item" href="/about/">
+        <i class="blue users icon"></i>关于我们
+    </a>
+    <a class="{% block labs %}{% endblock %} item" href="/labs/">
+        <i class="green photo icon"></i>实验室
+    </a>
+    <a class="{% block insts %}{% endblock %} item" href="/insts/">
+        <i class="red settings icon"></i>仪器信息
+    </a>
+    <a class="{% block service %}{% endblock %} item" href="/service/">
+        <i class="blue smile icon"></i>服务+
+    </a>
+    <a class="{% block appoint %}{% endblock %} item" href="/appoint/">
+        <i class="orange chat icon"></i>仪器预约
+    </a>
+    <a class="{% block contact %}{% endblock %} item" href="/contact/">
+        <i class="teal phone icon"></i>联系我们
+    </a>
+    </div>
+
+    {% block content %}{% endblock %}
+
+			<a class="ui red tag label">Copyright<i class="copyright icon"></i>2014 Robin Feng</a>
+			 <a class="ui tag label" href="http://fenglb.github.io/nmrblog"><i class="github icon"></i>Robin Blog</a>
+			 <a class="ui right floated tag label" href="http://Register.xmu.edu.cn/Record.aspx?RecordID=D200992" target=_blank>厦门大学高场核磁中心备案号D200992</a>
+		</div>
+  </div> <!--wrapper-->
+  {% if GOOGLE_ANALYTICS_PROPERTY_ID %}
+    {% include "google_analytics.html" %}
+  {% endif %}
+</body>
+</html>

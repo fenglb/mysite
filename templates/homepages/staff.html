@@ -1,0 +1,11 @@
+{% load staticfiles %}
+<div class="row">
+  {% for item in "123456"|make_list %}
+  <div class="col-sm-2 text-center">
+    <img src="{% static 'photos/flb.jpg' %}" class="img-rounded" alt="">
+    <p class="name" style="font-weight: bold">冯柳宾 工程师</p>
+    <p class="title">实验室管理员</p>
+    <p class="connect"><a href="">主页访问</a></p>
+  </div>
+  {% endfor %}
+</div>

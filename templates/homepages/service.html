@@ -1,0 +1,178 @@
+{% extends "base.html" %}
+{% block title %} 服务+ {% endblock %}
+{% block service %} active {% endblock %}
+{% load staticfiles %}
+{% block content %} 
+<div class="ui grid">
+    <div class="five wide fixed column">
+    <div class="ui vertical menu">
+        <a class="item" href="#alt1">申请流程</a>
+        <a class="item" href="#alt2">核磁谱仪收费标准</a>
+		<a class="item" href="#alt3">UPLC-micrOTOF-Q收费标准</a>
+        <a class="item" href="#alt4">付费方式</a>
+		<a class="item" href="#alt5">开放运行设想</a>
+    </div>
+    </div>
+    <div class="eleven wide column">
+        <div class="ui segment">
+            <div id="alt1" class="ui top attached red label">申请流程</div>
+            <div class="content">
+			<div class="ui list">
+			  <div class="item">
+			    <i class="phone icon"></i>
+			    <div class="content">
+				    <a href="/contact/">请联系我们!</a>
+			    </div>
+			  </div>
+			  <div class="item">
+			    <i class="download red icon"></i>
+			    <div class="content">
+				    <a href="{% static 'files/HighFieldApplicationForm.pdf' %}">下载核磁代测申请表</a>
+				    [<a href="{% static 'files/SampleForm.pdf' %}">下载送样单</a>]
+			    </div>
+			  </div>
+			  <div class="item">
+			    <i class="download red icon"></i>
+			    <div class="content">
+				    <a href="{% static 'files/OperatorApplicationForm.pdf' %}">下载核磁上机操作权限申请表</a>
+			    </div>
+			  </div>
+			  <div class="item">
+			    <i class="download red icon"></i>
+			    <div class="content">
+				    <a href="{% static 'files/DoorApplicationForm.pdf' %}">下载高场核磁门禁申请表</a>
+			    </div>
+			  </div>
+			  <div class="item">
+			    <i class="download  icon"></i>
+			    <div class="content">
+				    <a href="{% static 'files/msserver20140614.pdf' %}">下载质谱代测申请表</a>
+			    </div>
+			  </div>
+			</div>
+        </div> <!--content-->
+	</div>
+        <div class="ui segment">
+            <div id="alt2" class="ui top attached blue label">核磁谱仪收费标准</div>
+            <div class="content">
+	    <p>为了鼓励我校科研人员充分使用高场核磁中心的先进仪器设备提高科研水平，因此，本中心对校内科研人员采取特惠政策.
+	    </p>
+			<p>为了鼓励我校科研人员充分使用高场核磁中心的先进仪器设备提高科研水平，本中心对校内科研人员采取特惠政策，建议三台核磁谱仪的收费标准如下：</p>
+			<table class="ui celled collapsing table segment">
+      <thead>
+			<tr> <th rowspan='3'>NMR谱仪(连续使用计时)</th><th colspan='3'>收费标准</th> </tr>
+			<tr><th colspan='2'>测试费（校外）</th><th rowspan='2'>实际收费（校内 )</th></tr>
+			<tr><th>开机费</th><th>耗材费</th></tr>
+      </thead>
+			<tbody>
+			<tr><td>Ascend<sup><small>TM</small></sup> 500 MHz</td><td>200 元/小时</td><td>100 元/小时</td><td>50 元/小时</td></tr>
+			<tr><td>Ascend<sup><small>TM</small></sup> 600 MHz</td><td>200 元/小时</td><td>400 元/小时</td><td>80 元/小时</td></tr>
+			<tr><td>Ascend<sup><small>TM</small></sup> 850 MHz</td><td>300 元/小时</td><td>500 元/小时</td><td>100 元/小时</td></tr>
+			</tbody>
+			</table>
+			<p><small>
+			<ul><li>三台核磁谱仪按小时数收费时， 不足一小时按一小时计； 按天数收费时，天数精确到小数点后一位。</li>
+<li>本中心的500兆谱仪由于配备24孔自动进样器，时价不分时段。</li>
+<!--<li>850兆谱仪具有高灵敏度、高分辨率等优点，一些用户需要预约大段机时检测浓度极稀的样品或检测生物大分子样品，拟对连续使用6小时以上（校外）或单个实验时间在12小时以上（校内）用户按天数收费：测试费3800元/天（校外）， 实际收费1000元/天（校内）。</li>-->
+<li>校内用户按照实际收费标准收费，但要求受惠用户发表论文时需致谢厦大高场核磁中心。</li>
+</ul>
+</small></p>
+			<div class="ui purple label">2014年10月09日</div>
+	</div>
+        </div>
+		<div class="ui segment">
+            <div id="alt3" class="ui top attached teal label">UPLC-micrOTOF-Q II收费标准</div>
+            <div class="content">
+	    <p>为了鼓励我校科研人员充分使用高场核磁中心的先进仪器设备提高科研水平，因此，本中心对校内科研人员采取特惠政策.
+	    </p>
+<!--			<p>为了鼓励我校科研人员充分使用高场核磁中心的先进仪器设备提高科研水平，因此，本中心对校内科研人员采取特惠政策，初步拟定UPLC-micrOTOF-Q II收费标准如下（<strong>校内测试价格:在此基础上可以根据实际情况减免部分机时费用；校外测试价格：直接进样分析的样品按校内测试价格的2倍执行，其他样品测试价格按价目表执行</strong>）: </p>
+				<table class="ui celled collapsing table segment">
+				<thead>
+				<tr><th>仪器</th>	<th>测试项目</th>	<th>耗材费</th><th>开机费*</th>
+				</thead>
+				<tbody>
+				<tr><td rowspan='2'>Q-TOF</td>	<td>精确分子量测定</td>	<td> 100元/样品</td><td>-</td></tr>
+				<tr><td>二级质谱分析</td><td> 150元/样品</td><td>-</td></tr>
+				<tr><td rowspan='2'>UPLC</td><td>自备色谱柱、流动相、<br>及提供测试色谱条件</td><td> 60元/小时</td><td> 110元/小时</td></tr>
+				<tr><td>使用中心的色谱柱<br>及测试技术支持</td><td> 160元/小时</td><td> 110元/小时</td></tr>
+				<tr><td rowspan='6'>UPLC-Q-TOF</td><td rowspan='2'>	LC-MS在线分析</td>	<td> 400元/样品</td><td rowspan='2'>110元/小时</td></tr>
+				<tr><td>120元/小时<br>(自备色谱柱、流动相、<br>及提供测试色谱条件) </td></tr>
+				<tr><td rowspan='2'>代谢组学<br>(不包括数据分析）</td>	<td> 400元/样品</td><td rowspan='2'>110元/小时</td></tr>
+				<tr><td>120元/小时<br>(自备色谱柱、流动相、<br>及提供测试色谱条件) </td></tr>
+				<tr><td rowspan='2'>药物代谢<br>(不包括数据分析）</td>	<td> 400元/样品</td><td rowspan='2'>110元/小时</td></tr>
+				<tr><td>120元/小时<br>(自备色谱柱、流动相、<br>及提供测试色谱条件) </td></tr>
+				</tbody>
+				</table>
+
+			<p><small><ul>
+			<li><strong>总价计算方式：直接进样分析，不计机时费；LC-MS实验，耗材费+开机费。不足半小时按0.5小时计算， 即最小的计算单位为0.5 小时。</strong></li>
+			<li>开机费计算：该仪器按160万人民币计算（其中Q-TOF购机费为115万人民币，LC购机费为45万人民币），一年1200个使用机时，使用十二年。</li>
+			</ul> </small></p>
+
+			<div class="ui purple label">2014年7月5日</div>
+	-->
+	</div>
+        </div>
+        <div class="ui segment">
+            <div id="alt4" class="ui top attached teal label">付费方式</div>
+            <p><strong><a href="http://std.xmu.edu.cn/s/211/t/701/a/154856/info.jspy">关于我校横向科研经费营业税改征增值税</a></strong></p>
+<div>
+<p>根据财政部、国家税务总局《关于在全国开展交通运输业和部分现代服务业营业税改征增值税试点税收政策的通知》（财税[2013]106号）的规定，我校横向科研经费收入由营业税改征增值税，缴纳增值税后相关业务通知如下：</p>
+
+<p>一、增值税税率</p>
+
+<p>经厦门市国税局的认定，我校应按增值税一般纳税人身份纳税，各类横向科研经费来款增值税税率为6%（另外增值税附加费约为0.72%）。</p>
+
+<p>二、减免增值税范围</p>
+
+<p>对于经厦门市科技局认定属于技术转让、技术开发的横向科研业务（该项申请工作由科技处负责办理），经由财务处向厦门市思明区国税局备案后，可免征增值税。</p>
+
+<p>三、开具增值税发票注意事项</p>
+
+<p>1、增值税发票分为增值税专用发票和增值税普通发票，只有当对方单位为增值税一般纳税人并需要进行抵扣的方可开具增值税专用发票，经市科技局认定为技术贸易类合同的只能开具增值税普通发票。</p>
+
+<p>开具增值税专用发票应提供：对方单位名称、纳税人识别号、地址、电话、开户行及行号等信息。以上信息非常重要，务必与对方核实，如果发现内容有误，必须于开票当月将发票退回财务处作废，否则无法重开。</p>
+
+<p>2、原则上，增值税发票要在相应款项到帐后开具，并从到帐款项中扣缴相应税费。</p>
+<p>开户名称：厦门大学</p>
+<p>开户银行：工行厦大支行</p>
+<p>帐号：4100021709024904620</p>
+</div>
+        </div>
+		<div class="ui segment">
+            <div id="alt5" class="ui top attached teal label">开放运行设想</div>
+            <p>正式运行后，高场核磁中心将立足服务校内相关学科，按学校大型仪器管理规定，
+			制定管理和运行机制，全面全天候开放服务。
+			同时，作为学校重要的公共仪器平台，努力为我校相关学科争取和承担国家、部委、地区性重大重点科研项目以及国际合作项目提供技术支持，
+			并发挥高场NMR技术具有开展多学科交叉应用研究的优势，积极拓展与国内外的相关科研、医疗机构的合作，
+			例如：继续落实和加强国内、省内、市内重点医院的科研合作，建立海峡两岸高场核磁中心、中德高场核磁合作平台，等等。</p>
+			<ol>
+				<li>中心将实行开放、流动、联合、竞争的运行机制，积极吸引国内外科研人员以访问学者身份来高场核磁中心工作；
+				以访问讲学、合作研究、联合培养研究生等多种形式积极开展国内外学术交流与科研合作。</li>
+				<li>中心的研究队伍要瞄准国际科学研究的前沿和热点，在核磁共振技术及其应用等方面开展国际高水平的研究工作，并积极申请或参与申请国家、
+				部委、省市等各类科研项目和技术平台支撑项目。积极与国内外学术机构与实验室、医院和企业开展科研合作，努力争取各种纵向和横向合作项目。</li>
+				<li>高场核磁中心研究工作采取兼职和客座课题制。即研究人员自带课题来中心进研究，
+				课题组成员即为高场核磁中心客座研究人员。研究课题由研究人员申请，经高场核磁中心学术委员会审核批准。</li>
+				<li>建议学校/学院在研究生招生名额上适当向高场核磁中心倾斜，帮助中心更快更好地建立起研究团队，
+				开展各种科研课题研究，并为校内外用户提供高质量的技术服务，进行更为广泛而深入的科研合作。</li>
+				<li>5.中心将打破传统的部门所有观念，努力提高设备的使用效率并保证设备的高水平运行，实行专管共用，全面全天候对校内和国内外开放。</li>
+				<li>为充分发挥仪器的作用，高场核磁中心设立课题开放研究基金，对已批准的课题实行资助。
+				对高水平、可获重大成果的课题可提供免费机时。发表论文应兼署高场核磁中心名称，先后视具体情况而定。</li>
+				<li>在核磁谱仪机时有余量的情况下，中心要积极地拓展校内外的相关用户：
+					<ul>
+					<li>积极主动地联系广大的核磁用户，大力宣传高场核磁中心的仪器设备的先进性和技术优势，
+					为用户提供一流的测试分析服务和强有力的技术支持，吸引更多的用户来高场核磁中心进行核磁实验和样品测试。
+					认真服务好已有的用户， 积极发展潜在的用户。</li>
+					<li>积极与相关的高校、研究所、研究中心、医院、分析测试机构、质量检验机构、企业的科研部门或实验室开展广泛、深入的科研合作，充分发挥高场核磁中心在新药研发、新能源材料分析、
+					化学结构分析、生物大分子结构解析、肿瘤等重大疾病的发生发展过程的分子机制研究与生物标志物寻找究以及常规的分析测试等方面的重要作用。</li>
+					<li>吸引国内外相关的研究小组来高场核磁中心开展高水平的研究工作。</li>
+					<li>建立完善的谱仪机时预约和管理的计算机系统，认真规划和安排谱仪机时，
+					及时主动地向用户通报可申请使用的谱仪机时，确保高场核磁中心每一台仪器设备的正常运转与高效使用。</li>
+					</ul>
+				</li>
+			</ol>
+		<div class="ui purple label">林东海教授-2014年6月25日</div>
+        </div>
+    </div>
+</div>
+{% endblock %}
