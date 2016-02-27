@@ -124,15 +124,3 @@ class CustomUser( AbstractBaseUser, PermissionsMixin ):
 
     def __str__(self):
         return self.surname.encode('utf-8')
-
-    class Meta:
-        permissions=(
-            ("can_sample_500MHz", u"送样500MHz"),
-            ("can_operate_500MHz", u"操作500MHz"),
-            ("can_sample_600MHz", u"送样600MHz"),
-            ("can_operate_600MHz", u"操作600MHz"),
-            ("can_sample_850MHz", u"送样850MHz"),
-            ("can_operate_850MHz", u"操作850MHz"),
-            ("can_sample_LCMS", u"送样LCMS"),
-            ("can_operate_LCMS", u"操作LCMS"),
-        )

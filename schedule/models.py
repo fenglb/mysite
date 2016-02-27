@@ -43,16 +43,10 @@ class Experiment(models.Model):
     """
     create experiment
     """ 
-    INSTRUMENT_TYPE = (
-        ('500MHz', '500MHz NMR'),
-        ('600MHz', '600MHz NMR'),
-        ('850MHz', '850MHz NMR'),
-        ('MS', 'QTop MS'),
-    )
     user = models.ForeignKey( CustomUser, verbose_name=u'用户' )
     measure_type = models.TextField(verbose_name=u'实验类型', blank=True, null=True , help_text=u'实验测量类型，C13，H1， HSQC，HMBC等')
 
-    instrument = models.CharField(verbose_name=u'仪器类型', max_length=6, choices=INSTRUMENT_TYPE, default='600Mhz')
+    instrument = models.ForeignKey(Instrument, verbose_name=u'选择仪器')
 
     sample = models.ForeignKey( Sample, null=True, blank=True, verbose_name=u'样品参数')
     start_time = models.DateTimeField(verbose_name=u'起始时间', help_text=u'实验预约起始时间')

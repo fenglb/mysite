@@ -1,3 +1,4 @@
+#-*- coding: utf-8 -*-
 from django.shortcuts import render
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.decorators import login_required
@@ -14,17 +15,8 @@ from datetime import timedelta
 from .colorlist import textcolor, bordercolor, colorlist
 # Create your views here.
 
-INSTRUMENT_TYPE = ( '500MHz', '600MHz', '850MHz', 'MS' )
-
 def index(request):
-    try:
-        groups = request.user.groups.all()
-        grouplist = [group.name for group in groups ]
-    except AttributeError:
-        grouplist = []
-
-    grouplist = list(set(grouplist) & set(INSTRUMENT_TYPE))
-    return render(request, 'schedule/index.html', {'grouplist': grouplist,})
+    return render(request, 'schedule/index.html' )
 
 def manual(request):
 
@@ -49,27 +41,13 @@ def create_experiment(request):
 @login_required
 def setAppointment(request, instrument):
 
-    groups = request.user.groups.all()
-    grouplist = [group.name for group in groups ]
-    grouplist = list(set(grouplist) & set(INSTRUMENT_TYPE))
-    if instrument not in grouplist:
-        return render(request, 'schedule/index.html', {'grouplist': grouplist,})
-
     form = ExperimentCreationForm(initial={})
 
-    grouplist.remove(instrument)
-    return render(request, 'schedule/appointment.html', {'form':form, 'instrument': instrument, 'grouplist': grouplist})
+    return render(request, 'schedule/appointment.html', {'form':form, 'instrument': instrument} )
 
 def viewAppointment(request, instrument):
 
-    try:
-        groups = request.user.groups.all()
-        grouplist = [group.name for group in groups ]
-    except AttributeError:
-        grouplist = []
-
-    grouplist = list(set(grouplist) & set(INSTRUMENT_TYPE))
-    return render(request, 'schedule/index.html', {'instrument': instrument, 'grouplist': grouplist,})
+    return render(request, 'schedule/index.html', {'instrument': instrument, })
 
 def getEvent(request, instrument=None):
     if request.method == 'GET':
@@ -80,19 +58,15 @@ def getEvent(request, instrument=None):
         data = []
         for exp in experiments:
             event={}
-            if not instrument:
-                event['title'] = "{0} {1}".format(exp.user.get_full_name(), exp.instrument)
-            else:
-                event['title'] = "{0} {1}".format(exp.user.get_full_name(), exp.name.encode('utf-8'))
-            start = cnfromutc(exp.start_time)
-            event['start'] = start.strftime("%Y-%m-%dT%H:%M:%S")
+            event['title'] = "{0} {1}".format(exp.user.get_full_name(), exp.instrument.name.encode('utf-8'))
+            start = exp.start_time
+            event['start'] = cnfromutc( start ).strftime("%Y-%m-%dT%H:%M:%S")
             end = cnfromutc( exp.start_time+timedelta(hours=exp.times) )
             event['end'] = end.strftime("%Y-%m-%dT%H:%M:%S")
-            groud_id = PersonInCharge.objects.get(surname=exp.user.person_in_charge).id % len(colorlist)
-            event['color'] = colorlist[groud_id]
-# 0 --> 500MHz , 1 --> 600MHz, 2 --> 850MHz, 3 --> MS
-            event['borderColor'] = bordercolor[INSTRUMENT_TYPE.index( exp.instrument )]
-
+            group_id = PersonInCharge.objects.get(surname0=exp.user.person_in_charge.surname0).id % len(bordercolor)
+            event['borderColor'] = bordercolor[group_id]
+            event['color'] = colorlist[exp.instrument.id]
+            # 0 --> 500MHz , 1 --> 600MHz, 2 --> 850MHz, 3 --> MS
             event['textColor'] = textcolor
             data.append(event)
     return HttpResponse(json.dumps(data, ensure_ascii=False))
