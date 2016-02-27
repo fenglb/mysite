@@ -20,9 +20,11 @@ class Entrance(models.Model):
 class EntranceAppointment(models.Model):
     user = models.ForeignKey(CustomUser, verbose_name=u'申请人')
     entrance = models.ManyToManyField( Entrance, verbose_name=u'门禁' )
-    reason   = models.TextField( max_length=300, blank=True, null=True, verbose_name=u'申请理由' )
+    reason   = models.TextField( max_length=300, blank=True, null=True, verbose_name=u'申请理由', help_text=u'请给出申请理由，不然可能会导致申请不通过！' )
     created_datetime = models.DateTimeField( auto_now_add=True )
     expired_time = models.DateField( default=datetime.now()+timedelta(days=100*365), verbose_name=u'失效日期' )
+    has_approved = models.NullBooleanField(verbose_name='是否赞同', help_text=u'空着表示未处理', null=True, blank=True)
+    feedback = models.TextField(max_length=300, verbose_name=u'反馈信息', null=True, blank=True)
 
     def __str__(self):
         all_entrances = u",".join( [door.name for door in self.entrance.all()] )

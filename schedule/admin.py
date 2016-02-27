@@ -66,11 +66,18 @@ class ExperimentAdmin(admin.ModelAdmin):
 class SampleAdmin( admin.ModelAdmin ):
     list_display = ('name', 'solvent', 'concentration', 'molecular_weight')
     
+class InstrumentAppointmentForm( forms.ModelForm ):
+    class Meta:
+        model = InstrumentAppointment
+        fields = ('user', 'instrument', 'target_datetime')
+class InstrumentAppointmentAdmin(admin.ModelAdmin):
+    list_display = ("__str__", "target_datetime", "has_approved")
+
 class InstrumentAdmin( admin.ModelAdmin ):
     list_display = ('name', )
+    filter_horizontal = ('user',)
 
 admin.site.register(Sample, SampleAdmin)
 admin.site.register(Experiment, ExperimentAdmin)
 admin.site.register(Instrument, InstrumentAdmin)
-admin.site.register(InstrumentAppointment)
-
+admin.site.register(InstrumentAppointment, InstrumentAppointmentAdmin)

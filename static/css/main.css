@@ -34,6 +34,9 @@ body {
 	background-color: #b93b8f!important;
 	border-radius: 2px;
 }
+.content-item {
+  padding-bottom: 10px;
+}
 .user_header {
   font-size: 14px;
   font-family: "AR PL UKai CN", "KaiTi", "STKaiti", monospace;
@@ -44,9 +47,6 @@ body {
 	color: #fff;
 }
 
-.content-item {
-  padding-bottom: 10px;
-}
 .footer-item {
   border-top: 1px solid #aaaaaa;
   padding-top: 10px;

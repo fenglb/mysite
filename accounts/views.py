@@ -8,6 +8,9 @@ from django.core.mail import EmailMultiAlternatives
 from .admin import UserCreationForm, UserInforForm, PersonInChargeForm, OrgnizationForm
 from .models import CustomUser, PersonInCharge
 from eguard.admin import EntranceAppointmentForm
+from eguard.models import Entrance, EntranceAppointment
+from schedule.admin import InstrumentAppointmentForm
+from schedule.models import Instrument, InstrumentAppointment
 
 import uuid
 import json
@@ -94,18 +97,30 @@ def userinfo(request):
     return render(request, "accounts/userinfo.html", {'userform': user_form, 'piform': pi_form, 'orgform': org_form,})
 
 @login_required
-def apermission(request):
+def apermission(request, item=None):
     
-    if request.method == 'POST':
-        form = EntranceAppointmentForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return HttpResponseRedirect("/accounts/profile")
-    else:
-        form = EntranceAppointmentForm()
-        form.user = request.user
+    eform = EntranceAppointmentForm(request.POST or None )
+    iform = InstrumentAppointmentForm(request.POST or None )
 
-    return render(request, "accounts/apermission.html", {'form': form })
+    has_permission_entrance = Entrance.objects.filter( user=request.user )
+    has_permission_instrument = Instrument.objects.filter( user=request.user )
+    has_appointed_entrance = EntranceAppointment.objects.filter( user=request.user )
+    has_appointed_instrument = InstrumentAppointment.objects.filter( user=request.user )
+
+    if request.method == 'POST':
+        if item=="eguard" and eform.is_valid():
+            eform.save()
+            return HttpResponseRedirect("/accounts/apermission")
+        if item=="instr" and iform.is_valid():
+            iform.save()
+            return HttpResponseRedirect("/accounts/apermission")
+
+    return render(request, "accounts/apermission.html", {'eform': eform, 'iform': iform, 
+                            'has_permission_instrument': has_permission_instrument,
+                            'has_permission_entrance': has_permission_entrance,
+                            'has_appointed_instrument': has_appointed_instrument,
+                            'has_appointed_entrance': has_appointed_entrance,
+                              })
 
 @csrf_protect
 def register(request):

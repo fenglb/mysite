@@ -20,6 +20,7 @@ class Instrument(models.Model):
     name = models.CharField( verbose_name=u'名称', max_length = 100 )
     introduct = models.TextField(verbose_name=u'介绍', blank=True, null=True)
     user = models.ManyToManyField(CustomUser, verbose_name=u'授权者', blank=True) #授权者
+    image = models.ImageField(upload_to="images", blank=False, null=False, verbose_name=u'照片', default="/media/images/default.png")
     def __str__(self):
         return self.name.encode('utf-8')
 
@@ -28,9 +29,13 @@ class InstrumentAppointment(models.Model):
     instrument = models.ManyToManyField( Instrument, verbose_name=u'仪器' )
     target_datetime = models.DateTimeField(verbose_name=u'预定日期', help_text=u'请选择一个预定时间，等待管理员确定！', null=True, blank=True)
     created_datetime = models.DateTimeField( auto_now_add=True )
+    has_approved = models.NullBooleanField(verbose_name='是否赞同', help_text=u'空着表示未处理', null=True, blank=True)
+    feedback = models.TextField(max_length=300, verbose_name=u'反馈信息', null=True, blank=True)
+        
     def __str__(self):
         all_instrument = u",".join( [inst.name for inst in self.instrument.all()] )
-        strforback = u'[{0}]申请[{1}]培训'.format(self.user.surname, all_instrument )
+        target_datetime = self.target_datetime.strftime("%Y-%m-%d %H:%m")
+        strforback = u'[{0}]申请[{1}]预计在{2}培训'.format(self.user.surname, all_instrument, target_datetime )
         return strforback.encode('utf-8')
 
 
