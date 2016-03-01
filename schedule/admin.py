@@ -42,13 +42,12 @@ class ExperimentCreationForm(forms.ModelForm):
         if ( int(start_time.strftime("%U")) - int(datetime.today().strftime("%U")) > 1):
             raise forms.ValidationError(u"预约开始时间限制在这周内.")
 
-        if ( start_time < now ):
+        if ( start_time < timezone.now() ):
             raise forms.ValidationError(u"预约开始时间已经过去，请重新选择！")
         return start_time
 
-    def save(self, request, commit=True):
+    def save(self, commit=True):
         exp = super(ExperimentCreationForm, self).save(commit=False)
-        exp.user = request.user
         if commit:
             exp.save()
         return exp

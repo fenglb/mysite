@@ -214,6 +214,8 @@
   $("textarea").toggleClass('form-control input-lg');
   $("#id_target_datetime").appendDtpicker({'futureOnly': true});
   $("#id_expired_time").appendDtpicker({'dateOnly':true, 'futureOnly': true});
+  $("#id_expired_time").attr('readonly', 'readonly');
+  $("#id_target_datetime").attr('readonly', 'readonly');
   {% for entrance in has_permission_entrance %}
     $("select#id_entrance option[value='{{entrance.id}}']").attr("disabled", true);
   {% endfor %}

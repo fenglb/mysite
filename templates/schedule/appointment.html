@@ -159,7 +159,7 @@
 <h3>Create An Experment</h3>
 
 <div id="ui error form segment create_exp_form">
-  <form action="{% url 'schedule:create_experiment' %}" method="post">
+  <form action="{% url 'schedule:create' %}" method="post">
   {% csrf_token %}
 
   {% if form.errors %}
@@ -175,8 +175,7 @@
   {% endfor %}
   <hr />
       <div id="action">
-	<input class="ui blue submit button" type="submit" value="Created">
-	<input type="hidden" name="next" value="{% url 'schedule:setAppointment' instrument %}"/>
+	<input class="ui blue submit button" type="submit" value="create">
       </div>
   </form>
 </div> <!-- ui error -->

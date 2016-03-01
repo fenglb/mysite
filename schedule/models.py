@@ -18,6 +18,7 @@ class Sample( models.Model ):
 
 class Instrument(models.Model):
     name = models.CharField( verbose_name=u'名称', max_length = 100 )
+    short_name = models.CharField( verbose_name=u'简称', max_length = 100, unique=True )
     introduct = models.TextField(verbose_name=u'介绍', blank=True, null=True)
     user = models.ManyToManyField(CustomUser, verbose_name=u'授权者', blank=True) #授权者
     image = models.ImageField(upload_to="images", blank=False, null=False, verbose_name=u'照片', default="/media/images/default.png")
@@ -50,7 +51,7 @@ class Experiment(models.Model):
 
     sample = models.ForeignKey( Sample, null=True, blank=True, verbose_name=u'样品参数')
     start_time = models.DateTimeField(verbose_name=u'起始时间', help_text=u'实验预约起始时间')
-    times  = models.IntegerField( verbose_name=u'实验用时/小时', help_text=u'实验预估用时，请参考不同实验估计用时！' )
+    times  = models.FloatField( verbose_name=u'实验用时/小时', help_text=u'实验预估用时，请参考不同实验估计用时！' )
 
     created_time = models.DateTimeField(auto_now_add=True)
 

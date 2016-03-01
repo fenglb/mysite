@@ -1,5 +1,5 @@
+from schedule.models import Instrument
 from django.shortcuts import render, get_object_or_404
-from staffList import Staff
 
 # Create your views here.
 def home( request ):
@@ -8,7 +8,7 @@ def home( request ):
 
 def about( request ):
 
-    return render( request, 'homepages/about.html', {'Staff': Staff} )
+    return render( request, 'homepages/about.html' )
 
 def labs( request ):
     
@@ -27,5 +27,5 @@ def contact( request ):
     return render( request, 'homepages/contact.html' )
 
 def appoint( request ):
-    
-    return render( request, 'homepages/appoint.html' )
+    instruments = Instrument.objects.all()
+    return render( request, 'homepages/appoint.html', {'instruments': instruments,} )

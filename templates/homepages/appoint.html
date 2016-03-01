@@ -3,227 +3,72 @@
 {% block appoint %} active {% endblock %}
 {% load staticfiles %}
 {% block css_js %}
-<script src="{% static 'js/jquery.simple-dtpicker.js' %}"></script>
-<link href="{% static 'css/jquery.simple-dtpicker.css' %}" rel="stylesheet" />
-<link href="{% static 'icheck/flat/blue.css' %}" rel="stylesheet" />
-<script src="{% static 'icheck/icheck.min.js' %}"></script>
+<style>
+  .row {
+    padding-top: 10px;
+  }
+  h4 {
+    font-family: "AR PL UKai CN", "KaiTi", "STKaiti", monospace;
+  }
+</style>
 {% endblock %}
 {% block content %} 
 <div class="container">
+
 <div class="row">
-	<div class="col-sm-2">
-		<h2>查询</h2>
-		<h2>预约机时</h2>
-		<p>通过点击仪器图片，可以查询仪器目前预约情况，和账号登入预约。只有取得独立上机操作权限的才有预约账号，没有独立上机操作权限的可以通过送样申请。</p>
-	</div><!--col-sm-3-->
-	<div class="col-sm-2">
-			<a href="{% url 'schedule:viewAppointment' '500MHz'%}">
-			<div class="thumbnail">
-				<img src="{% static 'photos/ac500.jpg' %}">
-				<h3 class="text-center">500MHz</h3>
-			</div>
-			</a>
-	</div>
-	<div class="col-sm-2">
-			<a href="{% url 'schedule:viewAppointment' '600MHz'%}">
-			<div class="thumbnail">
-				<img src="{% static 'photos/ac600.jpg' %}">
-      </div>
-			</a>
-	</div>
-	<div class="col-sm-2">
-			<a href="{% url 'schedule:viewAppointment' '850MHz'%}">
-			<div class="thumbnail">
-				<img src="{% static 'photos/ac850.jpg' %}">
-      </div>
-			</a>
-	</div>
-	<div class="col-sm-2">
-			<a href="{% url 'schedule:viewAppointment' 'MS'%}">
-			<div class="thumbnail">
-				<img src="{% static 'photos/lc-nmr-ms.jpg' %}">
-      </div>
-			</a>
-	</div>
-</div> <!--row-->
-<form>
+  亲爱的{% if user.is_authenticated %}{{user.surname}}{% else %}用户{%endif%}, 仪器预约有两种方式：1）<strong>自主预约/上机操作</strong>；2）<strong><a href="">送样预约</a></strong>。
+</div>
 <div class="row">
-	<div class="col-sm-2">
-		<h2>送样申请</h2>
-		<p>送样测试需要添加右边表格，表格中有<strong style="color:red">红色标签是必填项目</strong>。请尽量提供您样品信息和测试信息，如果不好确定实验测试时间长短，可以联系管理员。对于预约测试的时间，请查询仪器机时安排情况。上交预约申请，我们会尽快给您安排时间，申请成功以后我们会通过邮件或者电话通知你们，请按时来测试。</p>
-	</div>
-	<div class="col-sm-5">
-  	<h3>个人信息</h3>
-		<div class="row">
-			<div class="col-sm-6 form-group">
-				<input class="form-control input-lg" name="userName" placeholder="姓名" type="text">
-			</div>
-			<div class="col-sm-6 form-group">
-				<input class="form-control input-lg" name="userPhone" placeholder="电话号码" type="text">
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-sm-12 form-group">
-				<input class="form-control input-lg" name="userEmail" placeholder="joe@schmoe.com" type="text">
-			</div>
-		</div>
-		<div class="row profession">
-			<div class="form-group">
-				<label class="checkbox-inline">
-					<input value="bachelor" name="profession" type="radio">本科
-				</label>
-				<label class="checkbox-inline">
-					<input value="master" name="profession" checked="checked" type="radio">硕士
-				</label>
-				<label class="checkbox-inline">
-					<input value="doctor" name="profession" type="radio">博士
-				</label>
-				<label class="checkbox-inline">
-					<input value="staff" name="profession" type="radio">老师
-				</label>
-				<label class="checkbox-inline">
-					<input value="other" name="profession" type="radio">其他...
-				</label>
-			</div>
-			<script>
-			$(document).ready( function() {
-				$('.profession input').on().iCheck({
-					radioClass: 'iradio_flat-blue',
-					increaseArea: '20%'
-				});
-			});
-			</script>
-		</div>
- 		<h3>负责人信息</h3>
-		<div class="row">
-			<div class="col-sm-6 form-group">
-				<input class="form-control input-lg" name="userName" placeholder="姓名(Name)" type="text">
-			</div>
-			<div class="col-sm-6 form-group">
-				<input class="form-control input-lg" name="userPhone" placeholder="电话号码(Phone)" type="text">
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-sm-12 form-group">
-				<input class="form-control input-lg" name="userEmail" placeholder="joe@schmoe.com" type="text">
-			</div>
-		</div>
- 		<h3>单位信息</h3>
-		<div class="row">
-			<div class="col-sm-12 form-group">
-				<input class="form-control input-lg" name="orgName" placeholder="单位名称" type="text">
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-sm-12 form-group">
-				<input class="form-control input-lg" name="orgAddress" placeholder="单位地址" type="text">
-			</div>
-		</div>
-    <h3>申请信息</h3>
-		<div class="row instrument">
-		<div class="col-sm-12 form-group">
-				<label class="checkbox-inline">
-					<input value="500M" name="instrument" type="radio">500M
-				</label>
-				<label class="checkbox-inline">
-					<input value="600M" name="instrument" checked="checked" type="radio">600M
-				</label>
-				<label class="checkbox-inline">
-					<input value="850M" name="instrument" type="radio">850M
-				</label>
-				<label class="checkbox-inline">
-					<input value="LC-MS" name="instrument" type="radio">LC-MS
-				</label>
-		</div><!--form-group-->
-		<script>
-			$(document).ready( function() {
-				$('.instrument input').on().iCheck({
-					radioClass: 'iradio_flat-blue',
-					increaseArea: '20%'
-				});
-			});
-		</script>
-		</div>
+<table class="table table-bordered table-striped">
+<thead>
+<h4>预约仪器的流程步骤</h4>
+</thead>
+<tbody>
+  <th>
+    <td>预约类型</td>
+    <td>步骤1</td>
+    <td>步骤2</td>
+    <td>步骤3</td>
+    <td>步骤4</td>
+    <td>步骤5</td>
+  </th>
+  <tr>
+    <td>1.</td>
+    <td>自主预约/上机操作</td>
+    {% if user.is_anonymous %}
+      <td>注册用户[<small><a href="{% url 'accounts:register' %}">注册</a>或者<a href="{% url 'accounts:login' %}">登录</a></small>]</td>
+    {% else %}
+      <td>账号已注册</td>
+    {% endif %}
+    <td>申请仪器自主上机<a href="{% url 'accounts:apermission' %}">操作权限</a></td>
+    <td>上机培训</td>
+    <td>培训通过自主上机预约/操作</td>
+    <td>在预约的时间自主操作</td>
+  </tr>
 
-		<div class="form-horizontal">
-			<div class="form-group">
-				<div class="col-sm-6">
-					<label class="input-lg">日期(date):</label>
-				</div>
-				<div class="col-sm-6">
-				<input class="form-control input-lg" name="dateStart" value="">
-				<script type="text/javascript">
-					$('*[name=dateStart]').appendDtpicker({"futureOnly":true, });
-				</script>
-				</div>
-			</div>
-		</div>
-		<div class="form-horizontal">
-			<div class="form-group">
-					<div class="col-sm-8">
-					<label class="input-lg">机时/小时(Time/hours):</label>
-					</div>
-					<div class="col-sm-4">
-					<input class="form-control input-lg" type="text" placeholder="Time" value="">
-					</div>
-			</div>
-		</div>
-		<div class="row">
-		<div class="col-sm-12 form-group">
-			<label class="input-lg">实验类型(Spectrum Measure Type)</label>
-			<textarea class="form-control" rows="4" placeholder="1H, 13C, HSCQ, HMBC, temperature condition..."></textarea>
-		</div><!--form-group-->
-		</div>
+  <tr>
+    <td>2.</td>
+    <td><a href="">送样预约</a></td>
+    {% if user.is_anonymous %}
+      <td>注册用户[<small><a href="{% url 'accounts:register' %}">注册</a>或者<a href="{% url 'accounts:login' %}">登录</a></small>]</td>
+    {% else %}
+      <td>账号已注册</td>
+    {% endif %}
+    <td>查看仪器预约情况申请单</td>
+    <td>提交送样<a href="{% url 'accounts:apermission' %}">申请单</a></td>
+    <td>等待管理员确认</a></td>
+    <td>在确认的时间来送样和测试</a></td>
+  </tr>
+</tbody>
+</table>
+</div>
 
-	</div><!--col-sm-5-->
-	<div class="col-sm-5">
-		<h3>样品信息（Sample characteristic）</h3>
-		<div class="row form-group">
-				<div class="col-sm-6">
-					<input class="form-control input-lg" name="name" placeholder="样品名称(Sample)" type="text">
-				</div>
-				<div class="col-sm-6">
-					<input class="form-control input-lg" name="name" placeholder="氘代试剂(Solvent)" type="text">
-				</div>
-		</div>
+<div class="row">
+  <h4>查看仪器预约情况或者预约实验</h4>
+  {% for instrument in instruments %}
+    <a href="{% url 'schedule:view' instrument.short_name %}"><img class="img-rounded" src="{{ instrument.image.url }}" /></a>
+  {% endfor %}
+</div>
 
-		<div class="row form-group">
-				<div class="col-sm-6">
-					<input class="form-control input-lg" name="name" placeholder="样品量/mM" type="text">
-				</div>
-				<div class="col-sm-6">
-					<input class="form-control input-lg" name="name" placeholder="分子量(Molecular Weight)" type="text">
-				</div>
-		</div>
-
-		<div class="row">
-			<div class="col-sm-12">
-			{% include "homepages/marvinjs.html" %}
-			</div>
-		</div>
-
-		<div class="row form-group">
-			<div class="col-sm-12">
-				<label class="control-label input-lg">其他说明</label>
-				<textarea class="form-control input-lg" rows="4" placeholder="化学结构，样品纯度等等"></textarea>
-			</div>
-		</div>
-
-		<div class="row form-horizontal">
-			<div class="col-sm-4">
-				<label class="input-lg" for"attachmentName">上传文件</label>
-			</div>
-			<div class="col-sm-8" style="padding:-10px;">
-				<input type="file" id="_attachmentName">
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-sm-12">
-				<button type="submit" class="btn btn-primary">提交(Submit)</button>
-			</div>
-		</div>
-	</div>
-</div><!--row-->
-</form><!--form-->
 </div><!--container-->
 {% endblock %}

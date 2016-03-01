@@ -9,5 +9,5 @@ urlpatterns = [
     url(r'^insts/', insts, name='insts'),
     url(r'^service/$', service, name='service'),
     url(r'^contact/$', contact, name='contact'),
-    url(r'^appoint/$', appoint, name='appint'),
+    url(r'^appoint/$', appoint, name='appoint'),
     ]

@@ -4,7 +4,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Group
 from .admin import ExperimentCreationForm
-from .models import Experiment
+from .models import Experiment, Instrument
 from accounts.models import PersonInCharge
 from .tz import cnfromutc
 
@@ -15,46 +15,48 @@ from datetime import timedelta
 from .colorlist import textcolor, bordercolor, colorlist
 # Create your views here.
 
-def index(request):
-    return render(request, 'schedule/index.html' )
-
-def manual(request):
-
-    userManual = open( os.path.join( settings.BASE_DIR, 'static/manual/usermanual.md' ), 'r' ).read()
-    anonymousManual = open( os.path.join( settings.BASE_DIR, 'static/manual/anonymousmanual.md' ), 'r' ).read()
-    
-    return render( request, 'schedule/manual.html', {'userManual': userManual, 'anonymousManual': anonymousManual,})
-
 @login_required
 def create_experiment(request):
     form = ExperimentCreationForm(initial={})
-    instrument = request.POST.get('instrument', "600MHz")
 
     if request.method == 'POST':
         form = ExperimentCreationForm(request.POST)
         if form.is_valid():
             instrument = request.POST['instrument']
-            form.save(request=request)
-            return HttpResponseRedirect("/schedule/setAppointment/{0}/".format(instrument))
-    return render(request, 'schedule/appointment.html', {'form': form, 'instrument':instrument, })
+            form.save()
+            return HttpResponseRedirect("/schedule/view/{0}/".format(instrument))
+    return render(request, 'schedule/index.html', {'form': form, })
 
-@login_required
-def setAppointment(request, instrument):
+def viewSchedule(request, instrument=None):
+    is_perm = False
 
-    form = ExperimentCreationForm(initial={})
+    if request.user.is_authenticated():
+        user = Instrument.objects.filter(short_name=instrument, user=request.user)
+        if user:
+            is_perm = True
+        inst = Instrument.objects.get(short_name=instrument)
+        form = ExperimentCreationForm(initial={'user':request.user, 'instrument':inst})
 
-    return render(request, 'schedule/appointment.html', {'form':form, 'instrument': instrument} )
+        if request.method == 'POST':
+            form = ExperimentCreationForm(request.POST)
+            if form.is_valid():
+                form.save()
+                return HttpResponseRedirect("/schedule/view/{0}/".format(instrument))
+        return render(request, 'schedule/index.html', 
+                {'instrument': instrument, 'is_perm': is_perm, 'form': form})
+    else:
+        return render(request, 'schedule/index.html', 
+                {'instrument': instrument, 'is_perm': is_perm, })
 
-def viewAppointment(request, instrument):
 
-    return render(request, 'schedule/index.html', {'instrument': instrument, })
 
-def getEvent(request, instrument=None):
+
+def getEvent(request, instrument):
     if request.method == 'GET':
-        if not instrument:
+        if instrument=='all':
             experiments = Experiment.objects.all()
         else:
-            experiments = Experiment.objects.filter(instrument=instrument)
+            experiments = Experiment.objects.filter(instrument__short_name=instrument)
         data = []
         for exp in experiments:
             event={}
@@ -65,7 +67,8 @@ def getEvent(request, instrument=None):
             event['end'] = end.strftime("%Y-%m-%dT%H:%M:%S")
             group_id = PersonInCharge.objects.get(surname0=exp.user.person_in_charge.surname0).id % len(bordercolor)
             event['borderColor'] = bordercolor[group_id]
-            event['color'] = colorlist[exp.instrument.id]
+            if instrument=='all':
+                event['color'] = colorlist[exp.instrument.id]
             # 0 --> 500MHz , 1 --> 600MHz, 2 --> 850MHz, 3 --> MS
             event['textColor'] = textcolor
             data.append(event)
