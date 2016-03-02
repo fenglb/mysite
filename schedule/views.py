@@ -15,22 +15,10 @@ from datetime import timedelta
 from .colorlist import textcolor, bordercolor, colorlist
 # Create your views here.
 
-@login_required
-def create_experiment(request):
-    form = ExperimentCreationForm(initial={})
-
-    if request.method == 'POST':
-        form = ExperimentCreationForm(request.POST)
-        if form.is_valid():
-            instrument = request.POST['instrument']
-            form.save()
-            return HttpResponseRedirect("/schedule/view/{0}/".format(instrument))
-    return render(request, 'schedule/index.html', {'form': form, })
-
 def viewSchedule(request, instrument=None):
     is_perm = False
 
-    if request.user.is_authenticated():
+    if request.user.is_authenticated() and instrument:
         user = Instrument.objects.filter(short_name=instrument, user=request.user)
         if user:
             is_perm = True
@@ -60,11 +48,14 @@ def getEvent(request, instrument):
         data = []
         for exp in experiments:
             event={}
-            event['title'] = "{0} {1}".format(exp.user.get_full_name(), exp.instrument.name.encode('utf-8'))
+            if instrument=='all':
+                event['title'] = "{0} {1}".format(exp.user.get_full_name(), exp.instrument.short_name)
+            else:
+                event['title'] = "{0}[{1}]".format(exp.user.get_full_name(), exp.user.person_in_charge.surname0.encode('utf-8'))
             start = exp.start_time
-            event['start'] = cnfromutc( start ).strftime("%Y-%m-%dT%H:%M:%S")
+            event['start'] = cnfromutc( start ).strftime("%Y-%m-%dT%H:%M:%S%z")
             end = cnfromutc( exp.start_time+timedelta(hours=exp.times) )
-            event['end'] = end.strftime("%Y-%m-%dT%H:%M:%S")
+            event['end'] = end.strftime("%Y-%m-%dT%H:%M:%S%z")
             group_id = PersonInCharge.objects.get(surname0=exp.user.person_in_charge.surname0).id % len(bordercolor)
             event['borderColor'] = bordercolor[group_id]
             if instrument=='all':

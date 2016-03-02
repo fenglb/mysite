@@ -31,25 +31,51 @@
         eventClick: function( event, jsEvent, view) {
           $(this).popover({title: event, placement: 'bottom'});
         },
-        selectable: true,
-		    selectHelper: true,
-        select: function(start, end) {
-          var start0 = moment(start);
-		      var end0 = moment(end);
-          var diff = 1.0*(end-start)/(3600*1000);
-          var start0 = start0.format("YYYY-MM-DD HH:mm");
-          var end0 = end0.format("YYYY-MM-DD HH:mm");
-		      var now = moment();
-		      var week = now.week();
-		      var startWeek = moment(start).week();
-		      if ( startWeek - week > 1 ) return;
-		      if ( moment(start).isBefore(now)) return;
+        {% if is_perm %}
+          selectable: true,
+          selectHelper: true,
+          select: function(start, end) {
+            var span_time = (end-start)/(3600*1000);
+            var start_str = start.format("YYYY-MM-DD HH:mm");
+            var end_str = end.format("YYYY-MM-DD HH:mm");
+            var start_time = moment( start_str );
+            var end_time = moment( end_str );
+            var now = moment();
 
-          $('#id_start_time').val( start0 );
-          $('#id_end_time').val( end0 );
-          $('#id_times').val( diff );
-          $('#create_experiment').modal( 'show' );
-        },
+            var week = now.week();
+            var startWeek = start_time.week();
+
+            if ( startWeek - week > 1 ) return;
+
+            if ( end_time.isBefore(now) ) {
+              $("#warning-for-add-exp").modal('show');
+              return;
+            }
+            if ( start_time.isBefore( moment() ) ) {
+              var start_add30m = moment().startOf('hours');
+              start_add30m.add(30, 'minutes');
+
+              if ( start_add30m.isAfter( moment() ) ) {
+                $('#id_start_time').val( start_add30m.format("YYYY-MM-DD HH:mm") );
+                $('#id_times').val( (end_time - start_add30m)/(3600*1000) );
+              }
+              else {
+                var start_add1h = moment().startOf('hours')
+                start_add1h.add(1, 'hours');
+                $('#id_start_time').val( start_add1h.format("YYYY-MM-DD HH:mm") );
+                $('#id_times').val( (end_time - start_add1h)/(3600*1000) );
+              }
+
+            }
+            else{
+              $('#id_start_time').val( start_str );
+              $('#id_times').val( span_time );
+            }
+
+            $('#id_end_time').val( end_str );
+            $('#create_experiment').modal( 'show' );
+          },
+        {% endif %}
 		});
 	});
 </script>
@@ -86,7 +112,11 @@
         您可以预约实验，并且自主上机操作仪器“{{ instrument }}”！请在预约的时间做实验，遵守实验规则，有任何情况请联系管理员！
         
       {% else %}
-        您不具有自主上机操作权限，没有办法自主预约实验！请选择<a href="">送样申请</a>或者提交<a href="{% url 'accounts:apermission' %}">自主上机操作申请</a>！
+        {% if instrument == None %}
+          以下页面仅可以查看仪器的预约使用情况，如果你要预约实验，请登入具体仪器的<a href="{% url 'homepages:appoint' %}">预约页面</a>。
+        {% else %}
+          您不具有自主上机操作权限，没有办法自主预约实验！请选择<a href="">送样申请</a>或者提交<a href="{% url 'accounts:apermission' %}">自主上机操作申请</a>！
+        {% endif %}
       {% endif %}
     {% endif %}
   </div>
@@ -114,13 +144,43 @@
       
     </div>
     <div class="col-sm-9">
-      <h4>仪器“{{ instrument|default_if_none:'所有仪器' }}”的预约情况</h4>
+      <h4>“{{ instrument|default_if_none:'所有仪器' }}”的预约情况</h4>
       <div id='calendar'></div>
     </div>
   </div>
 </div>
 
 {% if is_perm %}
+<div class="modal fade" id="warning-for-add-exp" tabindex="-1" role="dialog" 
+   aria-labelledby="modalLabel" aria-hidden="true">
+   <div class="modal-dialog">
+      <div class="modal-content">
+         <div class="modal-header">
+            <button type="button" class="close" 
+               data-dismiss="modal" aria-hidden="true">
+                  &times;
+            </button>
+            <h3 class="modal-title text-center" id="modalLabel">
+              温馨提醒!
+            </h3>
+         </div>
+         <div class="modal-body">
+            <code>时间过去了，它就这么匆匆过去了。--unknown</code>
+            <div class="row" style="padding-top:10px">
+              <div class="text-danger text-center">您预约的时间已经无法追回了!</div>
+            </div>
+        </div><!-- body-->
+         <div class="modal-footer">
+            <button type="button" class="btn btn-primary" 
+               data-dismiss="modal">关闭
+            </button>
+         </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog-->
+</div><!-- /.modal -->
+
+
+
 <div class="modal fade" id="create_experiment" tabindex="-1" role="dialog" 
    aria-labelledby="myModalLabel" aria-hidden="true">
    <div class="modal-dialog">
@@ -209,9 +269,20 @@
          </div>
           </form>
       </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog-->
 </div><!-- /.modal -->
 {% endif %}
 <script>
+  {% if form.errors %}
+    $(document).ready( function() {
+      var start0 = moment($("input#id_start_time").val());
+      var end = start0.add($("input#id_times").val(), 'h');
+      var end0 = end.format("YYYY-MM-DD HH:mm");
+      $("input#id_end_time").val( end0 );
+      $('#create_experiment').modal( 'show' );
+    });
+  {% endif %}
+  {% if is_perm %}
   $("input#id_start_time").appendDtpicker({'futureOnly': true });
   $("input#id_end_time").appendDtpicker({'futureOnly': true});
   $("input#id_start_time").attr('readonly', 'readonly');
@@ -222,6 +293,7 @@
   $("select").toggleClass('form-control input-lg');
   $("select#id_user").hide();
   $("select#id_instrument").hide();
+
   $("input#id_times").change( function() {
       var start0 = moment($("input#id_start_time").val());
       var end = start0.add($(this).val(), 'h');
@@ -241,6 +313,7 @@
       var times = 1.0*(end0-start0)/(3600*1000);
       $("input#id_times").val( times );
     });
+  {% endif %}
 </script>
 
 

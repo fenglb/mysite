@@ -3,6 +3,7 @@ from django.db import models
 # Create your models here.
 from accounts.models import CustomUser
 from tz import cnfromutc
+from datetime import timedelta
 
 class Sample( models.Model ):
     
@@ -55,5 +56,9 @@ class Experiment(models.Model):
 
     created_time = models.DateTimeField(auto_now_add=True)
 
+    def stop_time(self):
+        return self.start_time + timedelta(hours=self.times)
+    stop_time.short_description = u"结束时间"
+
     def __str__(self):
-        return u"Id: {0}".format(self.id)
+        return "{0}[{1}]在“{2}”上预约从{3}到{4}的实验".format(self.user, self.user.person_in_charge, self.instrument.short_name, self.start_time.strftime("%m-%d %H:%M"), self.stop_time().strftime("%m-%d %H:%M"))
