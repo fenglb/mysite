@@ -16,7 +16,7 @@
 <div class="container">
 
 <div class="row">
-  亲爱的{% if user.is_authenticated %}{{user.surname}}{% else %}用户{%endif%}, 仪器预约有两种方式：1）<strong>自主预约/上机操作</strong>；2）<strong><a href="">送样预约</a></strong>。
+  亲爱的{% if user.is_authenticated %}{{user.surname}}{% else %}用户{%endif%}, 仪器预约有两种方式：1）<strong>自主预约/上机操作</strong>；2）<strong><a href="{% url 'schedule:sample' %}">送样预约</a></strong>。
 </div>
 <div class="row">
 <table class="table table-bordered table-striped">
@@ -48,7 +48,7 @@
 
   <tr>
     <td>2.</td>
-    <td><a href="">送样预约</a></td>
+    <td><a href="{% url 'schedule:sample' %}">送样预约</a></td>
     {% if user.is_anonymous %}
       <td>注册用户[<small><a href="{% url 'accounts:register' %}">注册</a>或者<a href="{% url 'accounts:login' %}">登录</a></small>]</td>
     {% else %}

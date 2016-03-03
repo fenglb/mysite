@@ -3,16 +3,17 @@ from django.db import models
 # Create your models here.
 from accounts.models import CustomUser
 from tz import cnfromutc
-from datetime import timedelta
+from datetime import timedelta, datetime
 
 class Sample( models.Model ):
     
-    name = models.CharField( verbose_name=u'名称', max_length = 100 )
+    name = models.CharField( verbose_name=u'名称', max_length = 100, blank=True, null=True )
     solvent = models.CharField( verbose_name=u'氘代试剂', blank=True, null=True, max_length = 30 )
-    concentration = models.FloatField( verbose_name=u'浓度/ML', blank=True, null=True )
+    concentration = models.FloatField( verbose_name=u'浓度/mM', blank=True, null=True )
     molecular_weight = models.FloatField( verbose_name=u'分子量', blank=True, null=True )
     structure = models.CharField( verbose_name=u'化学式', blank=True, null =True, max_length = 1000 )
     others   = models.TextField(verbose_name=u'其他', blank=True, null=True)
+    upload   = models.FileField(upload_to='samples/', blank=True, null=True)
 
     def __str__(self):
         return self.name.encode('utf-8')
@@ -25,6 +26,27 @@ class Instrument(models.Model):
     image = models.ImageField(upload_to="images", blank=False, null=False, verbose_name=u'照片', default="/media/images/default.png")
     def __str__(self):
         return self.name.encode('utf-8')
+
+class SampleAppointment( models.Model ):
+    user = models.ForeignKey( CustomUser, verbose_name=u'用户' )
+    sample = models.ForeignKey( Sample, null=True, blank=True, verbose_name=u'样品参数')
+
+    instrument = models.ForeignKey(Instrument, verbose_name=u'选择仪器')
+
+    start_time = models.DateTimeField(verbose_name=u'起始时间', help_text=u'实验预约起始时间')
+    times  = models.FloatField( verbose_name=u'实验用时/小时', help_text=u'实验预估用时，请参考不同实验估计用时！' )
+    measure_type = models.TextField(verbose_name=u'实验类型', blank=True, null=True , help_text=u'实验测量类型，C13，H1， HSQC，HMBC等')
+
+    created_time = models.DateTimeField(auto_now_add=True)
+    has_approved = models.NullBooleanField(verbose_name='是否赞同', help_text=u'空着表示未处理', null=True, blank=True)
+    feedback = models.TextField(max_length=300, verbose_name=u'反馈信息', null=True, blank=True)
+
+    def stop_time(self):
+        return self.start_time + timedelta(hours=self.times)
+    stop_time.short_description = u"结束时间"
+
+    def __str__(self):
+        return "{0}[{1}]在“{2}”上申请从{3}到{4}的送样实验".format(self.user, self.user.person_in_charge, self.instrument.short_name, self.start_time.strftime("%m-%d %H:%M"), self.stop_time().strftime("%m-%d %H:%M"))
 
 class InstrumentAppointment(models.Model):
     user = models.ForeignKey(CustomUser, verbose_name=u'申请人')
@@ -50,7 +72,6 @@ class Experiment(models.Model):
 
     instrument = models.ForeignKey(Instrument, verbose_name=u'选择仪器')
 
-    sample = models.ForeignKey( Sample, null=True, blank=True, verbose_name=u'样品参数')
     start_time = models.DateTimeField(verbose_name=u'起始时间', help_text=u'实验预约起始时间')
     times  = models.FloatField( verbose_name=u'实验用时/小时', help_text=u'实验预估用时，请参考不同实验估计用时！' )
 

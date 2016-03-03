@@ -1,7 +1,7 @@
 #-*-coding=utf-8 -*-
 from django import forms
 from django.contrib import admin
-from .models import Experiment, Sample, Instrument, InstrumentAppointment
+from .models import Experiment, Sample, Instrument, InstrumentAppointment, SampleAppointment
 from .tz import cntoutc
 
 from django.utils import timezone
@@ -28,7 +28,7 @@ def checkOverwrite( start, stop, instrument ):
 class ExperimentCreationForm(forms.ModelForm):
     class Meta:
         model = Experiment
-        fields = ('user', 'instrument', 'start_time', 'times', 'measure_type', 'sample')
+        fields = ('user', 'instrument', 'start_time', 'times', 'measure_type' )
 
     def clean_start_time(self):
         start_time = self.cleaned_data.get('start_time')
@@ -66,11 +66,42 @@ class ExperimentAdmin(admin.ModelAdmin):
 
 class SampleAdmin( admin.ModelAdmin ):
     list_display = ('name', 'solvent', 'concentration', 'molecular_weight')
-    
+
+class SampleForm( forms.ModelForm ):
+    class Meta:
+        model = Sample
+        fields = ('name', 'solvent', 'concentration', 'molecular_weight', 'structure', 'others', 'upload')
+    def save(self, commit=True):
+        isNull = True
+        for field in self.Meta.fields:
+            value = self.cleaned_data.get(field)
+            if value:
+                isNull = False
+        if isNull:
+            return None
+        sample = super(SampleForm, self).save(commit=False)
+        if commit:
+            sample.save()
+        return sample
+
+class SampleAppointmentAdmin( admin.ModelAdmin ):
+    list_display = ('user', 'sample', 'instrument', 'start_time', 'stop_time', 'has_approved' )
+
+class SampleAppointmentForm( forms.ModelForm ):
+    class Meta:
+        model = SampleAppointment
+        fields = ('user', 'sample', 'instrument', 'start_time', 'times', 'measure_type')
+    def save(self, commit=True):
+        sampleapp = super(SampleAppointmentForm, self).save(commit=False)
+        if commit:
+            sampleapp.save()
+        return sampleapp
+
 class InstrumentAppointmentForm( forms.ModelForm ):
     class Meta:
         model = InstrumentAppointment
         fields = ('user', 'instrument', 'target_datetime')
+
 class InstrumentAppointmentAdmin(admin.ModelAdmin):
     list_display = ("__str__", "target_datetime", "has_approved")
 
@@ -78,7 +109,9 @@ class InstrumentAdmin( admin.ModelAdmin ):
     list_display = ('name', )
     filter_horizontal = ('user',)
 
+
 admin.site.register(Sample, SampleAdmin)
+admin.site.register(SampleAppointment, SampleAppointmentAdmin)
 admin.site.register(Experiment, ExperimentAdmin)
 admin.site.register(Instrument, InstrumentAdmin)
 admin.site.register(InstrumentAppointment, InstrumentAppointmentAdmin)

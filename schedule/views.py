@@ -3,7 +3,7 @@ from django.shortcuts import render
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Group
-from .admin import ExperimentCreationForm
+from .admin import ExperimentCreationForm, SampleAppointmentForm, SampleForm
 from .models import Experiment, Instrument
 from accounts.models import PersonInCharge
 from .tz import cnfromutc
@@ -15,6 +15,21 @@ from datetime import timedelta
 from .colorlist import textcolor, bordercolor, colorlist
 # Create your views here.
 
+
+@login_required
+def sample(request):
+    app_form = SampleAppointmentForm( request.POST or None, initial={'user': request.user, 'instrument': 1} )
+    sample_form = SampleForm( request.POST or None )
+    if request.method == 'POST':
+        is_valid = app_form.is_valid() and sample_form.is_valid()
+        if is_valid:
+            sample = sample_form.save()
+            app = app_form.save(commit=False)
+            app.sample = sample
+            app.save()
+            return HttpResponseRedirect("/accounts/profile")
+    return render(request, 'schedule/sample.html', {'appform': app_form, 'sampleform': sample_form})
+    
 def viewSchedule(request, instrument=None):
     is_perm = False
 
@@ -35,7 +50,6 @@ def viewSchedule(request, instrument=None):
     else:
         return render(request, 'schedule/index.html', 
                 {'instrument': instrument, 'is_perm': is_perm, })
-
 
 
 

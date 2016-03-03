@@ -115,7 +115,7 @@
         {% if instrument == None %}
           以下页面仅可以查看仪器的预约使用情况，如果你要预约实验，请登入具体仪器的<a href="{% url 'homepages:appoint' %}">预约页面</a>。
         {% else %}
-          您不具有自主上机操作权限，没有办法自主预约实验！请选择<a href="">送样申请</a>或者提交<a href="{% url 'accounts:apermission' %}">自主上机操作申请</a>！
+          您不具有自主上机操作权限，没有办法自主预约实验！请选择<a href="{% url 'schedule:sample' %}">送样申请</a>或者提交<a href="{% url 'accounts:apermission' %}">自主上机操作申请</a>！
         {% endif %}
       {% endif %}
     {% endif %}
@@ -129,18 +129,28 @@
         <tbody>
           <tr>
             <td>month</td>
-            <td>显示月</td>
+            <td><strong>整天预约</strong>或者添加后修改预约时间</td>
           </tr>
           <tr>
             <td>agenda</td>
-            <td>显示天</td>
+            <td><strong>15min时间段预约</strong>，按住鼠标右键拉动您要预约的时间段。</td>
           </tr>
           <tr>
             <td>week</td>
-            <td>显示事件</td>
+            <td>查看每天的预约事件</td>
           </tr>
         </tbody>
       </table>
+      <h5 class="text-primary"><strong>示例</strong></h5>
+      <p>比如您要预约今天下午2:00到3:00的实验</p>
+      <ol>
+        <li>你可以在“month”内点击{{ now }},然后在弹出窗口内修改时间
+          <img src="{% static 'images/aexample1.png' %}" width="300px" />
+        </li>
+        <li>或者点击“agenda”,用鼠标右键按住您要选择的时间段, 然后提交弹出的窗口
+          <img src="{% static 'images/aexample2.gif' %}" width="300px" />
+        </li>
+      </ol>
       
     </div>
     <div class="col-sm-9">
