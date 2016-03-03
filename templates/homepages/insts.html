@@ -1,27 +1,8 @@
-{% extends "base.html" %}
-{% block title %} 厦门大学高场核磁中心 {% endblock %}
+{% extends "bootstrap_base.html" %}
+{% block title %} 仪器介绍 {% endblock %}
 {% block insts %} active {% endblock %}
-{% load staticfiles %}
 {% block content %} 
-<div class="ui blue segment">
-	<div class="ui grid">
-		<div class="row">
-			{% include 'homepages/ac850.html' %}
-		</div>
-		<div class="ui horizontal icon divider">
-		  <i class="red circular heart icon"></i>
-		</div>
-		<div class="row">
-			{% include 'homepages/ac600.html' %}
-		</div>
-		<div class="ui horizontal icon divider">
-		  <i class="red circular heart icon"></i>
-		</div>
-		<div class="row">
-			{% include 'homepages/ac500.html' %}
-		</div>
-	</div>
+<div class="container">
+  <h3>Coming soon</h3>
 </div>
-
-{% include 'homepages/lc-nmr-ms.html' %}
 {% endblock %}

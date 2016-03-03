@@ -41,6 +41,7 @@ INSTALLED_APPS = (
     'homepages',
     'accounts',
     'eguard',
+    'blogs',
     'markdown_deux',
 )
 
