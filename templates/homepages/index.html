@@ -33,20 +33,20 @@
     });
     </script>
 <!--New-->
-<div class="lab-new">
+<div class="lab-new" style="margin-top:-30px">
   <div class="container">
     <div class="row">
       <div class="col-sm-6">
-        <div class="content-box">
-        <h4>近期动态<small>[<a href="">更多...</a>]</small></h4>
-        {% include "homepages/labnew.html" %}
-        </div>
+        <div class="heading"><h3>近期动态<small><a href="">...</a></small></h3></div>
+          <div class="body">
+            {% include "homepages/labnew.html" %}
+          </div>
       </div>
       <div class="col-sm-6">
-        <div class="content-box">
-        <h4>博客更新<small>[<a href="">更多...</a>]</small></h4>
-        {% include "homepages/postnew.html" %}
-        </div>
+          <div class="heading"><h3>博客更新<small><a href="/blogs/">...</a></small></h3></div>
+          <div class="body">
+            {% include "homepages/postnew.html" %}
+          </div>
       </div>
     </div>
 

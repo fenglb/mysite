@@ -31,7 +31,6 @@ def blogpost(request, slug, post_id):
     args = {'blogpost': get_object_or_404(BlogPost, pk=post_id)}
     return render(request, 'blogs/blogpost.html', args)
 
-
 def archive(request):
     args = dict()
     blogposts = BlogPost.objects.exclude(title__in=exclude_posts)
@@ -41,14 +40,16 @@ def archive(request):
         posts_of_a_category = blogposts.filter(category=category)  # already sorted by pub_date
         for post in posts_of_a_category:
             year = post.pub_date.year
-            posts_by_year[year].append(post)  # {'2013':post_list, '2014':post_list}
+            posts_by_year[year].append(post)
         posts_by_year = sorted(posts_by_year.items(), reverse=True)  # [('2014',post_list), ('2013',post_list)]
         return posts_by_year
 
     args['data'] = [
-        ('programming', get_sorted_posts(category="programming")),
-        ('acg', get_sorted_posts(category="acg")),
-        ('nc', get_sorted_posts(category="nc")),  # no category
+        ('NMR', get_sorted_posts(u"nmr")),
+        ('Linux/Ubuntu', get_sorted_posts(u"lx")),
+        ('Personal', get_sorted_posts(u"pl")),  # no category
+        ('Python/Programming', get_sorted_posts(u"pg")),  # no category
+        ('Others', get_sorted_posts(u"ot")),  # no category
     ]
 
     return render(request, 'blogs/archive.html', args)

@@ -1,129 +1,70 @@
-<h2>
-<a id="user-content-nmr-interpretation" class="anchor" href="#nmr-interpretation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>NMR: Interpretation</h2>
-
-<hr>
+<h2>NMR: Interpretation</h2>
+<hr />
 
 <p>在分子指认领域NMR图谱解释具有关键的作用。我们可以通过NMR图谱给出的化学位移、自旋多重态、耦合常数和积分面积归属未知或者已知的化学成分的结构。</p>
-
-<h3>
-<a id="user-content-introduction" class="anchor" href="#introduction" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Introduction</h3>
-
+<h3>Introduction</h3>
 <p>以下列出解析结构的策略：</p>
-
 <ol>
-<li> 通过化学分析（元素分析、质谱等）确定样品的分子式。这部分工作不好做，常规质谱可能可以给出分子量，或者片段的分子量。但是由于提取的天然产物一般包含杂质，所以就算是分子量也不是很容易定量出来。如果用高分辨质谱也许可以给出更加精细的分子式信息。现在也有用原子力显微镜来直接观看分子结构辅助指认</li>
-<li>
-<p>不饱和度（Double-bond equivalent DBE），估计分子的多键或者环的数目。忽略氧原子（O）和硫原子（S），把卤素原子（Cl，Br）和氮源子替换为CH。这样子分子式简化为$C_aH_b$：</p>
-
-<p>$$ DBE = \frac{(2a+2)-b)}{2}$$ at [ $C_aH_b$ ]</p>
+<li>通过化学分析（元素分析、质谱等）确定样品的分子式。<span style="font-size: 10px;">这部分工作不好做，常规质谱可能可以给出分子量，或者片段的分子量。但是由于提取的天然产物一般包含杂质，所以就算是分子量也不是很容易定量出来。如果用高分辨质谱也许可以给出更加精细的分子式信息。现在也有用原子力显微镜来直接观看分子结构辅助指认</span></li>
+<li><p>不饱和度（Double-bond equivalent DBE），估计分子的多键或者环的数目。忽略氧原子（O）和硫原子（S），把卤素原子（Cl，Br）和氮源子替换为CH。这样子分子式简化为$C\_aH\_b$：</p>
+<p>$$ DBE = \frac{(2a+2)-b)}{2}$$ at [ $C\_aH\_b$ ]</p>
 </li>
-<li><p>通过化学位移、自旋多重态、峰积分面积和耦合常数(1J, 2J)确定结构片段。</p></li>
-<li> 分子骨架主要通过二维核磁谱图构建得来。HSQC/HMQC, HMBC, COSY</li>
-<li> 分子相对构型可以通过$^3J$耦合常数来预测。NOESY/ROESY</li>
+<li><p>通过化学位移、自旋多重态、峰积分面积和耦合常数(1J, 2J)确定结构片段。</p>
+</li>
+<li>分子骨架主要通过二维核磁谱图构建得来。<span style="font-size: 10px">HSQC/HMQC, HMBC, COSY</span></li>
+<li>分子相对构型可以通过$^3J$耦合常数来预测。<span style="font-size: 10px">NOESY/ROESY</span></li>
 </ol>
-
 <p>这里我们主要通过最主要的$^1H$和$^{13}C$核磁谱图来解析分子结构，虽然核磁谱图还包括$^{14}N$、$^{19}F$和$^{31}P$等谱。在1维的核磁谱图中横轴表示化学位移(ppm)， 包含峰的积分面积，自旋裂分模式和耦合常数。</p>
-
-<h3>
-<a id="user-content-1h-nmr" class="anchor" href="#1h-nmr" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>$^1H$ NMR</h3>
-
-<h4>
-<a id="user-content-化学位移" class="anchor" href="#%E5%8C%96%E5%AD%A6%E4%BD%8D%E7%A7%BB" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>化学位移</h4>
-
-<p>化学位移与不同化学环境下的核自旋拉莫尔频率相关联。常用四甲基硅烷(CH3)4Si（tetramethylsilane，简写为TMS）作为化学位移标准参考物质：$\delta_{TMS}=0ppm$。简单地说，所有的氢谱和碳谱都是相对TMS的氢谱和碳谱来测量的。了解不同化学位移的特征对于解释核磁具有重要意义，比如氢谱的化学位移很容易受到最近的具有电负性原子（O，N，卤素等）和不饱和基团（C=C, C=O, 芳香族）的影响。电负性基团具有去屏蔽化，导致氢谱的化学位移越大（相对于TMS）。而不饱和基团导致在同一平面上的氢谱化学位移更大，而在平面上或者平面下的化学位移更小。氢谱的化学位移可以用于识别很多功能基团。下图指示比较重要的功能基团的氢谱范围：
-<a href="https://camo.githubusercontent.com/c20ee3efc2a6703e1b42c36e05cb31abc383a465/687474703a2f2f6368656d77696b692e756364617669732e6564752f406170692f64656b692f66696c65732f393338342f466967312e626d703f73697a653d626573746669742677696474683d373332266865696768743d333233267265766973696f6e3d31" target="_blank"><img src="https://camo.githubusercontent.com/c20ee3efc2a6703e1b42c36e05cb31abc383a465/687474703a2f2f6368656d77696b692e756364617669732e6564752f406170692f64656b692f66696c65732f393338342f466967312e626d703f73697a653d626573746669742677696474683d373332266865696768743d333233267265766973696f6e3d31" alt="1H chemical shift range" data-canonical-src="http://chemwiki.ucdavis.edu/@api/deki/files/9384/Fig1.bmp?size=bestfit&amp;width=732&amp;height=323&amp;revision=1" style="max-width:100%;"></a></p>
-
-<h4>
-<a id="user-content-化学等价-chemical-equivalence" class="anchor" href="#%E5%8C%96%E5%AD%A6%E7%AD%89%E4%BB%B7-chemical-equivalence" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>化学等价 （Chemical equivalence）</h4>
-
-<p>通过某种对称性操作可以互换的原子具有相同的化学位移（$CH_3COCH_3$）或者绕着单键快速旋转也会产生相同的化学位移($-CH_3$; 甲基）。</p>
-
-<hr>
-
-<p>异构体
+<h3>$^1H$ NMR</h3>
+<h4>化学位移</h4>
+<p>化学位移与不同化学环境下的核自旋拉莫尔频率相关联。常用四甲基硅烷(CH3)4Si（tetramethylsilane，简写为TMS）作为化学位移标准参考物质：$\delta\_{TMS}=0ppm$。简单地说，所有的氢谱和碳谱都是相对TMS的氢谱和碳谱来测量的。了解不同化学位移的特征对于解释核磁具有重要意义，比如氢谱的化学位移很容易受到最近的具有电负性原子（O，N，卤素等）和不饱和基团（C=C, C=O, 芳香族）的影响。电负性基团具有去屏蔽化，导致氢谱的化学位移越大（相对于TMS）。而不饱和基团导致在同一平面上的氢谱化学位移更大，而在平面上或者平面下的化学位移更小。氢谱的化学位移可以用于识别很多功能基团。下图指示比较重要的功能基团的氢谱范围：
+<img src="http://chemwiki.ucdavis.edu/@api/deki/files/9384/Fig1.bmp?size=bestfit&amp;width=732&amp;height=323&amp;revision=1" alt="1H chemical shift range"></p>
+<h4>化学等价 （Chemical equivalence）</h4>
+<p>通过某种对称性操作可以互换的原子具有相同的化学位移（$CH\_3COCH\_3$）或者绕着单键快速旋转也会产生相同的化学位移($-CH\_3$; 甲基）。</p>
+<p><hr />
+  异构体
   构造异构： 链异构， 位置异构和官能团异构；
   立体异构：构象异构和构型异构（顺反异构和, 对映异构， 非对映异构 ）</p>
-
 <p>其中构造异构通过化学位移和二维谱图很容易判断；
   而对于立体异构中的构型异构判断就困难很多了。</p>
+<hr />
 
-<hr>
-
-<h4>
-<a id="user-content-自旋自旋分裂" class="anchor" href="#%E8%87%AA%E6%97%8B%E8%87%AA%E6%97%8B%E5%88%86%E8%A3%82" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>自旋自旋分裂</h4>
-
+<h4>自旋自旋分裂</h4>
 <p>自旋自旋分裂表示吸收峰受到邻近氢原子的裂分。裂分的距离为J Hz，叫做耦合常数。自旋耦合裂分可以准确给出原子周围包含几个氢原子，最远影响范围可以达到3键距离。化学等价原子不会产生自旋自旋裂分。当氢原子受到裂分，他的化学位移由裂分中心位置来表示。</p>
-
-<h4>
-<a id="user-content-自旋多重态裂分模式" class="anchor" href="#%E8%87%AA%E6%97%8B%E5%A4%9A%E9%87%8D%E6%80%81%E8%A3%82%E5%88%86%E6%A8%A1%E5%BC%8F" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>自旋多重态（裂分模式）</h4>
-
-<p>自旋多重态对于确定邻近氢原子的数目很重要。下面是多重态的准则：在$A_mB_n$系统中，B的原子核被A信号裂分为nB+1条线，普遍的情况为$2nI+1$，其中I为耦合原子的自旋量子数。峰的相对强度遵循Pascal三角系数。</p>
-
-<p><a href="https://camo.githubusercontent.com/fd19658a6b6b09f7c5f0d5b55b4fa279d5fdffd6/687474703a2f2f6368656d77696b692e756364617669732e6564752f406170692f64656b692f66696c65732f32343837332f70617363616c73747269616e676c65382e706e673f73697a653d626573746669742677696474683d353530266865696768743d333334267265766973696f6e3d31" target="_blank"><img src="https://camo.githubusercontent.com/fd19658a6b6b09f7c5f0d5b55b4fa279d5fdffd6/687474703a2f2f6368656d77696b692e756364617669732e6564752f406170692f64656b692f66696c65732f32343837332f70617363616c73747269616e676c65382e706e673f73697a653d626573746669742677696474683d353530266865696768743d333334267265766973696f6e3d31" alt="Pascal's triangle" data-canonical-src="http://chemwiki.ucdavis.edu/@api/deki/files/24873/pascalstriangle8.png?size=bestfit&amp;width=550&amp;height=334&amp;revision=1" style="max-width:100%;"></a></p>
-
-<h4>
-<a id="user-content-一阶裂分-first-order-splitting-pattern-" class="anchor" href="#%E4%B8%80%E9%98%B6%E8%A3%82%E5%88%86-first-order-splitting-pattern-" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>一阶裂分( First-order splitting pattern )</h4>
-
+<h4>自旋多重态（裂分模式）</h4>
+<p>自旋多重态对于确定邻近氢原子的数目很重要。下面是多重态的准则：在$A\_mB\_n$系统中，B的原子核被A信号裂分为nB+1条线，普遍的情况为$2nI+1$，其中I为耦合原子的自旋量子数。峰的相对强度遵循Pascal三角系数。</p>
+<p><img src="http://chemwiki.ucdavis.edu/@api/deki/files/24873/pascalstriangle8.png?size=bestfit&amp;width=550&amp;height=334&amp;revision=1" alt="Pascal&#39;s triangle"></p>
+<h4>一阶裂分( First-order splitting pattern )</h4>
 <p>相互耦合的原子之间的化学位移距离远大于耦合常数：$ \frac{\delta\nu}{J} \geq 8 $。其中$\delta\nu$是化学位移差。简单说就是氢原子受到在化学位移上和自己差得比较多的氢原子耦合，这样子的谱图成为一阶谱图。这种裂分模式由磁体磁场强度决定。低场核磁下二阶分裂在高场核磁中会被拆分为一阶分裂。一阶分裂的多重态遵守（N+1）并且分裂模式和强度分布由帕斯卡三角系数决定。</p>
-
-<h4>
-<a id="user-content-高阶分裂模式--high-order-splitting-pattern" class="anchor" href="#%E9%AB%98%E9%98%B6%E5%88%86%E8%A3%82%E6%A8%A1%E5%BC%8F--high-order-splitting-pattern" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>高阶分裂模式 （ High-order splitting pattern）</h4>
-
+<h4>高阶分裂模式 （ High-order splitting pattern）</h4>
 <p>当两耦合原子之间的化学位移比它们的耦合常数J小或者差不多时，耦合裂分模式就是高阶裂分：$ \frac{\delta\nu}{J} \leq 8 $</p>
-
 <p>在AB体系中我们可以明显看到“屋顶效应”，就是向内中间的波峰比较高，两边的波峰比较矮：
-<a href="https://camo.githubusercontent.com/a3f8645e657c6a5cbc8db653f4ae8d284f925ddd/687474703a2f2f6368656d77696b692e756364617669732e6564752f406170692f64656b692f66696c65732f393339312f466967342e626d703f73697a653d626573746669742677696474683d363436266865696768743d313331267265766973696f6e3d31" target="_blank"><img src="https://camo.githubusercontent.com/a3f8645e657c6a5cbc8db653f4ae8d284f925ddd/687474703a2f2f6368656d77696b692e756364617669732e6564752f406170692f64656b692f66696c65732f393339312f466967342e626d703f73697a653d626573746669742677696474683d363436266865696768743d313331267265766973696f6e3d31" alt="" data-canonical-src="http://chemwiki.ucdavis.edu/@api/deki/files/9391/Fig4.bmp?size=bestfit&amp;width=646&amp;height=131&amp;revision=1" style="max-width:100%;"></a></p>
-
-<h4>
-<a id="user-content-耦合常数" class="anchor" href="#%E8%80%A6%E5%90%88%E5%B8%B8%E6%95%B0" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>耦合常数</h4>
-
+<img src="http://chemwiki.ucdavis.edu/@api/deki/files/9391/Fig4.bmp?size=bestfit&amp;width=646&amp;height=131&amp;revision=1" alt=""></p>
+<h4>耦合常数</h4>
 <p>耦合常数表示自旋自旋分裂相互作用的强度，也是谱线裂分的距离。耦合常数可以反应原子周围键合环境，耦合常数通过原子健数目来区分：</p>
-
-<h4>
-<a id="user-content-偕氢氢耦合2j" class="anchor" href="#%E5%81%95%E6%B0%A2%E6%B0%A2%E8%80%A6%E5%90%882j" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>偕氢氢耦合（$^2J$）</h4>
-
-<p>偕耦合产生于两键之间，如下图，当两氢原子没有化学等价，它的耦合常数范围为-20到40Hz。$^2J_{HH}$和碳原子杂化，键角度和连接电负性原子有关。当S-特征（S-character）增加，偕耦合常数也增加：$^2J_{sp1} &gt; ^2J_{sp2} &gt; ^2J_{sp3}$。键角度HCH改变$^2J_{HH}$值，同时也受到循环体系的应变的影响。...
-<a href="https://camo.githubusercontent.com/fdde4cc26d7f42a4522997f4c6fac44d67c3cba4/687474703a2f2f6368656d77696b692e756364617669732e6564752f406170692f64656b692f66696c65732f393339332f466967362e626d703f73697a653d626573746669742677696474683d343038266865696768743d3932267265766973696f6e3d31" target="_blank"><img src="https://camo.githubusercontent.com/fdde4cc26d7f42a4522997f4c6fac44d67c3cba4/687474703a2f2f6368656d77696b692e756364617669732e6564752f406170692f64656b692f66696c65732f393339332f466967362e626d703f73697a653d626573746669742677696474683d343038266865696768743d3932267265766973696f6e3d31" alt="" data-canonical-src="http://chemwiki.ucdavis.edu/@api/deki/files/9393/Fig6.bmp?size=bestfit&amp;width=408&amp;height=92&amp;revision=1" style="max-width:100%;"></a></p>
-
-<p>这个网站上也有很多关于偕耦合常数的数值<a href="https://camo.githubusercontent.com/8cc96cab5bcf38ddccd89a0d57425d6b133bf501/687474703a2f2f7777772e6368656d2e776973632e6564752f61726561732f72656963682f6e6d722f30352d686d722d30342d326a2e68746d" target="_blank"><img src="https://camo.githubusercontent.com/8cc96cab5bcf38ddccd89a0d57425d6b133bf501/687474703a2f2f7777772e6368656d2e776973632e6564752f61726561732f72656963682f6e6d722f30352d686d722d30342d326a2e68746d" alt="wikichem" data-canonical-src="http://www.chem.wisc.edu/areas/reich/nmr/05-hmr-04-2j.htm" style="max-width:100%;"></a></p>
-
-<h4>
-<a id="user-content-邻氢氢耦合3j" class="anchor" href="#%E9%82%BB%E6%B0%A2%E6%B0%A2%E8%80%A6%E5%90%883j" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>邻氢氢耦合（$^3J$）</h4>
-
+<h4>偕氢氢耦合（$^2J$）</h4>
+<p>偕耦合产生于两键之间，如下图，当两氢原子没有化学等价，它的耦合常数范围为-20到40Hz。$^2J\_{HH}$和碳原子杂化，键角度和连接电负性原子有关。当S-特征（S-character）增加，偕耦合常数也增加：$^2J\_{sp1} > ^2J\_{sp2} > ^2J\_{sp3}$。键角度HCH改变$^2J\_{HH}$值，同时也受到循环体系的应变的影响。...
+<img src="http://chemwiki.ucdavis.edu/@api/deki/files/9393/Fig6.bmp?size=bestfit&amp;width=408&amp;height=92&amp;revision=1" alt=""></p>
+<p>这个网站上也有很多关于偕耦合常数的数值<img src="http://www.chem.wisc.edu/areas/reich/nmr/05-hmr-04-2j.htm" alt="wikichem"></p>
+<h4>邻氢氢耦合（$^3J$）</h4>
 <p>邻耦合发生在三键之间，如下图。邻耦合是二面角最重要的信息，可以得到分子的立体结构和相对构型。邻耦合常数大部分是正值，受到二面角（HCCH），和价健角（HCC）和碳碳健长度还有电负性原子的影响。二面角可以通过Karplus方程计算得到：
 $$ ^3J = 7.0 - 0.5\cos\phi + 4.5\cos^2\phi $$
 从公式看，当时$\phi$为$90^o$，邻耦合常数为零。另外耦合常数在8到10Hz，当$\phi=180^o$。而$\phi=0^o$和$\phi=180^o$正好对应cis和trans构型。
-<a href="https://camo.githubusercontent.com/92a0ad4f2eb1a105c19b0a4ccc4d2a2fb813d7bc/687474703a2f2f6368656d77696b692e756364617669732e6564752f406170692f64656b692f66696c65732f393339342f466967372e626d703f73697a653d626573746669742677696474683d333638266865696768743d313239267265766973696f6e3d31" target="_blank"><img src="https://camo.githubusercontent.com/92a0ad4f2eb1a105c19b0a4ccc4d2a2fb813d7bc/687474703a2f2f6368656d77696b692e756364617669732e6564752f406170692f64656b692f66696c65732f393339342f466967372e626d703f73697a653d626573746669742677696474683d333638266865696768743d313239267265766973696f6e3d31" alt="" data-canonical-src="http://chemwiki.ucdavis.edu/@api/deki/files/9394/Fig7.bmp?size=bestfit&amp;width=368&amp;height=129&amp;revision=1" style="max-width:100%;"></a>
-<a href="https://camo.githubusercontent.com/906ae05760f8b33cdbcde53cce19782be7b0d83b/687474703a2f2f6368656d77696b692e756364617669732e6564752f406170692f64656b692f66696c65732f393339352f466967382e626d703f73697a653d626573746669742677696474683d323939266865696768743d3836267265766973696f6e3d31" target="_blank"><img src="https://camo.githubusercontent.com/906ae05760f8b33cdbcde53cce19782be7b0d83b/687474703a2f2f6368656d77696b692e756364617669732e6564752f406170692f64656b692f66696c65732f393339352f466967382e626d703f73697a653d626573746669742677696474683d323939266865696768743d3836267265766973696f6e3d31" alt="" data-canonical-src="http://chemwiki.ucdavis.edu/@api/deki/files/9395/Fig8.bmp?size=bestfit&amp;width=299&amp;height=86&amp;revision=1" style="max-width:100%;"></a></p>
-
-<p>价健角度（如图中所示）同样会改变$^3J_{HH}$。键角度也和环大小有关系。正常说，当键角度下降，耦合常数叶下降。碳碳之间的距离同样影响邻耦合常数数值。</p>
-
+<img src="http://chemwiki.ucdavis.edu/@api/deki/files/9394/Fig7.bmp?size=bestfit&amp;width=368&amp;height=129&amp;revision=1" alt="">
+<img src="http://chemwiki.ucdavis.edu/@api/deki/files/9395/Fig8.bmp?size=bestfit&amp;width=299&amp;height=86&amp;revision=1" alt=""></p>
+<p>价健角度（如图中所示）同样会改变$^3J\_{HH}$。键角度也和环大小有关系。正常说，当键角度下降，耦合常数叶下降。碳碳之间的距离同样影响邻耦合常数数值。</p>
 <p>当价健距离降低时，耦合常数就增大。电负性原子同样影响邻耦合，导致耦合常数数值下降。</p>
-
-<hr>
+<hr \>
 
 <p>考虑到电负性的Karplus-type是Altona方程。</p>
+<hr \>
 
-<hr>
-
-<h4>
-<a id="user-content-积分" class="anchor" href="#%E7%A7%AF%E5%88%86" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>积分</h4>
-
+<h4>积分</h4>
 <p>一维氢谱的峰面积正比于对应的氢原子数目。</p>
-
-<h3>
-<a id="user-content-13c-nmr" class="anchor" href="#13c-nmr" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>$^{13}C$ NMR</h3>
-
-<h4>
-<a id="user-content-化学位移-1" class="anchor" href="#%E5%8C%96%E5%AD%A6%E4%BD%8D%E7%A7%BB-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>化学位移</h4>
-
+<h3>$^{13}C$ NMR</h3>
+<h4>化学位移</h4>
 <p>碳谱的特征化学位移可以确定分子的功能团。碳谱的化学位移同样会受到电负性原子和空间构型的影响。如果在烷烃alkane中的氢原子被X取代（电负性原子O，N，卤素原子），相应的碳原子的化学位移向低场偏移。空间构型影响主要体现在周期变化和环体系中，这些体系会导致化学位移往低场偏移。下图显示典型的碳谱的化学位移范围对应的主要化学基团。
-<a href="https://camo.githubusercontent.com/35268e736a4043149a3ccac2b92eb39fc73d9e06/687474703a2f2f6368656d77696b692e756364617669732e6564752f406170692f64656b692f66696c65732f393339362f466967392e626d703f73697a653d626573746669742677696474683d373139266865696768743d343135267265766973696f6e3d31" target="_blank"><img src="https://camo.githubusercontent.com/35268e736a4043149a3ccac2b92eb39fc73d9e06/687474703a2f2f6368656d77696b692e756364617669732e6564752f406170692f64656b692f66696c65732f393339362f466967392e626d703f73697a653d626573746669742677696474683d373139266865696768743d343135267265766973696f6e3d31" alt="" data-canonical-src="http://chemwiki.ucdavis.edu/@api/deki/files/9396/Fig9.bmp?size=bestfit&amp;width=719&amp;height=415&amp;revision=1" style="max-width:100%;"></a></p>
-
-<h4>
-<a id="user-content-c13的自旋自旋分裂" class="anchor" href="#c13%E7%9A%84%E8%87%AA%E6%97%8B%E8%87%AA%E6%97%8B%E5%88%86%E8%A3%82" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>C13的自旋自旋分裂</h4>
-
-<h4>
-<a id="user-content-补充" class="anchor" href="#%E8%A1%A5%E5%85%85" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>补充</h4>
-
+<img src="http://chemwiki.ucdavis.edu/@api/deki/files/9396/Fig9.bmp?size=bestfit&amp;width=719&amp;height=415&amp;revision=1" alt=""></p>
+<h4>C13的自旋自旋分裂</h4>
+<h4>补充</h4>
 <p>Hans J. Reich 的<a href="http://www.chem.wisc.edu/areas/reich/chem605/index.htm">Structure Determination Using Spectroscopic Methods</a></p>

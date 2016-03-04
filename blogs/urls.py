@@ -4,7 +4,7 @@ from .feeds import BlogPostFeed
 
 urlpatterns = [
     url('^$', views.home),
-    url('^(\d+)/$', views.home),
+    url('^(?P<page>\d+)/$', views.home),
     url(r'^(?P<slug>[-\w\d]+),(?P<post_id>\d+)/$', views.blogpost, name='blogpost'),
     url('^archive/$', views.archive),
     url('^about/$', views.about),

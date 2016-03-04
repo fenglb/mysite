@@ -45,6 +45,13 @@ class BlogPost(models.Model):
     class Meta:
         ordering = ['-pub_date']    # ordered by pub_date descending when retriving
 
+    CATEGORY_CHOICES = ( 
+        (u'nmr', 'NMR'),
+        (u'lx', 'Linux/Ubuntu'),
+        (u'pl', 'Personal'),
+        (u'pg', 'Python/Programming'),
+        (u'ot', 'Others' )
+        )
     title = models.CharField(max_length=150)
     body = models.TextField(blank=True)
     md_file = models.FileField(upload_to=get_upload_md_name, blank=True)  # uploaded md file
@@ -52,7 +59,7 @@ class BlogPost(models.Model):
     last_edit_date = models.DateTimeField('last edited', auto_now=True)
     slug = models.SlugField(max_length=200, blank=True)
     html_file = models.FileField(upload_to=get_html_name, blank=True)    # generated html file
-    category = models.CharField(max_length=30)
+    category = models.CharField(max_length=30, choices=CATEGORY_CHOICES)
     description = models.TextField(blank=True)
     author = models.ManyToManyField( CustomUser )
     tags = TaggableManager() 
