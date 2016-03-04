@@ -42,7 +42,7 @@ INSTALLED_APPS = (
     'accounts',
     'eguard',
     'blogs',
-    'markdown_deux',
+    'taggit',
 )
 
 MIDDLEWARE_CLASSES = (

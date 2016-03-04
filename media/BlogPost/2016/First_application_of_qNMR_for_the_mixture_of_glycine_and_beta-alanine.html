@@ -1,0 +1,109 @@
+<p>Follow last blog about qNMR, now this blog shows the demo about how to quantitative analysis using NMR spectroscopic tools. Here, we quantified the content of the mixture included glycine and alanine...</p>
+
+<h2>
+<a id="user-content-1-introduction" class="anchor" href="#1-introduction" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>1. Introduction</h2>
+
+<p>You can referece the last post about what's qNMR. Here we will shows How's qNMR.</p>
+
+<h2>
+<a id="user-content-2-experimental" class="anchor" href="#2-experimental" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>2. Experimental</h2>
+
+<p>1H NMR experiments were carried out using Bruker 5mm CPBBO spectrometer operating at 600.13 MHz, 298K. The typical acquisition parameters optimized for qNMR were as follows: bruker pulse program <code>zg30</code>, acquisition time 2.73s, sweep width 12019.2 Hz, relaxation delay 10s( this parameter must be optimized, and more than five times the longest T1 ). 64k data points after 32 scans, and an exponential line-broadening function of 0.3 Hz applied to FID.</p>
+
+<h2>
+<a id="user-content-3-materials" class="anchor" href="#3-materials" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>3. Materials</h2>
+
+<p>59.21mg of Glycine ( Sangon Biotech, 99%) and 53.49mg of $\beta$-Alanine ( Sangon Biotech 98.5%) were accurately weighed by a Sartorius analytical balances with a readability 0.01 mg, and transferred into an 5mm NMR tube (Schott NMR sample tubes), with adding $D_2O$ solvent( 99.9% purity with TMS).</p>
+
+<h2>
+<a id="user-content-3-results-and-discussion" class="anchor" href="#3-results-and-discussion" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>3. Results and Discussion</h2>
+
+<p>Figure 1. 1H NMR spectra of the mixture of Glycine and $\beta$-Alanine in $D_2O$ solvent.
+<a href="/media/BlogPost/images/qnmr_glycine_alanine_1.png" target="_blank"><img src="/media/BlogPost/images/qnmr_glycine_alanine_1.png" alt="qnmr_glycine" style="max-width:100%;"></a></p>
+
+<p>Figure 2. 1H NMR spectra of Glycine NH2 with coupling C13 and $\beta$-Alanine CH2 with coupling.
+<a href="/media/BlogPost/images/qnmr_glycine_alanine_2.png" target="_blank"><img src="/media/BlogPost/images/qnmr_glycine_alanine_2.png" alt="qnmr_glycine" style="max-width:100%;"></a></p>
+
+<p>Table 1.</p>
+
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Molar Weight</th>
+<th>Num. Proton</th>
+<th>Purity</th>
+<th>W</th>
+<th>Intergral</th>
+<th>S/N</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Glycine</td>
+<td>75.07</td>
+<td>2(NH2,3.56ppm)</td>
+<td>0.99</td>
+<td>59.21mg</td>
+<td>100</td>
+<td>92375</td>
+</tr>
+<tr>
+<td>$\beta$-Alanine</td>
+<td>89.09</td>
+<td>2(CH2,3.18ppm)</td>
+<td>0.985</td>
+<td>53.40mg</td>
+<td>75.3427</td>
+<td>35340</td>
+</tr>
+<tr>
+<td>$\beta$-Alanine</td>
+<td>89.09</td>
+<td>2(CH2,2.56ppm)</td>
+<td>0.985</td>
+<td>53.40mg</td>
+<td>75.3822</td>
+<td>67547</td>
+</tr>
+</tbody>
+</table>
+
+<p>As qNMR's theory, the intensity of the 1H signal is directly proportional to the number of protons that give rise to the signal, as following:</p>
+
+<p>$$
+  \frac{number-of-proton-in-glycine-NH2}{number-of-proton-in-beta-Alanine-CH2} = 
+  \frac{59.21mg/75.07}{53.40mg/89.09} \simeq \frac{100}{(75.3427+75.3822)/2}
+$$</p>
+
+<p>the bais is 1.1%.</p>
+
+<p>Table 2. with C13 satillate</p>
+
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Integral</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Glycine</td>
+<td>100</td>
+</tr>
+<tr>
+<td>$\beta$-Alanine</td>
+<td>75.6207</td>
+</tr>
+<tr>
+<td>$\beta$-Alanine</td>
+<td>75.4550</td>
+</tr>
+</tbody>
+</table>
+
+<p>the bais is 0.8%.</p>
+
+<h2>
+<a id="user-content-4-conclusion" class="anchor" href="#4-conclusion" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>4. Conclusion</h2>
