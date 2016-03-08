@@ -78,11 +78,11 @@ h1,h2,h3 {
 .card {
   border: 1px solid;
   border-radius: 5px;
-  min-height: 250px;
+  min-height: 25%;
   margin: 10px 5px 10px 5px;
 }
 .card .card-title {
-  min-height: 110px;
+  min-height: 10%;
   font-weight: lighter;
   font-family: "Aladin", "times", "AR PL UKai CN", "KaiTi", "STKaiti", monospace;
   font-size: 160%;
@@ -97,18 +97,21 @@ h1,h2,h3 {
 }
 
 .inst{
-  padding: 10px 0px 50px;
+  padding: 1% 0 2%;
   border-bottom: 1px solid #eee;
+}
+.img-responsive {
+  width: 80%;
 }
 
 .staff {
-  padding: 10px 100px 50px 100px;
-  background: #e4ebe9 url(/static/images/staff_pattern.png);
+  padding: 1% 5% 2% 5%;
+  background: url(/static/images/staff_pattern.png);
   margin-bottom: -10px;
 }
 .carousel-control.left,.carousel-control.right {background-image:none!important;width:25px;}
 .item-block {
   border: 2px solid #efefef;
   border-radius: 10px;
-  padding: 15px;
+  padding: 4%;
 }
