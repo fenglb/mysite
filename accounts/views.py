@@ -80,8 +80,10 @@ def userinfo(request):
 
     user_form = UserInforForm( request.POST or None, instance=request.user )
     pi_form = PersonInChargeForm( request.POST or None, instance=request.user.person_in_charge )
-    org_form = OrgnizationForm( request.POST or None, instance=request.user.person_in_charge.orgnization )
-    person_in_charge = request.user.person_in_charge.surname0
+    if request.user.person_in_charge:
+        org_form = OrgnizationForm( request.POST or None, instance=request.user.person_in_charge.orgnization )
+    else:
+        org_form = OrgnizationForm( request.POST or None )
 
     if request.method == 'POST':
 

@@ -91,7 +91,7 @@ class CustomUser( AbstractBaseUser, PermissionsMixin ):
     position     = models.CharField( verbose_name=u'身份', max_length=7, choices=position_choice, default='student' )
     person_in_charge = models.ForeignKey( PersonInCharge, verbose_name=u'负责人', help_text=u'课题组负责人, 导师或者领导', null=True, blank=True )
     create_time  = models.DateTimeField(auto_now_add=True)
-    expired_time = models.DateField( default=datetime.now()+timedelta(days=100*365), verbose_name=u'失效日期' )
+    expired_time = models.DateField( default=(timezone.now()+timedelta(days=100*365)).date(), verbose_name=u'失效日期' )
 
     email = models.EmailField( verbose_name=u'邮箱', help_text=u'有效邮箱，用于认证通知', max_length=255, default="unkown@xmu.edu.cn")
     email_code = models.CharField( max_length=50, null=True, blank=True )

@@ -98,7 +98,7 @@
               <label class="input-lg">负责人:</label>
             </div>
             <div class="col-sm-8">
-                 <input id="id_surname0" name="surname0" value="{{ user.person_in_charge.surname0 }}">
+                 <input id="id_surname0" name="surname0" value="{{ user.person_in_charge.surname0 }}" placeholder="课题组PI/公司领导/经费负责人">
             </div>
           </div>
         </div>
@@ -208,6 +208,9 @@
         });
     }
   );
+  $('#id_name').attr('placeholder', '厦门大学');
+  $('#id_department').attr('placeholder', '化学化工学院');
+  $('#id_address').attr('placeholder', '厦门市思明区思明南路220号');
 </script>
 {% endblock %}
 

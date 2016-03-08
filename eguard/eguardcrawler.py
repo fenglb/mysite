@@ -211,7 +211,6 @@ class EntranceGuard:
 
         return all_entrance_users # dist of identify, name, department, and jj
 
-    # 
     def getEntranceRecords( self, door, startdate, enddate, starttime, endtime ):
         door = door_dict[door]["search"]
         s = searchEntranceRecord( self.handle, door, startdate, enddate, starttime, endtime )
@@ -247,14 +246,14 @@ class EntranceGuard:
    
 if __name__ == "__main__":
 
-    #eguard = EntranceGuard()
+    eguard = EntranceGuard()
     #users = eguard.getEntranceRecords( door_dict["B"][0], "2016-2-18", "2016-2-19", "00:00:00", "23:59:59" )
-    #users = eguard.getEntranceUsers( "D102" )
-    #for user in users:
-    #    print( u"{0}\t {1}".format( user['name'], user['identify'] ) )
+    users = eguard.getEntranceUsers( "D102" )
+    for user in users:
+        print( u"{0}\t {1}".format( user['name'], user['identify'] ) )
     #print eguard.doEntranceUserCreated( ["15720111151868", "20620078101155"], "D102" )
     #for i, d in zip( ["20620078101155"], ["D500"] ):
     #    eguard.doEntranceUserDeleted( i, d )
     #for i, d in zip( ["20620078101155", "20620078101155", "15720111151868"], ["D102","D500", "D500"] ):
     #    print eguard.doEntranceUserCreated( i, d )
-    print checkUserExist( u'冯柳宾', '203100213' )
+    #print checkUserExist( u'冯柳宾', '203100213' )
