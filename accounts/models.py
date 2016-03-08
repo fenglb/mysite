@@ -101,7 +101,8 @@ class CustomUser( AbstractBaseUser, PermissionsMixin ):
     REQUIRED_FIELDS = ['surname', 'identify', 'phone_number', 'email']
 
     is_active = models.BooleanField(verbose_name=u'活跃', default=False, null=False)
-    is_staff = models.BooleanField(verbose_name=u'网站管理者', default=False, null=False)
+    is_staff = models.BooleanField(verbose_name=u'NMRCEN_Man', default=False, null=False)
+    title = models.CharField(verbose_name=u'职称', max_length=50, blank=True, null=False)
 
     profile_image = models.ImageField(upload_to="profile", blank=False, null=False, verbose_name=u'个人照片', default="/media/profile/default.png")
     user_bio = models.TextField(verbose_name=u'自我介绍', max_length=600,blank=True)

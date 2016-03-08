@@ -1,3 +1,4 @@
+@import url("http://fonts.useso.com/css?family=Aladin");
 html, body {
     margin: auto;
 }
@@ -70,33 +71,44 @@ h1,h2,h3 {
   background-color: #fefcff;
   font-size: 18px;
 }
-.research {
-  padding: 50px 0px 50px;
-}
-.research .item {
+.project .item {
   display: block;
 }
-.research .item .content p {
-  font-size: 14px;
-  font-family: "AR PL UKai CN", "KaiTi", "STKaiti", monospace;
+
+.card {
+  border: 1px solid;
+  border-radius: 5px;
+  min-height: 250px;
+  margin: 10px 5px 10px 5px;
 }
+.card .card-title {
+  min-height: 110px;
+  font-weight: lighter;
+  font-family: "Aladin", "times", "AR PL UKai CN", "KaiTi", "STKaiti", monospace;
+  font-size: 160%;
+}
+.card .card-img {
+}
+
 .content-box {
   display: block;
   overflow: hidden;
   border-bottom: solid 1px #eee;
 }
 
-.inst {
-  padding: 50px 0px 50px;
+.inst{
+  padding: 10px 0px 50px;
   border-bottom: 1px solid #eee;
 }
 
 .staff {
-  padding: 50px 0px 50px;
+  padding: 10px 100px 50px 100px;
+  background: #e4ebe9 url(/static/images/staff_pattern.png);
+  margin-bottom: -10px;
 }
-.staff img {
-  padding-bottom: 10px;
-}
-.staff p {
-  margin: 0 0 0px;
+.carousel-control.left,.carousel-control.right {background-image:none!important;width:25px;}
+.item-block {
+  border: 2px solid #efefef;
+  border-radius: 10px;
+  padding: 15px;
 }

@@ -6,14 +6,15 @@ from django.http import HttpResponse, Http404
 
 from .models import BlogPost
 
-exclude_posts = ("about", "projects", "talks")
+exclude_posts = ("about", "projects", "talks", )
+exclude_category = ("news", "pr", )
 
 
 # Create your views here.
 def home(request, page=''):
     args = dict()
     num = 6
-    args['blogposts'] = BlogPost.objects.exclude(title__in=exclude_posts)
+    args['blogposts'] = BlogPost.objects.exclude(title__in=exclude_posts).exclude(category__in=exclude_category)
     max_page = 1.0*len(args['blogposts']) / num 
     if page and int(page) < 2:  # /0, /1 -> /
         return redirect("/blogs/")

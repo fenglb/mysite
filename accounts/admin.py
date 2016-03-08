@@ -163,7 +163,7 @@ class CustomUserAdmin(UserAdmin):
     list_filter = ('person_in_charge',)
     fieldsets = (
         (None, {'fields': ('username', 'password')}),
-        ('Personal info', {'fields': ('surname','identify', 'position', 'person_in_charge', 'expired_time', 'profile_image', 'user_bio')}),
+        ('Personal info', {'fields': ('surname','title', 'identify', 'position', 'person_in_charge', 'expired_time', 'profile_image', 'user_bio')}),
         ('Contract', {'fields': ('phone_number','email')}),
         ('Permissions', {'fields': ('is_staff', 'is_active')}),
     )
@@ -172,7 +172,7 @@ class CustomUserAdmin(UserAdmin):
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
-            'fields': ('username', 'surname', 'position',  'identify', 'phone_number', 'email','person_in_charge', 'expired_time', 'password1', 'password2' )}
+            'fields': ('username', 'title', 'surname', 'position',  'identify', 'phone_number', 'email','person_in_charge', 'expired_time', 'password1', 'password2' )}
         ),
     )
     search_fields = ('surname', 'username')

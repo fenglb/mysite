@@ -1,5 +1,4 @@
 @import url("http://fonts.useso.com/css?family=Aladin");
-@import url("http://fonts.useso.com/css?family=Pacifico");
 html { 
   height: 100%;
 }
@@ -31,6 +30,10 @@ img {
   border: 0;
 }
 
+article img { 
+  max-width: 700px;
+}
+
 h1, h2, h3, h4, h5, h6 { 
   color: #362C20;
   letter-spacing: 0em;
@@ -45,7 +48,7 @@ h1, h2, h3 {
 }
 
 h2 { 
-  font-size: 160%;
+  font-size: 120%;
   padding: 5px 0 5px 0;
   color: #009FBC;
 }
@@ -214,6 +217,9 @@ nav {
   margin: 0 1px;
   color: #777;
 }
+article h1 {
+  font-size: 160%;
+}
 .content .label {
   padding-bottom: 14px;
   font-size: 70%;
@@ -221,7 +227,7 @@ nav {
 .sidebar h3 { 
   padding: 14px 15px 14px 15px;
   color: #74706E;
-  font-family: "Pacifico", "AR PL UKai CN", "KaiTi", "STKaiti", cursive;
+  font-family: "Aladin", "AR PL UKai CN", "KaiTi", "STKaiti", cursive;
   font-size: 140%;
   margin-left: 10px;
 }

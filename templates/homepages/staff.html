@@ -1,11 +1,24 @@
 {% load staticfiles %}
-<div class="row">
-  {% for item in "123456"|make_list %}
-  <div class="col-sm-2 text-center">
-    <img src="{% static 'photos/flb.jpg' %}" class="img-rounded" alt="">
-    <p class="name" style="font-weight: bold">冯柳宾 工程师</p>
-    <p class="title">实验室管理员</p>
-    <p class="connect"><a href="">主页访问</a></p>
+<div class="carousel slide" id="myCarousel" data-ride="carousel">
+  <div class="carousel-inner">
+    {% for item in staffs %}
+    <div class="item {% if forloop.first %}active{% endif %}">
+      {% for staff in item %}
+        <div class="col-md-3">
+          <div class="media item-block">
+            <div class="media-left media-middle">
+              <img class="img img-circle" src="{{ staff.profile_image.url }}">
+            </div>
+            <div class="media-body">
+              <h4 class="media-heading text-center">{{ staff.surname }} <small>{{staff.title}}</small></h4>
+              <p></p>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+    {% endfor %}
+    <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev"><span class="glyphicon glyphicon-chevron-left"></span></a>
+    <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next"><span class="glyphicon glyphicon-chevron-right"></span></a>
   </div>
-  {% endfor %}
 </div>

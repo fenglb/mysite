@@ -6,6 +6,8 @@
 {% load staticfiles %}
 	<script type="text/javascript" src="{% static 'js/jquery.bxslider.min.js' %}"></script>
 	<link rel="stylesheet" type="text/css" media="all" href="{% static 'css/jquery.bxslider.min.css' %}">
+	<link rel="stylesheet" type="text/css" media="all" href="{% static 'css/jquery.jscrollpane.css' %}">
+	<link rel="stylesheet" type="text/css" media="all" href="{% static 'css/cccstyle.css' %}">
 {% endblock %}
 {% block content %} 
     <!-- Half Page Image Background Carousel Header -->
@@ -50,38 +52,37 @@
       </div>
     </div>
 
-    <div class="row">
-      <div class="research">
-        <div class="row">
-          {% for item in "1234"|make_list %}
-          <div class="col-sm-3 text-center">
-          <div class="item">
-            <img src="{% static 'images/struct.png' %}" class="img-circle" alt="" width="60px">
-            <div class="content">
-              <h4 class="title" style="font-weight: bold;">小分子结构解析</h4>
-              <p>药物发现和天然产物研究中小分子结构解析;<br>
-              药物和化学应用领域未知物质的结构分析;</p>
+    <div class="row project">
+      <h2 class="text-center">主要研究项目</h2>
+      <div class="row">
+        <div class="card-wrapper">
+        {% for item in projects %}
+        <div class="col-sm-3">
+          <div class="card text-center" style="border-color:{% cycle '#86e8fa' '#cdf4d7' '#edacb5' '#febfba' %}">
+            <img src="{{ item.thumbnail.url }}" class="img img-rounded card-img" width="200px" />
+            <div class="card-body" style="background-color:{% cycle '#86e8fa' '#cdf4d7' '#edacb5' '#febfba' %}">
+              <div class="card-title">{{ item.title }}</div>
             </div>
           </div>
-          </div>
-          {% endfor %}
         </div>
+        {% endfor %}
+        </div><!--card group-->
       </div>
     </div>
 
   </div>
 </div>
 <!--instr-->
-<a name="_insts"></a>
 <div class="inst">
+    <h2 class="text-center">仪器设备</h2>
   <div class="container">
     {% include "homepages/instrument.html" %}
   </div>
 </div>
 <!--staff-->
-<a name="_about"></a>
 <div class="staff">
-  <div class="container">
+    <h2 class="text-center">关于我们</h2>
+  <div class="container-fuild">
     {% include "homepages/staff.html" %}
   </div>
 </div>

@@ -1,15 +1,9 @@
 {% load staticfiles %}
 <div class="row">
-  <div class="col-sm-3">
-    <img src="{% static 'photos/ac850.jpg' %}" class="img-rounded" alt="">
-  </div>
-  <div class="col-sm-3">
-    <img src="{% static 'photos/ac850.jpg' %}" class="img-rounded" alt="">
-  </div>
-  <div class="col-sm-3">
-    <img src="{% static 'photos/ac850.jpg' %}" class="img-rounded" alt="">
-  </div>
-  <div class="col-sm-3">
-    <img src="{% static 'photos/ac850.jpg' %}" class="img-rounded" alt="">
-  </div>
+  <h1></h1>
+  {% for item in instruments %}
+    <div class="col-sm-3">
+      <img src="{{ item.image.url }}" class="img-rounded" alt="{{ item.short_name }}">
+    </div>
+  {% endfor %}
 </div>

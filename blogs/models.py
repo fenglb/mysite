@@ -40,6 +40,10 @@ def get_html_name(instance, filename):
     upload_to = upload_dir.format(year, filename)
     return upload_to
 
+def get_upload_img_name(instance, filename):
+    upload_to = upload_dir.format('images', filename)  # filename involves extension
+    return upload_to
+
 class BlogPost(models.Model):
 
     class Meta:
@@ -48,11 +52,14 @@ class BlogPost(models.Model):
     CATEGORY_CHOICES = ( 
         (u'nmr', 'NMR'),
         (u'lx', 'Linux/Ubuntu'),
+        (u'news', 'News'),
+        (u'pr', 'Project'),
         (u'pl', 'Personal'),
         (u'pg', 'Python/Programming'),
         (u'ot', 'Others' )
         )
     title = models.CharField(max_length=150)
+    thumbnail = models.ImageField(upload_to=get_upload_img_name, blank=True)
     body = models.TextField(blank=True)
     md_file = models.FileField(upload_to=get_upload_md_name, blank=True)  # uploaded md file
     pub_date = models.DateTimeField('date published', auto_now_add=True)
@@ -116,9 +123,6 @@ def blogpost_delete(instance, **kwargs):
         instance.html_file.delete(save=False)
 
 
-def get_upload_img_name(instance, filename):
-    upload_to = upload_dir.format('images', filename)  # filename involves extension
-    return upload_to
 
 class BlogPostImage(models.Model):
 
