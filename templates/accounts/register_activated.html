@@ -1,5 +1,5 @@
 {% extends "bootstrap_base.html" %}
-{% block title %} 用户注册 {% endblock %}
+{% block title %} 激活注册 {% endblock %}
 {% block css_js %}
 <style>
   .register_done {
@@ -13,8 +13,8 @@
 <div class="container register_done">
   <div class="row">
     <div class="col-sm-5 text-center">
-      <h3><strong>用户注册成功!</strong></h3>
-      <p>请登录您用于注册的邮箱{{ email }}进行激活！</p>
+      <h3><strong>用户成功激活!</strong></h3>
+      <p>请<a href="{% url 'accounts:login' %}">登录</a>！</p>
     </div>
   </div>
 </div>

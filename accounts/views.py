@@ -15,6 +15,7 @@ from schedule.models import Instrument, InstrumentAppointment
 import uuid
 import json
 import time
+import smtplib
 
 # Create your views here.
 
@@ -22,32 +23,35 @@ def getActiveCode( email ):
     email_code = uuid.uuid5( uuid.NAMESPACE_DNS, email+str(time.time())).hex
     return email_code
 
-def send_email( user ):
+def send_email( user, email_code ):
     email = user.email
     if isinstance( email, unicode ):
         email = email.encode( 'utf-8' )
 
-    html_content = render_to_string( 'accounts/send_email.html', {'email_code': getActiveCode( email ) } )
+    html_content = render_to_string( 'accounts/send_email.html', {'email_code': email_code, 'pk': user.id } )
     subject, from_email, to_email = u'您注册了厦门大学高场核磁中心网站', 'tonyfeng@xmu.edu.cn', email
-    text_content = 'asssskkj'
+    text_content = 'tmp'
     msg = EmailMultiAlternatives( subject, text_content, from_email, [to_email] )
     msg.attach_alternative( html_content, 'text/html' )
-    msg.send()
-    return HttpResponse( u'请查看您注册使用邮箱%0激活用户，完成注册'.format(email) )
+    try:
+        msg.send()
+        return 1
+    except smtplib.SMTPException:
+        return 0
 
-def verifyUserMail( request, pk, email_code ):
+def verifyUserMail(request, pk, email_code ):
     try:
         pk = int(pk)
         user = CustomUser.objects.get(id=pk)
     except (CustomUser.DoesNotExist, ValueError):
-        return render_to_response('accounts/register_done.html')
+        return render_to_response('accounts/register_activated_fail.html')
 
     if user.is_active:
         return HttpResponseRedirect('/accounts/login/')
     elif email_code == user.email_code:
         user.is_active = True
         user.save()
-        return render_to_response('accounts/register_done.html')
+        return render_to_response('accounts/register_activated.html')
 
 
 @login_required
@@ -128,11 +132,16 @@ def register(request):
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
         if form.is_valid():
-            user = form.save()
-            send_email( user )
-            return HttpResponseRedirect("/accounts/register_done")
-        #else:
-        #    return HttpResponse(u'注册用户时发生错误，请返回重新注册！')
+            user = form.save( commit=False )
+            email_code = getActiveCode( user.email.encode('utf-8') )
+            user.email_code = email_code
+            user.save()
+            if ( send_email( user, email_code ) != 1 ):
+                user.delete()
+                form.errors['email'] = u"您输入电子邮箱无效，请重新输入！"
+                return render(request, "accounts/register.html", {'form':form, },)
+            else:
+                return render(request, "accounts/register_done.html", {'email': user.email})
     else:
         form = UserCreationForm()
 

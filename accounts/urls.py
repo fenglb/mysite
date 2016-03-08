@@ -24,7 +24,7 @@ urlpatterns = [
     url(r'^userinfo/$', userinfo, name='userinfo'),
     url(r'^apermission/$', apermission, name='apermission'),
     url(r'^apermission/(\w+)$', apermission, name='apermission'),
-    url(r'^verifymail/(?P<pk>\d+)/(\w+)$', verifyUserMail ),
+    url(r'^verifymail/(?P<pk>\d+)/(?P<email_code>\w+)$', verifyUserMail ),
     url(r'^getpi/(\w+)$', getPersonInChargeInfo, name='getpi'),
 
     url(r'^login/$', login,

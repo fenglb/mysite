@@ -94,6 +94,7 @@ class CustomUser( AbstractBaseUser, PermissionsMixin ):
     expired_time = models.DateField( default=datetime.now()+timedelta(days=100*365), verbose_name=u'失效日期' )
 
     email = models.EmailField( verbose_name=u'邮箱', help_text=u'有效邮箱，用于认证通知', max_length=255, default="unkown@xmu.edu.cn")
+    email_code = models.CharField( max_length=50, null=True, blank=True )
 
     objects = CustomUserManager()
 
