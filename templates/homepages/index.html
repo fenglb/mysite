@@ -11,18 +11,19 @@
     <!-- Half Page Image Background Carousel Header -->
   <div class="container">
     <ul class="bxslider">
+      {% for item in hot_spots %}
       <li>
         <div class="row">
-          <div class="col-sm-8">
-            <img class="img-rounded" src="{% static 'images/image-slider-2.jpg' %}">
+          <div class="col-sm-8 col-xs-12">
+            <img class="img-rounded img-responsive" src="{{ item.thumbnail.url }}">
           </div>
-          <div class="col-sm-4">
-              Wollllll, ou.
-          </div>
+          <div class="col-sm-4 col-xs-12">
+            <h2 class="text-danger"><span class="glyphicon glyphicon-send"><span><a href="{{ item.get_absolute_url }}">{{ item.title }}</a></h2>
+            <p><span class="glyphicon glyphicon-console"><span>{{ item.description }}</p>
+         </div>
         </div>
         </li>
-      <li><img class="img-rounded" src="{% static 'images/image-slider-3.jpg' %}"></li>
-      <li><img class="img-rounded" src="{% static 'images/image-slider-4.jpg' %}"></li>
+      {% endfor %}
     </ul>
   </div>
     <!-- Script to Activate the Carousel -->
@@ -60,11 +61,11 @@
             <img src="{{ item.thumbnail.url }}" class="img img-rounded card-img img-responsive" max-width="200px" />
             <div class="card-body" style="background-color:{% cycle '#86e8fa' '#cdf4d7' '#edacb5' '#febfba' %}">
               <div class="card-title">{{ item.title }}</div>
-            </div>
-          </div>
-        </div>
+            </div><!--card-body-->
+          </div><!--card-->
+        </div><!--col-xs-->
         {% endfor %}
-        </div><!--card group-->
+        </div><!--card wrapper-->
       </div>
     </div>
 

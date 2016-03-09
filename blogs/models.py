@@ -22,6 +22,8 @@ from accounts.models import CustomUser
 from taggit.managers import TaggableManager
 from mistune.markdown_mistune import markdown2html_mistune as md
 
+exclude_category = ("news", "pr", "hot")
+
 
 upload_dir = 'BlogPost/{0}/{1}'
 def get_upload_md_name(instance, filename):
@@ -53,7 +55,8 @@ class BlogPost(models.Model):
         (u'nmr', 'NMR'),
         (u'lx', 'Linux/Ubuntu'),
         (u'news', 'News'),
-        (u'pr', 'Project'),
+        (u'pr', 'Projects'),
+        (u'hot', 'Hot Spot'),
         (u'pl', 'Personal'),
         (u'pg', 'Python/Programming'),
         (u'ot', 'Others' )
@@ -112,7 +115,11 @@ class BlogPost(models.Model):
             return f.read()
 
     def get_absolute_url(self):
-        return reverse('blogs:blogpost', kwargs={'slug': self.slug, 'post_id': self.id})
+
+        if self.category in exclude_category:
+            return reverse('homepages:post', kwargs={'slug': self.slug, 'post_id': self.id})
+        else:
+            return reverse('blogs:blogpost', kwargs={'slug': self.slug, 'post_id': self.id})
 
 
 @receiver(pre_delete, sender=BlogPost)

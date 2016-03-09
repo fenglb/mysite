@@ -31,6 +31,12 @@ h1,h2,h3 {
 .nav-item{
 	background-color: #7d0552;
 }
+.bxslider h2 a {
+  color: #000;
+}
+.bxslider p {
+  font-size: 120%;
+}
 .navbar-toggle .icon-bar {
   background-color: #fff;
 }
@@ -63,7 +69,6 @@ h1,h2,h3 {
 	color: #fff;
   font-size: 14px;
 }
-
 .footer-item {
   border-top: 1px solid #aaaaaa;
   padding-top: 10px;
@@ -71,7 +76,6 @@ h1,h2,h3 {
   font-family: cursive;
   font-size: 12px;
 }
-
 .lab-new {
   margin-bottom: 1px;
   padding-bottom: 10px;
@@ -96,6 +100,8 @@ h1,h2,h3 {
   font-size: 160%;
 }
 .card .card-img {
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .content-box {
@@ -108,7 +114,7 @@ h1,h2,h3 {
   padding: 1% 0 2%;
   border-bottom: 1px solid #eee;
 }
-.img-responsive {
+.inst .img-responsive {
   max-width: 80%;
 }
 
@@ -119,4 +125,18 @@ h1,h2,h3 {
 }
 .carousel-control.left,.carousel-control.right {background-image:none!important;width:25px;}
 @media (max-width: 1200px) {
+}
+.homepost {
+  background: #F8F7EE url(/static/images/pattern.png);
+  margin-top: -20px;
+  margin-bottom: -10px;
+}
+.homepost p {
+  font: normal .80em ;
+  font-family: "Georgia", "times", "AR PL UMing CN", "STSong", "SimSun", serif;
+  color: #7A7A68;
+  padding: 0 0 20px 0;
+  line-height: 1.7em;
+  text-indent: 2em;
+  font-size: 120%;
 }

@@ -7,7 +7,7 @@ from django.http import HttpResponse, Http404
 from .models import BlogPost
 
 exclude_posts = ("about", "projects", "talks", )
-exclude_category = ("news", "pr", )
+exclude_category = ("news", "pr", "hot")
 
 
 # Create your views here.
