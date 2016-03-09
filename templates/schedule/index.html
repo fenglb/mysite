@@ -123,7 +123,7 @@
 </div>
 <div class="container-fuild calendar">
   <div class="row">
-    <div class="col-sm-3">
+    <div class="col-sm-3 col-xs-12">
       <h4>预约日历操作说明</h4>
       <table class="table">
         <tbody>
@@ -145,15 +145,15 @@
       <p>比如您要预约今天下午2:00到3:00的实验</p>
       <ol>
         <li><p>你可以在“month”内点击{{ now }},然后在弹出窗口内修改时间</p>
-          <img class="img-rounded" src="{% static 'images/aexample1.png' %}" width="300px" />
+          <img class="img-rounded img-responsive" src="{% static 'images/aexample1.png' %}" max-width="300px" />
         </li>
         <li><p>或者点击“agenda”,用鼠标右键按住您要选择的时间段, 然后提交弹出的窗口</p>
-          <img class="img-rounded" src="{% static 'images/aexample2.gif' %}" width="300px" />
+          <img class="img-rounded img-responsive" src="{% static 'images/aexample2.gif' %}" max-width="300px" />
         </li>
       </ol>
       
     </div>
-    <div class="col-sm-9">
+    <div class="col-sm-9 col-xs-12">
       <h4>“{{ instrument|default_if_none:'所有仪器' }}”的预约情况</h4>
       <div id='calendar'></div>
     </div>

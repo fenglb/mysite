@@ -65,9 +65,11 @@
 
 <div class="row">
   <h4>查看仪器预约情况或者预约实验</h4>
-  {% for instrument in instruments %}
-    <a href="{% url 'schedule:view' instrument.short_name %}"><img class="img-rounded" src="{{ instrument.image.url }}" /></a>
-  {% endfor %}
+    {% for instrument in instruments %}
+      <div class="col-sm-3 col-xs-4">
+        <a href="{% url 'schedule:view' instrument.short_name %}"><img class="img-rounded img-responsive" src="{{ instrument.image.url }}" /></a>
+      </div>
+    {% endfor %}
 </div>
 
 </div><!--container-->

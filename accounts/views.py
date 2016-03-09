@@ -10,7 +10,7 @@ from .models import CustomUser, PersonInCharge
 from eguard.admin import EntranceAppointmentForm
 from eguard.models import Entrance, EntranceAppointment
 from schedule.admin import InstrumentAppointmentForm
-from schedule.models import Instrument, InstrumentAppointment
+from schedule.models import Instrument, InstrumentAppointment, SampleAppointment
 
 import uuid
 import json
@@ -56,7 +56,11 @@ def verifyUserMail(request, pk, email_code ):
 
 @login_required
 def profile(request):
-    return render(request, "accounts/profile.html")
+    samples = SampleAppointment.objects.all().order_by("-created_time")
+
+    trains = InstrumentAppointment.objects.all().order_by("-created_datetime")
+
+    return render(request, "accounts/profile.html", {'samples': samples, "trains": trains, } )
 
 @login_required
 def getPersonInChargeInfo( request, surname ):

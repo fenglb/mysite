@@ -1,11 +1,12 @@
 {% extends "bootstrap_base.html" %}
 {% block title %} 个人中心 {% endblock %}
 {% block css_js %}
+{% load staticfiles %}
 {% endblock %}
 {% block content %}
 <div class="container">
   <div class="row">
-    <div class="col-sm-2" style="padding-top:16px">
+    <div class="col-sm-2 col-xs-12" style="padding-top:16px">
       <p><img class="img-rounded" src="{{ user.profile_image.url }}" alt="{{ user.surname }}的照片"/></p>
       <p> {{ user.surname }}[{{ user.username }}] {{user.get_position_name}}</p>
       {% if user.position == 'visit' %}
@@ -28,7 +29,12 @@
       <p><a href="{% url 'homepages:appoint' %}">仪器预约</a> /
         <a href="{% url 'schedule:sample' %}">送样测试</a></p>
     </div>
-    <div class="col-sm-10">
+    <div class="col-sm-10 col-sx-12">
+      {% if user.is_superuser %}
+        {% include 'accounts/profile_superuser.html' %}
+      {% else %}
+        <p>Hello, ordinary user.</p>
+      {% endif %}
     </div>
   </div>
 </div>

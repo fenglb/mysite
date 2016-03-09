@@ -60,11 +60,12 @@
     <div class="row">
       <h4>申请情况</h3>
       <p>您已经提交的未处理申请:</p>
+      <div class="table-responsive">
       <table class="table">
         <tbody>
         {% for appoint in has_appointed_entrance %}
           <tr class="{% if appoint.has_approved == None %}active{% elif appoint.has_approved %}success{%else%}danger{%endif%}">
-            <td>A{{ forloop.counter }}</td>
+            <td><span class="label label-primary">A{{ forloop.counter }}<span></td>
             <td>{{ appoint }}</td>
             <td>
               {% if appoint.has_approved == None %}
@@ -79,7 +80,7 @@
         {% endfor %}
         {% for appoint in has_appointed_instrument %}
           <tr class="{% if appoint.has_approved == None %}active{% elif appoint.has_approved %}success{%else%}danger{%endif%}">
-            <td>B{{ forloop.counter }}</td>
+            <td><span class="label label-danger">B{{ forloop.counter }}<span></td>
             <td>{{ appoint }}</td>
             <td>
               {% if appoint.has_approved == None %}
@@ -94,6 +95,7 @@
         {% endfor %}
         </tbody>
       </table>
+      </div><!--responsive-->
     </div>
   </div>
 </div>
