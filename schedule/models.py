@@ -50,7 +50,7 @@ class SampleAppointment( models.Model ):
 
 class InstrumentAppointment(models.Model):
     user = models.ForeignKey(CustomUser, verbose_name=u'申请人')
-    instrument = models.ManyToManyField( Instrument, verbose_name=u'仪器' )
+    instrument = models.ManyToManyField( Instrument, verbose_name=u'仪器', help_text=u'通过按住Ctrl来实现多选！' )
     target_datetime = models.DateTimeField(verbose_name=u'预定日期', help_text=u'请选择一个预定时间，等待管理员确定！', null=True, blank=True)
     created_datetime = models.DateTimeField( auto_now_add=True )
     has_approved = models.NullBooleanField(verbose_name='是否赞同', help_text=u'空着表示未处理', null=True, blank=True)

@@ -19,7 +19,7 @@ class Entrance(models.Model):
 
 class EntranceAppointment(models.Model):
     user = models.ForeignKey(CustomUser, verbose_name=u'申请人')
-    entrance = models.ManyToManyField( Entrance, verbose_name=u'门禁' )
+    entrance = models.ManyToManyField( Entrance, verbose_name=u'门禁', help_text=u'进出核磁中心请同时申请“值班室大门”，“值班室里门”；而其他申请请根据需求来。通过按住Ctrl来实现多选！')
     reason   = models.TextField( max_length=300, blank=True, null=True, verbose_name=u'申请理由', help_text=u'请给出申请理由，不然可能会导致申请不通过！' )
     created_datetime = models.DateTimeField( auto_now_add=True )
     expired_time = models.DateField( default=datetime.now()+timedelta(days=100*365), verbose_name=u'失效日期' )

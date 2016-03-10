@@ -111,7 +111,7 @@ class BlogPost(models.Model):
         super(BlogPost, self).save(*args, **kwargs)
 
     def display_html(self):
-        with open(self.html_file.path) as f:
+        with open(self.html_file.path.encode('utf-8')) as f:
             return f.read()
 
     def get_absolute_url(self):

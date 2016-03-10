@@ -55,7 +55,7 @@ class UserCreationForm(forms.ModelForm):
             identify = self.cleaned_data.get("identify")
             if identify.isdigit():
                 if len(identify) == 14: # 学生
-                    start_years = identify[3:7]
+                    start_years = int(identify[3:7])
                     if identify[7:9] == "01":
                         years = 4
                     elif identify[7:9] == "11":

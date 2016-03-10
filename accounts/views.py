@@ -59,8 +59,9 @@ def profile(request):
     samples = SampleAppointment.objects.all().order_by("-created_time")
 
     trains = InstrumentAppointment.objects.all().order_by("-created_datetime")
+    entrances = EntranceAppointment.objects.all().order_by("-created_datetime")
 
-    return render(request, "accounts/profile.html", {'samples': samples, "trains": trains, } )
+    return render(request, "accounts/profile.html", {'samples': samples, "trains": trains, "entrances": entrances} )
 
 @login_required
 def getPersonInChargeInfo( request, surname ):
@@ -109,7 +110,7 @@ def userinfo(request):
 @login_required
 def apermission(request, item=None):
     
-    eform = EntranceAppointmentForm(request.POST or None )
+    eform = EntranceAppointmentForm(request.POST or None, initial={'expired_time': request.user.expired_time} )
     iform = InstrumentAppointmentForm(request.POST or None )
 
     has_permission_entrance = Entrance.objects.filter( user=request.user )
