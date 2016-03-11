@@ -15,12 +15,13 @@
   {% for sample in samples %}
     <tr>
       <td><span class="label label-primary">A{{ forloop.counter }}<span></td>
-      <td>{{ sample.user.surname }} [{{sample.user.person_in_charge}}]</td>
+      <td>{{sample.user.surname}} [{{sample.user.person_in_charge}}]</td>
       <td>{{sample.instrument.short_name}}</td>
       <td>{{sample.start_time}}</td>
       <td>{{sample.times}}</td>
-      <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#Modal{{forloop.counter}}">详情...</button></td>
+      <td><button type="button" class="btn btn-primary {% if sample.has_approved != None %}disabled{%endif%}" data-toggle="modal" data-target="#Modal{{forloop.counter}}" >More...</button></td>
 
+{% if sample.has_approved == None %}
 <div class="modal fade" id="Modal{{forloop.counter}}" tabindex="-1" role="dialog">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -28,16 +29,53 @@
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <h2 class="modal-title text-center">送样详情</h2>
       </div>
-      <div class="modal-body">
-        <p>{{ sample.user.surname }}</p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
+      <form action="{% url 'schedule:dealSampleAppoint' %}" method="post" class="form-horizontal">
+        {% csrf_token %}
+        <div class="modal-body">
+          <p>{{ sample.user.surname }}[{{sample.user.person_in_charge}}]申请在{{sample.start_time}}{{sample.instrument}}使用<strong>{{sample.times}}</strong>小时。具体需要测试:</p>
+          <p>测量类型：{{sample.measure_type|default_if_none:'无提供'}}</p>
+          {% if sample.sample %}
+            <p>样品名称为{{sample.sample.name|default_if_none:'无样品名称'}},</p>
+            <p>浓度为{{sample.sample.concentration|default_if_none:'无提供浓度'}}mM,</p>
+            <p>分子量为{{sample.sample.molecular_weight|default_if_none:'无提供'}},</p>
+            <p>其他说明{{sample.sample.others}}.{%else%}没有样品说明</p>
+          {%endif%}
+            <input id="sample" name="sample" value={{sample.id}} hidden>
+            <div class="from-group row">
+              <label for="inputStartTime" class="col-sm-4 control-label">开始时间:</label>
+              <div class="col-sm-8">
+                <input class="form-control" id="start_time" name="start_time" value='{{sample.start_time|date:"Y-m-d H:i:s"}}'>
+              </div>
+            </div>
+
+            <div class="from-group row">
+              <label class="col-sm-4 control-label">用时/小时:</label>
+              <div class="col-sm-8">
+                <input class="form-control" id="times" name="times" value={{sample.times}}>
+              </div>
+            </div>
+            <div class="from-group row">
+              <label class="col-sm-4 control-label">回馈:</label>
+              <div class="col-sm-8">
+                <textarea class="form-control" id="feedback" name="feedback" rows="2">通过</textarea>
+              </div>
+            </div>
+            <div class="from-group row">
+              <label class="col-sm-4 control-label">Yes/On:</label>
+              <div class="switch col-sm-8" data-on="success" data-off="danger">
+                  <input type="checkbox" id="check" name="check" checked />
+              </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary">Save changes</button>
+        </div>
+      </form>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+{%endif%}
 
     </tr>
   {% endfor %}
@@ -50,6 +88,7 @@
       <th>申请者</th>
       <th>仪器</th>
       <th>培训时间</th>
+      <th>培训用时/小时</th>
       <th>赞同？</th>
     </tr>
   </thead>
@@ -60,8 +99,11 @@
       <td>{{ train.user.surname }} [{{train.user.person_in_charge}}]</td>
       <td>{% for inst in train.instrument.all %}{{inst.short_name}}{% if forloop.last %}{%else%},{%endif%}{%endfor%}</td>
       <td>{{ train.target_datetime }}</td>
-      <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal{{forloop.counter}}">Yes/No</button></td>
+      <td>{{ train.times }}</td>
+      <td><button type="button" class="btn btn-primary {% if train.has_approved != None %}disabled{%endif%}" data-toggle="modal" data-target="#myModal{{forloop.counter}}" >Yes/No</button></td>
     </tr>
+
+{% if train.has_approved == None %}
 <div class="modal fade" id="myModal{{forloop.counter}}" tabindex="-1" role="dialog">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -70,16 +112,46 @@
         <h2 class="modal-title">仪器培训申请</h2>
       </div>
       <div class="modal-body">
+      <form action="{% url 'schedule:dealInstrumentAppoint' %}" method="post">
+      {% csrf_token %}
         <p>{{ train.user.surname }} 申请{% for inst in train.instrument.all %}{{inst.short_name}}{% if forloop.last %}{%else%},{%endif%}{%endfor%}培训，用户预计在{{ train.target_datetime }}进行培训！
         是否给予支持？</p>
-      </div>
+        <input id="train" name="train" value={{train.id}} hidden>
+        <div class="from-group row">
+          <label for="inputStartTime" class="col-sm-4 control-label">开始时间:</label>
+          <div class="col-sm-8">
+            <input class="form-control" id="start_time" name="start_time" value='{{train.target_datetime|date:"Y-m-d H:i:s"}}'>
+          </div>
+        </div>
+
+        <div class="from-group row">
+          <label class="col-sm-4 control-label">用时/小时:</label>
+          <div class="col-sm-8">
+            <input class="form-control" id="times" name="times" value={{train.times}}>
+          </div>
+        </div>
+        <div class="from-group row">
+          <label class="col-sm-4 control-label">回馈:</label>
+          <div class="col-sm-8">
+            <textarea class="form-control" id="feedback" name="feedback" rows="2">通过</textarea>
+          </div>
+        </div>
+        <div class="from-group row">
+          <label class="col-sm-4 control-label">Yes/On:</label>
+          <div class="switch col-sm-8" data-on="success" data-off="danger">
+              <input type="checkbox" id="check" name="check" checked />
+          </div>
+        </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+        <button type="submit" class="btn btn-primary">Save changes</button>
       </div>
+      </form>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+{% endif %}
+
   {% endfor %}
   </tbody>
 </table>
@@ -95,29 +167,42 @@
   <tbody>
   {% for entrance in entrances %}
     <tr>
-      <td><span class="label label-danger">B{{ forloop.counter }}<span></td>
+      <td><span class="label label-success">C{{ forloop.counter }}<span></td>
       <td>{{ entrance.user.surname }} [{{entrance.user.person_in_charge}}]</td>
       <td>{% for inst in entrance.entrance.all %}{{inst}}{% if forloop.last %}{%else%},{%endif%}{%endfor%}</td>
-      <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal{{forloop.counter}}">Yes/No</button></td>
+      <td><button type="button" class="btn btn-primary {% if entrance.has_approved != None %}disabled{%endif%}" data-toggle="modal" data-target="#eModal{{forloop.counter}}" >Yes/No</button></td>
     </tr>
-<div class="modal fade" id="myModal{{forloop.counter}}" tabindex="-1" role="dialog">
+
+{% if entrance.has_approved == None %}
+<div class="modal fade" id="eModal{{forloop.counter}}" tabindex="-1" role="dialog">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h2 class="modal-title">仪器培训申请</h2>
+        <h2 class="modal-title">门禁申请</h2>
       </div>
-      <div class="modal-body">
-        <p>{{ entrance.user.surname }} 申请{% for inst in entrance.entrance.all %}{{inst}}{% if forloop.last %}{%else%},{%endif%}{%endfor%}门禁！
-        是否给予支持？</p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
+      <form action="{% url 'eguard:dealAppoint' %}" method="post">
+      {% csrf_token %}
+        <div class="modal-body">
+          <p>{{ entrance.user.surname }} 申请{% for inst in entrance.entrance.all %}{{inst}}{% if forloop.last %}{%else%},{%endif%}{%endfor%}门禁！
+          是否给予支持？</p>
+
+            <input id="entrance" name="entrance" value={{entrance.id}} hidden>
+            <textarea class="form-control" id="feedback" name="feedback" rows="2">通过</textarea>
+            <div class="switch" data-on="success" data-off="danger">
+                <input type="checkbox" id="check" name="check" checked />
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary">Save changes</button>
+        </div>
+      </form>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+{% endif %}
+
   {% endfor %}
   </tbody>
 </table>

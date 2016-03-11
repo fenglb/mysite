@@ -100,7 +100,7 @@ class SampleAppointmentForm( forms.ModelForm ):
 class InstrumentAppointmentForm( forms.ModelForm ):
     class Meta:
         model = InstrumentAppointment
-        fields = ('user', 'instrument', 'target_datetime')
+        fields = ('user', 'instrument', 'target_datetime', 'times')
 
 class InstrumentAppointmentAdmin(admin.ModelAdmin):
     list_display = ("__str__", "target_datetime", "has_approved")

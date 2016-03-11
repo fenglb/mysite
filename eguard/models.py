@@ -1,5 +1,6 @@
 #-*- coding=utf-8-*-
 from django.db import models
+from eguard.eguardcrawler import EntranceGuard
 from datetime import datetime, timedelta
 from accounts.models import CustomUser
 
@@ -25,6 +26,15 @@ class EntranceAppointment(models.Model):
     expired_time = models.DateField( default=datetime.now()+timedelta(days=100*365), verbose_name=u'失效日期' )
     has_approved = models.NullBooleanField(verbose_name='是否赞同', help_text=u'空着表示未处理', null=True, blank=True)
     feedback = models.TextField(max_length=300, verbose_name=u'反馈信息', null=True, blank=True)
+
+    def save(self, *args, **kwargs):
+        if self.has_approved:
+            eguard = EntranceGuard()
+            for ent in self.entrance.all():
+                eguard.doEntranceUserCreated( self.user.identify, ent.code )
+                ent.user.add( self.user )
+                ent.save()
+        super(EntranceAppointment, self).save(*args, **kwargs)
 
     def __str__(self):
         all_entrances = u",".join( [door.name for door in self.entrance.all()] )

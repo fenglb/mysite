@@ -45,20 +45,46 @@ class SampleAppointment( models.Model ):
         return self.start_time + timedelta(hours=self.times)
     stop_time.short_description = u"结束时间"
 
+    def save(self, *args, **kwargs):
+        if self.has_approved:
+            new_experiment = Experiment(user=self.user)
+            new_experiment.measure_type = u"送样测试:" + self.measure_type
+            new_experiment.start_time = self.start_time
+            new_experiment.times = self.times
+            new_experiment.instrument = self.instrument
+            new_experiment.save()
+
+        super(SampleAppointment, self).save(*args, **kwargs)
+
     def __str__(self):
-        return "{0}[{1}]在“{2}”上申请从{3}到{4}的送样实验".format(self.user, self.user.person_in_charge, self.instrument.short_name, self.start_time.strftime("%m-%d %H:%M"), self.stop_time().strftime("%m-%d %H:%M"))
+        return "{0}[{1}]在“{2}”上申请从{3}到{4}的送样实验".format(self.user, self.user.person_in_charge, self.instrument.short_name, cnfromutc(self.start_time).strftime("%m-%d %H:%M"), cnfromutc(self.stop_time()).strftime("%m-%d %H:%M"))
 
 class InstrumentAppointment(models.Model):
     user = models.ForeignKey(CustomUser, verbose_name=u'申请人')
     instrument = models.ManyToManyField( Instrument, verbose_name=u'仪器', help_text=u'通过按住Ctrl来实现多选！' )
     target_datetime = models.DateTimeField(verbose_name=u'预定日期', help_text=u'请选择一个预定时间，等待管理员确定！', null=True, blank=True)
+    times   = models.FloatField(verbose_name=u'用时/小时', help_text=u'预估培训使用时间,如果不需要培训把这个数值设置为0.', default=0.5)
     created_datetime = models.DateTimeField( auto_now_add=True )
     has_approved = models.NullBooleanField(verbose_name='是否赞同', help_text=u'空着表示未处理', null=True, blank=True)
     feedback = models.TextField(max_length=300, verbose_name=u'反馈信息', null=True, blank=True)
-        
+
+    def save(self, *args, **kwargs):
+        if self.has_approved:
+            for inst in self.instrument.all():
+                inst.user.add( self.user )
+                inst.save()
+                if self.times < 0.1: continue
+                new_experiment = Experiment(user=self.user)
+                new_experiment.measure_type = u"仪器培训"
+                new_experiment.start_time = self.target_datetime
+                new_experiment.times = self.times
+                new_experiment.instrument = inst
+                new_experiment.save()
+        super(InstrumentAppointment, self).save(*args, **kwargs)
+
     def __str__(self):
         all_instrument = u",".join( [inst.name for inst in self.instrument.all()] )
-        target_datetime = self.target_datetime.strftime("%Y-%m-%d %H:%m")
+        target_datetime = cnfromutc(self.target_datetime).strftime("%Y-%m-%d %H:%m")
         strforback = u'[{0}]申请[{1}]预计在{2}培训'.format(self.user.surname, all_instrument, target_datetime )
         return strforback.encode('utf-8')
 
@@ -82,4 +108,4 @@ class Experiment(models.Model):
     stop_time.short_description = u"结束时间"
 
     def __str__(self):
-        return "{0}[{1}]在“{2}”上预约从{3}到{4}的实验".format(self.user, self.user.person_in_charge, self.instrument.short_name, self.start_time.strftime("%m-%d %H:%M"), self.stop_time().strftime("%m-%d %H:%M"))
+        return "{0}[{1}]在“{2}”上预约从{3}到{4}的实验".format(self.user, self.user.person_in_charge, self.instrument.short_name, cnfromutc(self.start_time).strftime("%m-%d %H:%M"), cnfromutc(self.stop_time()).strftime("%m-%d %H:%M"))

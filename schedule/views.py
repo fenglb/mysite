@@ -1,20 +1,42 @@
 #-*- coding: utf-8 -*-
-from django.shortcuts import render
+from django.shortcuts import render, redirect, get_object_or_404
+from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Group
 from .admin import ExperimentCreationForm, SampleAppointmentForm, SampleForm
-from .models import Experiment, Instrument
+from .models import Experiment, Instrument, InstrumentAppointment, SampleAppointment
 from accounts.models import PersonInCharge
 from .tz import cnfromutc
 
 from django.conf import settings
 
 import os, pytz, json
-from datetime import timedelta
+from datetime import timedelta, datetime
 from .colorlist import textcolor, bordercolor, colorlist
 # Create your views here.
 
+@login_required
+def dealSampleAppoint(request):
+    if request.method == 'POST':
+        appointment = get_object_or_404(SampleAppointment, id=request.POST['sample'])
+        appointment.start_time = datetime.strptime(request.POST['start_time'], "%Y-%m-%d %H:%M:%S" )
+        appointment.times = float(request.POST['times'])
+        appointment.feedback = request.POST['feedback']
+        appointment.has_approved = request.POST['check']
+        appointment.save()
+    return redirect( reverse("accounts:profile") )
+
+@login_required
+def dealInstrumentAppoint(request):
+    if request.method == 'POST':
+        appointment = get_object_or_404(InstrumentAppointment, id=request.POST['train'])
+        appointment.feedback = request.POST['feedback']
+        appointment.has_approved = request.POST['check']
+        appointment.target_datetime = datetime.strptime(request.POST['start_time'], "%Y-%m-%d %H:%M:%S")
+        appointment.times = float(request.POST['times'])
+        appointment.save()
+    return redirect( reverse("accounts:profile") )
 
 @login_required
 def sample(request):
