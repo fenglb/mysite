@@ -57,7 +57,7 @@ class UserCreationForm(forms.ModelForm):
                 if len(identify) == 14: # 学生
                     start_years = int(identify[3:7])
                     if identify[7:9] == "01":
-                        years = 4
+                        years = 5
                     elif identify[7:9] == "11":
                         years = 3
                     elif identify[7:9] == "22":
