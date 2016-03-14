@@ -1,0 +1,87 @@
+{% extends "bootstrap_base.html" %}
+{% block title %} 用户登入 {% endblock %}
+{% block css_js %}
+<style>
+  .login {
+    margin-top: 100px;
+    margin-bottom: 140px;
+  }
+</style>
+{% endblock %}
+{% block content %}
+<div class="container login">
+  <div class="row">
+    <div style="border-bottom:1px solid #eee; margin-bottom: 10px;" class="col-sm-offset-2 col-sm-5 text-center">
+      <h3><strong>用户登录</strong></h3>
+    </div>
+  </div>
+    {% if form.errors %}
+        <div class="row">
+          <div class="col-sm-offset-4 col-sm-5">
+            <p>您的账号和密码不匹配。请重新输入！谢谢！</p>
+          </div>
+        </div>
+    {% endif %}
+    {% if next %}
+        {% if user.is_authenticated %}
+        <div class="row">
+            <div class="col-sm-offset-4 col-sm-5">
+               <p>您的账号没有权限访问这里。如果要继续，请选择一个有权限的账号<a href="{% url 'accounts:login' %}">登入</a>！</p>
+            </div>
+        </div>
+        {% else %}
+        <div class="row">
+            <div class="col-sm-offset-4 col-sm-5">
+                <p>请<a href="{% url 'accounts:login' %}">登入</a>！</p>
+            </div>
+        </div>
+        {% endif %}
+    {% endif %}
+
+  <form method="post" action="{% url 'accounts:login' %}">
+    {% csrf_token %}
+    <div class="row">
+        <div class="form-group">
+          <div class="col-sm-offset-2 col-sm-2">
+	          <label class="input-lg">{{ form.username.label_tag }}</label>
+          </div>
+          <div class="col-sm-3">
+	          {{ form.username }}
+          </div>
+          <div class="col-sm-5">
+              <span class="text-danger" style="font-size:12px">
+              <p>如果您的校园卡能够打开核磁中心外门，您就已经拥有账号！</p>
+              <p>账号为您的教工号/学号，密码为教工号/学号后四位！</p>
+              </span>
+          </div>
+        </div>
+    </div>
+  <div class="row">
+        <div class="form-group">
+          <div class="col-sm-offset-2 col-sm-2">
+	          <label class="input-lg">密码:</label>
+          </div>
+          <div class="col-sm-3">
+	          {{ form.password}}
+          </div>
+        </div>
+    </div>
+
+  <div class="row" style='padding-top: 20px'>
+    <div class="col-sm-offset-2 col-sm-2 text-right">
+       <p>新用户，请<a href="/accounts/register/">注册</a>!</p>
+       <p><a href="{% url 'password_reset:password_reset_recover' %}">忘记密码?</a></p>
+    </div>
+  <div class=" col-sm-3">
+    <button class="btn btn-primary btn-lg btn-block" type="submit" value="login">登入</button>
+    <input type="hidden" name="next" value="/"/>
+  </div>
+  </div>
+  </form>
+</div>
+<script>
+  $("input").toggleClass('form-control input-lg');
+  $("input#id_username").focus();
+</script>
+
+{% endblock %}

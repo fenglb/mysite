@@ -1,0 +1,330 @@
+{% extends "bootstrap_base.html" %}
+{% block title %} 仪器预约 {% endblock %}
+{% block css_js %}
+{% load staticfiles %}
+<script src="{% static 'js/moment.min.js' %}"></script>
+<script src="{% static 'js/fullcalendar.js' %}"></script>
+<script src="{% static 'js/jquery.simple-dtpicker.js' %}"></script>
+<link href="{% static 'css/fullcalendar.css' %}" rel="stylesheet" />
+<link href="{% static 'css/jquery.simple-dtpicker.css' %}" rel="stylesheet" />
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('#calendar').fullCalendar({
+		    header: {
+				left: 'prev,next today',
+				center: 'title',
+				right: 'month, customWeek, basicWeek'
+			    },
+		    defaultDate: '{% now "Y-m-d" %}',
+		    events: { url: "{% url 'schedule:getEvent' instrument|default_if_none:'all' %}", },
+		    timeFormat: 'H:mm',
+		    eventLimit: true,
+		    displayEventEnd: true,
+		    views: {
+			  customWeek: { 
+			  type: 'agenda',
+			  buttonText: 'agenda',
+			  duration: { week:  1, },
+			  slotDuration: '00:15:00',
+			  }
+		    },
+        eventClick: function( event, jsEvent, view) {
+          $(this).popover({title: event, placement: 'bottom'});
+        },
+        {% if is_perm %}
+          selectable: true,
+          selectHelper: true,
+          select: function(start, end) {
+            var span_time = (end-start)/(3600*1000);
+            var start_str = start.format("YYYY-MM-DD HH:mm");
+            var end_str = end.format("YYYY-MM-DD HH:mm");
+            var start_time = moment( start_str );
+            var end_time = moment( end_str );
+            var now = moment();
+
+            var week = now.week();
+            var startWeek = start_time.week();
+
+            if ( startWeek - week > 1 ) return;
+
+            if ( end_time.isBefore(now) ) {
+              $("#warning-for-add-exp").modal('show');
+              return;
+            }
+            if ( start_time.isBefore( moment() ) ) {
+              var start_add30m = moment().startOf('hours');
+              start_add30m.add(30, 'minutes');
+
+              if ( start_add30m.isAfter( moment() ) ) {
+                $('#id_start_time').val( start_add30m.format("YYYY-MM-DD HH:mm") );
+                $('#id_times').val( (end_time - start_add30m)/(3600*1000) );
+              }
+              else {
+                var start_add1h = moment().startOf('hours')
+                start_add1h.add(1, 'hours');
+                $('#id_start_time').val( start_add1h.format("YYYY-MM-DD HH:mm") );
+                $('#id_times').val( (end_time - start_add1h)/(3600*1000) );
+              }
+
+            }
+            else{
+              $('#id_start_time').val( start_str );
+              $('#id_times').val( span_time );
+            }
+
+            $('#id_end_time').val( end_str );
+            $('#create_experiment').modal( 'show' );
+          },
+        {% endif %}
+		});
+	});
+</script>
+<style>
+  h4 {
+    font-family: "AR PL UKai CN", "KaiTi", "STKaiti", monospace;
+    font-weight: bold;
+  }
+  .schedule {
+    border-bottom: 1px solid #555;
+    padding-bottom: 20px;
+  }
+  .calendar {
+    margin: 10px 40px 0px 40px;
+  }
+  #calendar {
+    font-size: 14px;
+    padding-top: 20px;
+  }
+ #calendar .fc-content {
+   font-size: 10px;
+   }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fuild schedule">
+  <div class="container">
+    {% if user.is_anonymous %}
+      您好！您还没有<a href="{% url 'accounts:login' %}">登录</a>，如果要预约实验，请参考<a href="{% url 'homepages:appoint' %}">仪器预约</a>!
+    {% else %}
+      {% if is_perm %}
+        您可以预约实验，并且自主上机操作仪器“{{ instrument }}”！请在预约的时间做实验，遵守实验规则，有任何情况请联系管理员！
+        
+      {% else %}
+        {% if instrument == None %}
+          以下页面仅可以查看仪器的预约使用情况，如果你要预约实验，请登入具体仪器的<a href="{% url 'homepages:appoint' %}">预约页面</a>。
+        {% else %}
+          您不具有自主上机操作权限，没有办法自主预约实验！请选择<a href="{% url 'schedule:sample' %}">送样申请</a>或者提交<a href="{% url 'accounts:apermission' %}">自主上机操作申请</a>！
+        {% endif %}
+      {% endif %}
+    {% endif %}
+  </div>
+</div>
+<div class="container-fuild calendar">
+  <div class="row">
+    <div class="col-sm-3 col-xs-12">
+      <h4>预约日历操作说明</h4>
+      <table class="table">
+        <tbody>
+          <tr>
+            <td>month</td>
+            <td><strong>整天预约</strong>或者添加后修改预约时间</td>
+          </tr>
+          <tr>
+            <td>agenda</td>
+            <td><strong>15min时间段预约</strong>，按住鼠标右键拉动您要预约的时间段。</td>
+          </tr>
+          <tr>
+            <td>week</td>
+            <td>查看每天的预约事件</td>
+          </tr>
+        </tbody>
+      </table>
+      <h5 class="text-primary"><strong>示例</strong></h5>
+      <p>比如您要预约今天下午2:00到3:00的实验</p>
+      <ol>
+        <li><p>你可以在“month”内点击{{ now }},然后在弹出窗口内修改时间</p>
+          <img class="img-rounded img-responsive" src="{% static 'images/aexample1.png' %}" max-width="300px" />
+        </li>
+        <li><p>或者点击“agenda”,用鼠标右键按住您要选择的时间段, 然后提交弹出的窗口</p>
+          <img class="img-rounded img-responsive" src="{% static 'images/aexample2.gif' %}" max-width="300px" />
+        </li>
+      </ol>
+      
+    </div>
+    <div class="col-sm-9 col-xs-12">
+      <h4>“{{ instrument|default_if_none:'所有仪器' }}”的预约情况</h4>
+      <div id='calendar'></div>
+    </div>
+  </div>
+</div>
+
+{% if is_perm %}
+<div class="modal fade" id="warning-for-add-exp" tabindex="-1" role="dialog" 
+   aria-labelledby="modalLabel" aria-hidden="true">
+   <div class="modal-dialog">
+      <div class="modal-content">
+         <div class="modal-header">
+            <button type="button" class="close" 
+               data-dismiss="modal" aria-hidden="true">
+                  &times;
+            </button>
+            <h3 class="modal-title text-center" id="modalLabel">
+              温馨提醒!
+            </h3>
+         </div>
+         <div class="modal-body">
+            <code>时间过去了，它就这么匆匆过去了。--unknown</code>
+            <div class="row" style="padding-top:10px">
+              <div class="text-danger text-center">您预约的时间已经无法追回了!</div>
+            </div>
+        </div><!-- body-->
+         <div class="modal-footer">
+            <button type="button" class="btn btn-primary" 
+               data-dismiss="modal">关闭
+            </button>
+         </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog-->
+</div><!-- /.modal -->
+
+
+
+<div class="modal fade" id="create_experiment" tabindex="-1" role="dialog" 
+   aria-labelledby="myModalLabel" aria-hidden="true">
+   <div class="modal-dialog">
+      <div class="modal-content">
+         <div class="modal-header">
+            <button type="button" class="close" 
+               data-dismiss="modal" aria-hidden="true">
+                  &times;
+            </button>
+            <h3 class="modal-title text-center" id="myModalLabel">
+              预约“{{ instrument|default_if_none:'' }}”实验
+            </h3>
+         </div>
+         <div class="modal-body">
+          <form action="{% url 'schedule:view' instrument %}" method="post">
+            {% csrf_token %}
+              <div class="row">
+                <div class="form-group">
+                  <div class="col-sm-4">
+                    <label class="input-lg">{{ form.start_time.label_tag }}</label>
+                  </div>
+                  <div class="col-sm-8">
+                    {{ form.start_time }}
+                    {{ form.user }}
+                    {{ form.instrument }}
+                    {% if form.start_time.errors %}
+                      <span class="text-danger">
+                        {{ form.start_time.errors }}
+                      </span>
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="form-group">
+                  <div class="col-sm-4">
+                    <label class="input-lg">结束时间:</label>
+                  </div>
+                  <div class="col-sm-8">
+                    <input id="id_end_time" type="text" />
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="form-group">
+                  <div class="col-sm-4">
+                    <label class="input-lg">{{ form.times.label_tag }}</label>
+                  </div>
+                  <div class="col-sm-8">
+                    {{ form.times }}
+                    {% if form.times.errors %}
+                      <span class="text-danger">
+                        {{ form.times.errors }}
+                      </span>
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="form-group">
+                  <div class="col-sm-4">
+                    <label class="input-lg">{{ form.measure_type.label_tag }}</label>
+                  </div>
+                  <div class="col-sm-8">
+                    {{ form.measure_type }}
+                    {% if form.measure_type.errors %}
+                      <span class="text-danger">
+                        {{ form.measure_type.errors }}
+                      </span>
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+         </div>
+
+         <div class="modal-footer">
+            <button type="button" class="btn btn-default" 
+               data-dismiss="modal">关闭
+            </button>
+            <button type="submit" class="btn btn-primary">
+               提交预约
+            </button>
+         </div>
+          </form>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog-->
+</div><!-- /.modal -->
+{% endif %}
+<script>
+  {% if form.errors %}
+    $(document).ready( function() {
+      var start0 = moment($("input#id_start_time").val());
+      var end = start0.add($("input#id_times").val(), 'h');
+      var end0 = end.format("YYYY-MM-DD HH:mm");
+      $("input#id_end_time").val( end0 );
+      $('#create_experiment').modal( 'show' );
+    });
+  {% endif %}
+  {% if is_perm %}
+  $("input#id_start_time").appendDtpicker({'futureOnly': true });
+  $("input#id_end_time").appendDtpicker({'futureOnly': true});
+  $("input#id_start_time").attr('readonly', 'readonly');
+  $("input#id_end_time").attr('readonly', 'readonly');
+
+  $("input").toggleClass('form-control input-lg');
+  $("textarea").toggleClass('form-control input-lg');
+  $("select").toggleClass('form-control input-lg');
+  $("select#id_user").hide();
+  $("select#id_instrument").hide();
+
+  $("input#id_times").change( function() {
+      var start0 = moment($("input#id_start_time").val());
+      var end = start0.add($(this).val(), 'h');
+      var end0 = end.format("YYYY-MM-DD HH:mm");
+      $("input#id_end_time").val( end0 );
+    });
+  $("input#id_start_time").change( function() {
+      var start0 = moment($(this).val());
+      var times  = $("input#id_times").val( );
+      var end = start0.add(times, 'h');
+      var end0 = end.format("YYYY-MM-DD HH:mm");
+      $("input#id_end_time").val( end0 );
+    });
+  $("input#id_end_time").change( function() {
+      var start0 = moment($("input#id_start_time").val());
+      var end0 = moment($(this).val());
+      var times = 1.0*(end0-start0)/(3600*1000);
+      $("input#id_times").val( times );
+    });
+  {% endif %}
+</script>
+
+
+{% endblock %}

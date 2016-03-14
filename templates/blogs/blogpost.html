@@ -1,0 +1,27 @@
+{% extends 'blogs/blog_base.html' %}
+{% load static %}
+
+{% block head %}
+  <title>{{ blogpost.title }} - About NMR's blog</title>
+  <meta name="description" content={{ blogpost.description }}>
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {inlineMath: [["$","$"], ["\\(", "\\)"]]}
+    });
+  </script>
+  <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML-full"></script>
+{% endblock head %}
+
+{% block pagecss %}
+{% endblock pagecss %}
+
+{% block content %}
+{% autoescape off %}
+  <article>
+      <h1 class="title"><b>{{ blogpost.title }}</b></h1>
+        <div class="label">{{ blogpost.pub_date|date:"jS F Y l" }} by {% for author in blogpost.author.all %}{{author.surname}}{% if forloop.last %}{%else%},{%endif%} {% endfor %}</div>
+      {{ blogpost.display_html }}
+  </article>
+{% endautoescape %}
+
+{% endblock content %}

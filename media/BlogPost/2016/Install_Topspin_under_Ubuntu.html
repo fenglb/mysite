@@ -1,0 +1,22 @@
+<p>I have successfully installed the topspin 3.2pl2 in Opensuse, and work well under the client license. But my favorite Linux-OS is ubuntu dis, the lastest ubuntu LTS is 14.04 with the kernal-3.13.40. So I try to install topspin in Ubuntu 14.04, first I can install the whole sofeware in my system, but when I type the <code>topspin</code> in termina,</p>
+
+<pre><code>% topspin
+TopSpin 3.2 pl 3 - Copyright (C) 2013 Bruker BioSpin GmbH
+Installation directory: "/opt/topspin3.2"
+Waiting for FLEXlm license
+valid until 2029-04-24
+mod cprserver: process seems to be dead
+
+premature cprserver termination
+Program is exiting ...
+
+Hit ENTER to continue ...
+
+</code></pre>
+<p>So I think the Bruker will release new topspin, I download the lastest release 3.2pl6, and install. Now the bug is:</p>
+<p>0007099: system call msgrcv() from 32-bit application shows error:  msgrcv: No message of desired type</p>
+<p>I google and yahoo the simaly problem, don't found how to fix. the bruker gay said this problem due to the kernal, because it will run well under kernal-3.10. I also send email to ask the bruker support if they have the solution. unfortunately， they said they have nothing to do, only report the bug to Linux Kernal developer.</p>
+<p>The Good Think is Ubuntu 14.11 coming, and update the kernal to 3.16. I update the ubuntu release to 14.11, try.</p>
+<p>Yes, this kernal fix the two problems.:), thanks Linux kernal developer, now i can using topspin under ubuntu.</p>
+<p>Att: If you using the ubuntu 64bit, you have to install 32bit depanded package, when you install or run "topspin", it cannot found the "libxxxx" file or dir., now you can install libxxx:i386.</p>
+<p>Att: If you don't have the license of topspin, you can request the demo license from bruker site (maybe you first register), it can using 3 monthes.</p>

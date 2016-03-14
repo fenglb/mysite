@@ -1,0 +1,215 @@
+{% extends "bootstrap_base.html" %}
+{% block title %} 个人资料 {% endblock %}
+{% block css_js %}
+{% load staticfiles %}
+<style>
+  h3 {
+    font-family: "AR PL UKai CN", "KaiTi", "STKaiti", monospace;
+    font-weight: bold;
+  }
+</style>
+{% endblock %}
+{% block content %}
+<div class="container register">
+
+  <div class="row">
+    <div class="col-sm-2" style="padding-top:16px">
+      <p><img class="img-rounded" src="{{ user.profile_image.url }}" alt="{{ user.surname }}的照片"/></p>
+      <p> {{ user.surname }}[{{ user.username }}] {{user.get_position_name}}</p>
+      {% if user.position == 'visit' %}
+        <p>编号：{{ user.identify }}</p>
+      {% elif user.position == 'student' %}
+        <p>学号：{{ user.identify }}</p>
+      {% else %}
+        <p>教工号：{{ user.identify }}</p>
+      {% endif %}
+    </div>
+
+    <div class="col-sm-5">
+      <div class="row">
+      <h3 class="text-center">个人信息更新</h3>
+      </div>
+      <form action="{% url 'accounts:userinfo' %}" method="post">
+        {% csrf_token %}
+
+          <div class="row">
+            <div class="form-group">
+              <div class="col-sm-4">
+                <label class="input-lg">{{ userform.phone_number.label_tag }}</label>
+              </div>
+              <div class="col-sm-8">
+                   {{ userform.phone_number }}
+                  {% if userform.phone_number.errors %}
+                    <span class="text-danger">{{userform.phone_number.errors}}</span>
+                  {% endif %}
+              </div>
+            </div>
+          </div>
+
+         <div class="row">
+            <div class="form-group">
+              <div class="col-sm-4">
+                <label class="input-lg">{{ userform.email.label_tag }}</label>
+              </div>
+              <div class="col-sm-8">
+                   {{ userform.email }}
+                  {% if userform.email.errors %}
+                    <span class="text-danger">{{userform.email.errors}}</span>
+                  {% endif %}
+              </div>
+            </div>
+          </div>
+
+         <div class="row">
+            <div class="form-group">
+              <div class="col-sm-4">
+                <label class="input-lg">{{ userform.user_bio.label_tag }}</label>
+              </div>
+              <div class="col-sm-8">
+                   {{ userform.user_bio }}
+                  {% if userform.user_bio.errors %}
+                    <span class="text-danger">{{userform.user_bio.errors}}</span>
+                  {% endif %}
+              </div>
+            </div>
+          </div>
+
+        <div class="row">
+          <div class="col-sm-offset-4 col-sm-8" style="padding-right: 10px; padding-top: 10px">
+            <button type="submit" class="btn btn-primary btn-lg btn-block" value="update">更新</button>
+          </div>
+        </div>
+
+    </div>
+
+    <div class="col-sm-5">
+      <div class="row">
+      {% if user.position == 'visit' %}
+        <h3 class="text-center">公司信息更新</h3>
+      {% else %}
+        <h3 class="text-center">课题组信息更新</h3>
+      {% endif %}
+      </div>
+
+        <div class="row">
+          <div class="form-group">
+            <div class="col-sm-4">
+              <label class="input-lg">负责人:</label>
+            </div>
+            <div class="col-sm-8">
+                 <input id="id_surname0" name="surname0" value="{{ user.person_in_charge.surname0 }}" placeholder="课题组PI/公司领导/经费负责人">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="form-group">
+            <div class="col-sm-4">
+              <label class="input-lg"{{ piform.phone_number0.label_tag }}</label>
+            </div>
+            <div class="col-sm-8">
+                 {{ piform.phone_number0 }}
+                 {% if piform.phone_number0.errors %}
+                  <span class="text-danger">{{ piform.phone_number0.errors }}</span>
+                 {% endif %}
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="form-group">
+            <div class="col-sm-4">
+              <label class="input-lg"{{ piform.email0.label_tag }}</label>
+            </div>
+            <div class="col-sm-8">
+                 {{ piform.email0 }}
+                 {% if piform.email0.errors %}
+                  <span class="text-danger">{{ piform.email0.errors }}</span>
+                 {% endif %}
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="form-group">
+            <div class="col-sm-4">
+              <label class="input-lg"{{ piform.titles.label_tag }}</label>
+            </div>
+            <div class="col-sm-8">
+                 {{ piform.titles }}
+                 {% if piform.titles.errors %}
+                  <span class="text-danger">{{ piform.titles.errors }}</span>
+                 {% endif %}
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <h3 class="text-center">单位信息更新</h3>
+        </div>
+
+        <div class="row">
+          <div class="form-group">
+            <div class="col-sm-4">
+              <label class="input-lg"{{ orgform.name.label_tag }}</label>
+            </div>
+            <div class="col-sm-8">
+                 {{ orgform.name }}
+                 {% if orgform.name.errors %}
+                  <span class="text-danger">{{ orgform.name.errors }}</span>
+                 {% endif %}
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="form-group">
+            <div class="col-sm-4">
+              <label class="input-lg"{{ orgform.department.label_tag }}</label>
+            </div>
+            <div class="col-sm-8">
+                 {{ orgform.department }}
+                 {% if orgform.department.errors %}
+                  <span class="text-danger">{{ orgform.department.errors }}</span>
+                 {% endif %}
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="form-group">
+            <div class="col-sm-4">
+              <label class="input-lg"{{ orgform.address.label_tag }}</label>
+            </div>
+            <div class="col-sm-8">
+                 {{ orgform.address }}
+                 {% if orgform.address.errors %}
+                  <span class="text-danger">{{ orgform.address.errors }}</span>
+                 {% endif %}
+            </div>
+          </div>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>
+<script>
+  $("input").toggleClass('form-control input-lg');
+  $("textarea").toggleClass('form-control input-lg');
+  $("select").toggleClass('form-control input-lg');
+  $("#id_surname0").change(
+    function (element) {
+      $.getJSON('/accounts/getpi/'+$(this).val(), function(data){
+        document.getElementById("id_phone_number0").value = data.phone_number0;
+        document.getElementById("id_email0").value = data.email0;
+        document.getElementById("id_titles").value = data.titles;
+        document.getElementById("id_name").value = data.name;
+        document.getElementById("id_department").value = data.department;
+        document.getElementById("id_address").value = data.address;
+        });
+    }
+  );
+  $('#id_name').attr('placeholder', '厦门大学');
+  $('#id_department').attr('placeholder', '化学化工学院');
+  $('#id_address').attr('placeholder', '厦门市思明区思明南路220号');
+</script>
+{% endblock %}
+

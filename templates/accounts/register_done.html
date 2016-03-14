@@ -1,0 +1,22 @@
+{% extends "bootstrap_base.html" %}
+{% block title %} 用户注册 {% endblock %}
+{% block css_js %}
+<style>
+  .register_done {
+    margin-top: 120px;
+    margin-bottom: 300px;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container register_done">
+  <div class="row">
+    <div class="col-sm-5 text-center">
+      <h3><strong>用户注册成功!</strong></h3>
+      <p>请登录您用于注册的邮箱{{ email }}进行激活！</p>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}

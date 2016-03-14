@@ -1,0 +1,76 @@
+{% extends "bootstrap_base.html" %}
+{% block title %}仪器预约{% endblock %}
+{% block appoint %} active {% endblock %}
+{% load staticfiles %}
+{% block css_js %}
+<style>
+  .row {
+    padding-top: 10px;
+  }
+  h4 {
+    font-family: "AR PL UKai CN", "KaiTi", "STKaiti", monospace;
+  }
+</style>
+{% endblock %}
+{% block content %} 
+<div class="container">
+
+<div class="row">
+  亲爱的{% if user.is_authenticated %}{{user.surname}}{% else %}用户{%endif%}, 仪器预约有两种方式：1）<strong>自主预约/上机操作</strong>；2）<strong><a href="{% url 'schedule:sample' %}">送样预约</a></strong>。
+</div>
+<div class="row">
+<table class="table table-bordered table-striped">
+<thead>
+<h4>预约仪器的流程步骤</h4>
+</thead>
+<tbody>
+  <th>
+    <td>预约类型</td>
+    <td>步骤1</td>
+    <td>步骤2</td>
+    <td>步骤3</td>
+    <td>步骤4</td>
+    <td>步骤5</td>
+  </th>
+  <tr>
+    <td>1.</td>
+    <td>自主预约/上机操作</td>
+    {% if user.is_anonymous %}
+      <td>注册用户[<small><a href="{% url 'accounts:register' %}">注册</a>或者<a href="{% url 'accounts:login' %}">登录</a></small>]</td>
+    {% else %}
+      <td>账号已注册</td>
+    {% endif %}
+    <td>申请仪器自主上机<a href="{% url 'accounts:apermission' %}">操作权限</a></td>
+    <td>上机培训</td>
+    <td>培训通过自主上机预约/操作</td>
+    <td>在预约的时间自主操作</td>
+  </tr>
+
+  <tr>
+    <td>2.</td>
+    <td><a href="{% url 'schedule:sample' %}">送样预约</a></td>
+    {% if user.is_anonymous %}
+      <td>注册用户[<small><a href="{% url 'accounts:register' %}">注册</a>或者<a href="{% url 'accounts:login' %}">登录</a></small>]</td>
+    {% else %}
+      <td>账号已注册</td>
+    {% endif %}
+    <td>查看仪器预约情况申请单</td>
+    <td>提交送样<a href="{% url 'accounts:apermission' %}">申请单</a></td>
+    <td>等待管理员确认</a></td>
+    <td>在确认的时间来送样和测试</a></td>
+  </tr>
+</tbody>
+</table>
+</div>
+
+<div class="row">
+  <h4>查看仪器预约情况或者预约实验</h4>
+    {% for instrument in instruments %}
+      <div class="col-sm-3 col-xs-4">
+        <a href="{% url 'schedule:view' instrument.short_name %}"><img class="img-rounded img-responsive" src="{{ instrument.image.url }}" /></a>
+      </div>
+    {% endfor %}
+</div>
+
+</div><!--container-->
+{% endblock %}

@@ -1,0 +1,33 @@
+{% extends 'bootstrap_base.html' %}
+{% load static %}
+
+{% block head %}
+  <title>{{ post.title }}</title>
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {inlineMath: [["$","$"], ["\\(", "\\)"]]}
+    });
+  </script>
+  <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML-full"></script>
+{% endblock head %}
+
+{% block pagecss %}
+{% endblock pagecss %}
+
+{% block content %}
+<div class="container-fuild homepost">
+<div class="container">
+  {% autoescape off %}
+    <article>
+      <div class="head text-center">
+        <h1 class="title"><b>{{ post.title }}</b></h1>
+          <div style="font-size: 18px;padding-left: 40px;"> post in <span class="label label-primary">{{ post.pub_date|date:"jS F Y l" }}</span> by {% for author in post.author.all %}{{author.surname}}{% if forloop.last %}{%else%},{%endif%} {% endfor %}</div>
+      </div>
+      <div class="body" style="padding-top: 20px;">
+        {{ post.display_html }}
+      </div>
+    </article>
+  {% endautoescape %}
+</div>
+</div>
+{% endblock content %}

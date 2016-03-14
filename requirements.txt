@@ -1,0 +1,9 @@
+django
+django-taggit
+unidecode
+bs4
+pytz
+mathjax
+mistune -- a simple API that render a markdown dormatted text, this is modified mistune for mathjax
+requert
+beautfiul4

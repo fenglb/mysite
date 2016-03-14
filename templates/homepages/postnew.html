@@ -1,0 +1,10 @@
+<div class="post">
+  <ol>
+    {% for post in lastest_blogs %}
+      <li>
+      <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
+      <small>post in {{ post.pub_date|date:"Y-m-d" }} by {% for author in post.author.all %}{{ author.surname }}{% if forloop.last %}{%else%},{%endif%}{%endfor%}</small>
+      </li>
+    {% endfor %}
+  </ol>
+</div>

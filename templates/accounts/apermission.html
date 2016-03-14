@@ -1,0 +1,240 @@
+{% extends "bootstrap_base.html" %}
+{% block title %} 权限申请 {% endblock %}
+{% block css_js %}
+{% load staticfiles %}
+<script src="{% static 'js/jquery.simple-dtpicker.js' %}"></script>
+<link href="{% static 'css/jquery.simple-dtpicker.css' %}" rel="stylesheet" />
+<style>
+  .register .row {
+    padding-top: 10px;
+  }
+  .has_permission {
+    padding-top: 10px;
+    margin-top: -20px;
+    background-color: #f5f5f5;
+    border-bottom: 1px solid #e5e5e5;
+  }
+  h4 {
+    font-family: "AR PL UKai CN", "KaiTi", "STKaiti", monospace;
+    font-weight: bold;
+  }
+  .has_permission p {
+    text-indent: 2em;
+  }
+</style>
+{% endblock %}
+{% block content %}
+<div class="container-fuild has_permission">
+  <div class="container">
+    <div class="row">
+      <h4>门禁状态</h3>
+      <p>{% if has_permission_entrance %}
+        {% for entrance in has_permission_entrance %}
+          {% if forloop.last %}
+            “{{ entrance.name }}”
+          {% else %}
+            “{{ entrance.name }}”,
+          {% endif %}
+        {% endfor %}
+        权限已经开通。</p>
+      {% else %}
+        <p>您还不能进出核磁实验中心！如果需要申请开通门禁权限，请填写以下表格提交申请！</p>
+      {% endif %}
+    </div>
+    <div class="row">
+      <h4>仪器自助上机权限状态</h3>
+      <p>{% if has_permission_instrument %}
+        {% for instrument in has_permission_instrument %}
+          {% if forloop.last %}
+            “{{ instrument.name }}”
+          {% else %}
+            “{{ instrument.name }}”,
+          {% endif %}
+        {% endfor %}
+        自助上机权限已经开通, 请自觉遵守实验室规则，安全实验！</p>
+      {% else %}
+        <p>您还不能操作任何实验室仪器，如果需要请填写以下仪器申请表格并提交！</p>
+      {% endif %}
+
+    </div>
+    <div class="row">
+      <h4>申请情况</h3>
+      <p>您已经提交的未处理申请:</p>
+      <div class="table-responsive">
+      <table class="table">
+        <tbody>
+        {% for appoint in has_appointed_entrance %}
+          <tr class="{% if appoint.has_approved == None %}active{% elif appoint.has_approved %}success{%else%}danger{%endif%}">
+            <td><span class="label label-primary">A{{ forloop.counter }}<span></td>
+            <td>{{ appoint }}</td>
+            <td>
+              {% if appoint.has_approved == None %}
+                未处理，请等待！
+              {% elif appoint.has_approved %}
+                已经通过!
+              {% else %}
+                未通过！<span style="color:red">{{appoint.feedback}}</span>
+              {% endif %}
+            </td>
+          </tr>
+        {% endfor %}
+        {% for appoint in has_appointed_instrument %}
+          <tr class="{% if appoint.has_approved == None %}active{% elif appoint.has_approved %}success{%else%}danger{%endif%}">
+            <td><span class="label label-danger">B{{ forloop.counter }}<span></td>
+            <td>{{ appoint }}</td>
+            <td>
+              {% if appoint.has_approved == None %}
+                未处理，请等待！
+              {% elif appoint.has_approved %}
+                已经通过!
+              {% else %}
+                未通过！<span style="color:red">{{appoint.feedback}}</span>
+              {% endif %}
+            </td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+      </div><!--responsive-->
+    </div>
+  </div>
+</div>
+<div class="container register">
+
+  <div class="row">
+  <div class="col-sm-6">
+    <div class="row">
+      <div style="margin-bottom: 10px;" class="text-center">
+        <h3><strong>门禁权限申请</strong></h3>
+      </div>
+    </div>
+
+    <form action="{% url 'accounts:apermission' 'eguard' %}" method="post">
+    {% csrf_token %}
+
+      <div class="row">
+        <div class="form-group">
+          <div class="col-sm-4">
+            <label class="input-lg">{{ eform.entrance.label_tag }}</label>
+          </div>
+          <div class="col-sm-8">
+               {{eform.user}}
+               {{eform.entrance}}
+               <span style="font-size:12px;color:red;" class="helptext">{{eform.entrance.help_text}}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="eform-group">
+          <div class="col-sm-4">
+            <label class="input-lg">{{ eform.reason.label_tag }}</label>
+          </div>
+          <div class="col-sm-8">
+               {{eform.reason}}
+               <span style="font-size:12px;" class="helptext">{{eform.reason.help_text}}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="eform-group">
+          <div class="col-sm-4">
+            <label class="input-lg">{{ eform.expired_time.label_tag }}</label>
+          </div>
+          <div class="col-sm-8">
+               {{eform.expired_time}}
+               <span style="font-size:12px;" class="helptext">{{eform.expired_time.help_text}}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="row" >
+        <div class="col-sm-offset-4 col-sm-8">
+          <button class="btn btn-primary btn-lg btn-block" type="submit" value="submit">== 提交门禁申请 ==</button>
+        </div>
+     </div>
+    </form>
+    </div>
+
+  <div class="col-sm-6">
+    <div class="row">
+      <div style="margin-bottom: 10px;" class="text-center">
+        <h3><strong>仪器培训申请</strong></h3>
+      </div>
+    </div>
+
+    <form action="{% url 'accounts:apermission' 'instr' %}" method="post">
+    {% csrf_token %}
+
+    <div class="row">
+        <div class="form-group">
+          <div class="col-sm-4">
+            <label class="input-lg">{{ iform.instrument.label_tag }}</label>
+          </div>
+          <div class="col-sm-8">
+               {{iform.instrument}}
+               <span style="font-size:12px;color:red;" class="helptext">{{iform.instrument.help_text}}</span>
+               {{iform.user}}
+          </div>
+        </div>
+      </div>
+    <div class="row">
+        <div class="form-group">
+          <div class="col-sm-4">
+            <label class="input-lg">{{ iform.target_datetime.label_tag }}</label>
+          </div>
+          <div class="col-sm-8">
+               {{iform.target_datetime}}
+          </div>
+        </div>
+      </div>
+    <div class="row">
+        <div class="form-group">
+          <div class="col-sm-4">
+            <label class="input-lg">{{ iform.times.label_tag }}</label>
+          </div>
+          <div class="col-sm-8">
+               {{iform.times}}
+               <span style="font-size:12px;color:red;" class="helptext">{{iform.times.help_text}}</span>
+          </div>
+        </div>
+      </div>
+    <div class="row" >
+        <div class="col-sm-offset-4 col-sm-8">
+          <span style="font-size:12px;color:red">仪器自主上机权限开通以后默认开通门禁权限，请不用另外申请门禁！除非你知道自己在做什么。</span>
+        </div>
+    </div>
+
+    <div class="row" >
+      <div class="col-sm-offset-4 col-sm-8">
+        <button class="btn btn-primary btn-lg btn-block" type="submit" value="submit">== 提交培训申请 ==</button>
+      </div>
+   </div>
+  </div>
+
+  </form>
+  </div>
+
+</div>
+<script>
+  $("input").toggleClass('form-control input-lg');
+  $("select[name=user]").hide();
+  $("select[name=user] option[value='{{user.id}}'").attr('selected', true);
+  $("select").toggleClass('form-control input-lg');
+  $("li>label").toggleClass('checkbox-inline');
+  $("input[name=entrance]").removeClass('form-control input-lg');
+  $("textarea").toggleClass('form-control input-lg');
+  $("#id_target_datetime").appendDtpicker({'futureOnly': true});
+  $("#id_expired_time").appendDtpicker({'dateOnly':true, 'futureOnly': true});
+  $("#id_expired_time").attr('readonly', 'readonly');
+  $("#id_target_datetime").attr('readonly', 'readonly');
+  {% for entrance in has_permission_entrance %}
+    $("select#id_entrance option[value='{{entrance.id}}']").attr("disabled", true);
+  {% endfor %}
+  {% for instrument in has_permission_instrument %}
+    $("select#id_instrument option[value='{{instrument.id}}']").attr("disabled", true);
+  {% endfor %}
+</script>
+{% endblock %}
+

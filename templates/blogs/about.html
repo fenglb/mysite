@@ -1,0 +1,14 @@
+﻿{% extends 'blogs/blog_base.html' %}
+{% load static %}
+
+{% block pagecss %}
+{% endblock pagecss %}
+
+{% block content %}
+{% autoescape off %}
+  <article>
+    {{ about.display_html }}
+  </article>
+{% endautoescape %}
+
+{% endblock content %}
