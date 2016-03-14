@@ -68,18 +68,14 @@
     </div>
 
   <div class="row" style='padding-top: 20px'>
-    <div class="col-sm-offset-2 col-sm-5">
-
-      <div class="col-sm-offset-2 col-sm-4">
+    <div class="col-sm-offset-2 col-sm-2 text-right">
        <p>新用户，请<a href="/accounts/register/">注册</a>!</p>
        <p><a href="{% url 'password_reset:password_reset_recover' %}">忘记密码?</a></p>
-      </div>
-      <div class=" col-sm-6 text-right">
-        <button class="btn btn-primary btn-lg" type="submit" value="login">登入</button>
-        <input type="hidden" name="next" value="/"/>
-      </div>
-
     </div>
+  <div class=" col-sm-3">
+    <button class="btn btn-primary btn-lg btn-block" type="submit" value="login">登入</button>
+    <input type="hidden" name="next" value="/"/>
+  </div>
   </div>
   </form>
 </div>
