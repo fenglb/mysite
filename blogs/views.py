@@ -46,11 +46,11 @@ def archive(request):
         return posts_by_year
 
     args['data'] = [
-        ('NMR', get_sorted_posts(u"nmr")),
-        ('Linux/Ubuntu', get_sorted_posts(u"lx")),
-        ('Personal', get_sorted_posts(u"pl")),  # no category
-        ('Python/Programming', get_sorted_posts(u"pg")),  # no category
-        ('Others', get_sorted_posts(u"ot")),  # no category
+        ('NMR', get_sorted_posts("nmr")),
+        ('Linux/Ubuntu', get_sorted_posts("lx")),
+        ('Personal', get_sorted_posts("pl")),  # no category
+        ('Python/Programming', get_sorted_posts("pg")),  # no category
+        ('Others', get_sorted_posts("ot")),  # no category
     ]
 
     return render(request, 'blogs/archive.html', args)

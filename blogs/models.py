@@ -31,7 +31,7 @@ def get_upload_md_name(instance, filename):
         year = instance.pub_date.year   # always store in pub_year folder
     else:
         year = datetime.now().year
-    upload_to = upload_dir.format(year, instance.title.encode('utf-8') + '.md')
+    upload_to = upload_dir.format(year, unidecode(instance.title) + '.md')
     return upload_to
 
 def get_html_name(instance, filename):
@@ -75,9 +75,6 @@ class BlogPost(models.Model):
     tags = TaggableManager() 
 
     def __str__(self):
-        return self.title.encode('utf-8')
-
-    def __unicode__(self):
         return self.title
 
     @property
@@ -94,24 +91,27 @@ class BlogPost(models.Model):
 
         # generate rendered html file with same name as md
         #headers = {'Content-Type': 'text/plain'}
-        if type(self.body) == unicode:  # sometimes body is str sometimes bytes...
-            data = self.body.encode('utf-8')
+
+        self.body = md(self.body) # convert the markdown to html
+
+        if type(self.body) == bytes:  # sometimes body is str sometimes bytes...
+            data = self.body
         elif type(self.body) == str:
-            data = self.body.decode('utf-8')
+            data = self.body.encode('utf-8')
         else:
             print("somthing is wrong")
-        data = md(data) # convert the markdown to html
+
         if not self.description:
             self.description = data[:300]
         #r = requests.post('https://api.github.com/markdown/raw', headers=headers, data=data)
         # avoid recursive invoke
-        self.html_file.save(self.title.encode('utf-8')+'.html', ContentFile(data), save=False)
+        self.html_file.save(unidecode(self.title)+'.html', ContentFile(data), save=False)
         self.html_file.close()
 
         super(BlogPost, self).save(*args, **kwargs)
 
     def display_html(self):
-        with open(self.html_file.path.encode('utf-8')) as f:
+        with open(self.html_file.path, encoding='utf-8') as f:
             return f.read()
 
     def get_absolute_url(self):

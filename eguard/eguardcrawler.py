@@ -1,4 +1,3 @@
-#-*-coding=utf-8-*-
 import requests
 from bs4 import BeautifulSoup
 from datetime import datetime
@@ -31,17 +30,17 @@ def searchUser( s, identify, name ):
 
     entrance_data = { 'txtNo': identify,
                       'txtName': name.encode('gb2312'),
-                      'submit':u'查询'.encode('gb2312'), }
+                      'submit':'查询'.encode('gb2312'), }
 
     r = s.post(search_link, data=entrance_data, headers=headers)
 
     return r.content
 def parseUsersInfo( f ):
 
-    if u"没有相关的查询结果，请重试！" in f:
+    if "没有相关的查询结果，请重试！" in f:
         return True, ""
 
-    soup = BeautifulSoup( f, "lxml" )
+    soup = BeautifulSoup( f )
     tables = soup.find_all("table")
     curPage, endPage = [int(x) for x in tables[1].select("td strong")[0].text.split("/")]
     trs = tables[0].select("tr")
@@ -81,7 +80,7 @@ def searchEntranceUsers( s, door, identify=None, name=None ):
     entrance_data = { 'selWorkArea': door,
                     'txtNo': identify,
                     'txtName': name,
-                   'submit':u'查询'.encode('gb2312'), }
+                   'submit':'查询'.encode('gb2312'), }
 
     r = s.post(entrance_search_link, data=entrance_data, headers=headers)
 
@@ -94,10 +93,10 @@ def getEntranceUsersInfo( s, index ):
 
 def parseEntranceUsersInfo( f ):
 
-    if u"没有相关的查询结果，请重试！" in f:
+    if "没有相关的查询结果，请重试！" in f:
         return True, ""
 
-    soup = BeautifulSoup( f, "lxml" )
+    soup = BeautifulSoup( f  )
     tables = soup.find_all("table")
     curPage, endPage = [int(x) for x in tables[1].select("td strong")[0].text.split("/")]
     trs = tables[0].select("tr")
@@ -117,7 +116,7 @@ def parseEntranceUsersInfo( f ):
 
 def deleteEntranceUser( s, cmd ):
 
-    data =  { 'ck': cmd, 'action': u'ListBatchDel', 'Submit':u'查询'.encode('gb2312'), }
+    data =  { 'ck': cmd, 'action': 'ListBatchDel', 'Submit':'查询'.encode('gb2312'), }
 
     f = s.post(entrance_delete_link, data=data, headers=headers)
     return True
@@ -128,7 +127,7 @@ def addEntranceUser( s, identify, door ):
             "ck": identify }
     r = s.post( entrance_add_link, data=data, headers=headers )
 
-    return u"操作成功" in r.content.decode("gbk")
+    return "操作成功" in r.content.decode("gbk")
 
 def searchEntranceRecord(s, door, startdate, enddate, starttime, endtime ):
 
@@ -137,7 +136,7 @@ def searchEntranceRecord(s, door, startdate, enddate, starttime, endtime ):
                     'starttime': starttime, #00:00:00
                     'endtime': endtime, #23:59:59
                     'selWorkArea': door, #75|2*75|3*75|4*76|1*76|2*76|3*
-                    'submit':u'查询'.encode('gb2312'), }
+                    'submit':'查询'.encode('gb2312'), }
 
     r = s.post(entrance_record_search_link, data=search_data, headers=headers)
     return s
@@ -151,10 +150,10 @@ def getEntranceRecordInfo( s, index ):
 
 def parseEntranceRecordInfo( f ):
 
-    if u"没有相关的查询结果，请重试！" in f:
+    if "没有相关的查询结果，请重试！" in f:
         return True, ""
 
-    soup = BeautifulSoup( f, "lxml" )
+    soup = BeautifulSoup( f )
     tables = soup.find_all("table")
     curPage, endPage = [int(x) for x in tables[1].select("td strong")[0].text.split("/")]
     trs = tables[0].select("tr")
@@ -181,10 +180,10 @@ def parseEntranceRecordInfo( f ):
 # 1    ----> door id for add
 # 2    ----> door id for delete
 # 3    ----> door introduction
-door_dict = {"D500": {"search":"75|2*", "add": "75|2", "delete":"75|2", "intro":u"高-102旁边"}, #核磁室500M门
-             "D102": {"search":"75|3*", "add":"75|3", "delete":"75|4", "intro":u"高-102"}, #大门
-             "D103": {"search":"75|4*", "add":"75|4", "delete":"75|8", "intro":u"化院附属楼103楼梯旁"}, #里门
-             "D600": {"search":"76|2*", "add":"76|2", "delete":"76|2", "intro":u"报告厅106大门"}, #核磁室600M门
+door_dict = {"D500": {"search":"75|2*", "add": "75|2", "delete":"75|2", "intro":"高-102旁边"}, #核磁室500M门
+             "D102": {"search":"75|3*", "add":"75|3", "delete":"75|4", "intro":"高-102"}, #大门
+             "D103": {"search":"75|4*", "add":"75|4", "delete":"75|8", "intro":"化院附属楼103楼梯旁"}, #里门
+             "D600": {"search":"76|2*", "add":"76|2", "delete":"76|2", "intro":"报告厅106大门"}, #核磁室600M门
             }
 
 class EntranceGuard:
@@ -250,10 +249,10 @@ if __name__ == "__main__":
     #users = eguard.getEntranceRecords( door_dict["B"][0], "2016-2-18", "2016-2-19", "00:00:00", "23:59:59" )
     users = eguard.getEntranceUsers( "D102" )
     for user in users:
-        print( u"{0}\t {1}".format( user['name'], user['identify'] ) )
+        print( "{0}\t {1}".format( user['name'], user['identify'] ) )
     #print eguard.doEntranceUserCreated( ["15720111151868", "20620078101155"], "D102" )
     #for i, d in zip( ["20620078101155"], ["D500"] ):
     #    eguard.doEntranceUserDeleted( i, d )
     #for i, d in zip( ["20620078101155", "20620078101155", "15720111151868"], ["D102","D500", "D500"] ):
     #    print eguard.doEntranceUserCreated( i, d )
-    #print checkUserExist( u'冯柳宾', '203100213' )
+    #print checkUserExist( '冯柳宾', '203100213' )

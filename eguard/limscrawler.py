@@ -1,4 +1,3 @@
-#-*- coding:utf-8-*-
 import requests
 from bs4 import BeautifulSoup
 
@@ -21,7 +20,7 @@ def searchUserInfo( s, name ):
             'group_id': 1,
             'member_type': 2,
             'name': name,
-            'search': u'查询',
+            'search': '查询',
     }
     r = s.post( search_user_link, data=data, headers=headers)
     return r.content
@@ -36,7 +35,7 @@ def login( ):
     login_data = {'token': admin_id,
                     'token_backend': 'database',
                     'password': admin_password, 
-                    'submit':u'登录',
+                    'submit':'登录',
                     }
     r = s.post(login_link, data=login_data, headers=headers)
     return s
@@ -70,13 +69,13 @@ def parseProfileInfo( text ):
     content = soup.table.table.tr
     items = content.select('td')[1].select('p')
     user = {}
-    user['isPI'] = u'PI' in items[1].get_text()
+    user['isPI'] = 'PI' in items[1].get_text()
     user['department'] = items[3].select('a')[1].string
     return user
     
 if __name__ == "__main__":
     s = login()
-    f = searchUserInfo( s, u'候睿' )
+    f = searchUserInfo( s, '候睿' )
     user = parseUserInfo( f )
     if user:
         f = getUserInfo(s, user['linker'] )

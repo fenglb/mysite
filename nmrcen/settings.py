@@ -43,6 +43,7 @@ INSTALLED_APPS = (
     'eguard',
     'blogs',
     'taggit',
+    'password_reset',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -128,5 +129,6 @@ GOOGLE_ANALYTICS_DOMAIN = 'nmrcen.xmu.edu.cn'
 EMAIL_HOST = 'smtp.xmu.edu.cn'
 EMAIL_HOST_USER = 'tonyfeng'
 EMAIL_HOST_PASSWORD = 'xmu314159'
+DEFAULT_FROM_EMAIL = 'tonyfeng@xmu.edu.cn'
 EMAIL_POST = 25
 EMAIL_USE_TLS = True

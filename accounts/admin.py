@@ -1,4 +1,3 @@
-#-*- coding=utf-8 -*-
 from django import forms
 from django.contrib import admin
 from django.contrib.auth.models import Group
@@ -11,8 +10,8 @@ from eguard.eguardcrawler import checkUserExist
 
 # Register your models here.
 class UserCreationForm(forms.ModelForm):
-    password1 = forms.CharField(label=u'密码', widget=forms.PasswordInput)
-    password2 = forms.CharField(label=u'确认密码', widget=forms.PasswordInput)
+    password1 = forms.CharField(label='密码', widget=forms.PasswordInput)
+    password2 = forms.CharField(label='确认密码', widget=forms.PasswordInput)
     class Meta:
         model = CustomUser
         fields = ('username', 'surname','position', 'identify', 'phone_number', 'email', 'person_in_charge' )
@@ -21,7 +20,7 @@ class UserCreationForm(forms.ModelForm):
         password1 = self.cleaned_data.get("password1")
         password2 = self.cleaned_data.get("password2")
         if password1 and password2 and password1 != password2:
-            raise forms.ValidationError(u"密码不一致，请重新输入!")
+            raise forms.ValidationError("密码不一致，请重新输入!")
         return password2
     def clean_person_in_charge(self):
         person_in_charge = self.cleaned_data.get("person_in_charge")
@@ -38,11 +37,11 @@ class UserCreationForm(forms.ModelForm):
             identify = self.cleaned_data.get("identify")
 
             if not identify:
-                raise forms.ValidationError(u"厦大学生或者教工必须输入学号/教工号！")
+                raise forms.ValidationError("厦大学生或者教工必须输入学号/教工号！")
 
             # login school service to comfirm the information
             if not checkUserExist( surname, identify ):
-                raise forms.ValidationError(u"姓名和学号/教工号不匹配！")
+                raise forms.ValidationError("姓名和学号/教工号不匹配！")
 
         return identify
 
@@ -105,7 +104,7 @@ class OrgnizationAdmin( admin.ModelAdmin ):
 
 class PersonInChargeForm( forms.ModelForm ):
 
-    titles = forms.ChoiceField(label=u"职位", choices=PersonInCharge.titles_choice ) 
+    titles = forms.ChoiceField(label="职位", choices=PersonInCharge.titles_choice ) 
     class Meta:
         model = PersonInCharge
         fields = ( 'phone_number0', 'email0', 'titles')

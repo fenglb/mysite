@@ -9,7 +9,7 @@ from __future__ import print_function
 
 import re
 
-import mistune
+from . import mistune
 
 from pygments import highlight
 from pygments.lexers import get_lexer_by_name

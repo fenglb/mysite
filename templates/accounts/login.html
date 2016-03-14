@@ -15,6 +15,28 @@
       <h3><strong>用户登录</strong></h3>
     </div>
   </div>
+    {% if form.errors %}
+        <div class="row">
+          <div class="col-sm-offset-4 col-sm-5">
+            <p>您的账号和密码不匹配。请重新输入！谢谢！</p>
+          </div>
+        </div>
+    {% endif %}
+    {% if next %}
+        {% if user.is_authenticated %}
+        <div class="row">
+            <div class="col-sm-offset-4 col-sm-5">
+               <p>您的账号没有权限访问这里。如果要继续，请选择一个有权限的账号<a href="{% url 'accounts:login' %}">登入</a>！</p>
+            </div>
+        </div>
+        {% else %}
+        <div class="row">
+            <div class="col-sm-offset-4 col-sm-5">
+                <p>请<a href="{% url 'accounts:login' %}">登入</a>！</p>
+            </div>
+        </div>
+        {% endif %}
+    {% endif %}
 
   <form method="post" action="{% url 'accounts:login' %}">
     {% csrf_token %}
@@ -26,11 +48,12 @@
           <div class="col-sm-3">
 	          {{ form.username }}
           </div>
-          {% if form.errors %}
-            <div class="col-sm-5 text-danger">
-              {{ form.username.errors }}
-            </div>
-          {% endif %}
+          <div class="col-sm-5">
+              <span class="text-danger" style="font-size:12px">
+              <p>如果您的校园卡能够打开核磁中心外门，您就已经拥有账号！</p>
+              <p>账号为您的教工号/学号，密码为教工号/学号后四位！</p>
+              </span>
+          </div>
         </div>
     </div>
   <div class="row">
@@ -41,11 +64,6 @@
           <div class="col-sm-3">
 	          {{ form.password}}
           </div>
-          {% if form.errors %}
-            <div class="col-sm-5 text-danger">
-              {{ form.password.errors }}
-            </div>
-          {% endif %}
         </div>
     </div>
 
@@ -54,7 +72,7 @@
 
       <div class="col-sm-offset-2 col-sm-4">
        <p>新用户，请<a href="/accounts/register/">注册</a>!</p>
-       <p><a href="">忘记密码?</a></p>
+       <p><a href="{% url 'password_reset:password_reset_recover' %}">忘记密码?</a></p>
       </div>
       <div class=" col-sm-6 text-right">
         <button class="btn btn-primary btn-lg" type="submit" value="login">登入</button>

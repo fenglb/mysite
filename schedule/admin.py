@@ -1,4 +1,3 @@
-#-*-coding=utf-8 -*-
 from django import forms
 from django.contrib import admin
 from .models import Experiment, Sample, Instrument, InstrumentAppointment, SampleAppointment
@@ -34,10 +33,10 @@ class ExperimentCreationForm(forms.ModelForm):
         start_time = self.cleaned_data.get('start_time')
         #start_time0 = datetime.strptime(start_time, "%Y-%m-%d %H:%M")
         if ( int(start_time.strftime("%U")) - int(datetime.today().strftime("%U")) > 1):
-            raise forms.ValidationError(u"预约开始时间限制在这周内.")
+            raise forms.ValidationError("预约开始时间限制在这周内.")
 
         if ( start_time < timezone.now() ):
-            raise forms.ValidationError(u"预约开始时间已经过去，请重新选择！")
+            raise forms.ValidationError("预约开始时间已经过去，请重新选择！")
         return start_time
     def clean_times(self):
         start_time = self.cleaned_data.get('start_time')
@@ -45,7 +44,7 @@ class ExperimentCreationForm(forms.ModelForm):
         instrument = self.cleaned_data.get('instrument')
 
         if ( checkOverwrite( start_time, start_time+timedelta(hours=times), instrument ) ):
-            raise forms.ValidationError(u"您申请的时间内包含其他人的实验，请另选择时间！")
+            raise forms.ValidationError("您申请的时间内包含其他人的实验，请另选择时间！")
         return times
 
     def save(self, commit=True):
@@ -60,9 +59,9 @@ class ExperimentAdmin(admin.ModelAdmin):
     list_display = ('surname', 'instrument', 'start_time', 'stop_time', 'times')
 
     def surname(self, obj):
-        return u'{0} [{1}]'.format(obj.user.surname, obj.user.person_in_charge.surname0)
+        return '{0} [{1}]'.format(obj.user.surname, obj.user.person_in_charge.surname0)
 
-    surname.short_description = u"用户"
+    surname.short_description = "用户"
 
 class SampleAdmin( admin.ModelAdmin ):
     list_display = ('name', 'solvent', 'concentration', 'molecular_weight')

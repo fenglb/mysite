@@ -25,6 +25,7 @@ urlpatterns = [
     url(r'', include('homepages.urls', namespace='homepages')),
     url(r'^schedule/', include('schedule.urls', namespace='schedule')),
     url(r'^accounts/', include('accounts.urls', namespace='accounts')),
+    url(r'^password_reset/', include('password_reset.urls', namespace='password_reset')),
     url(r'^blogs/', include('blogs.urls', namespace='blogs')),
     url(r'^eguard/', include('eguard.urls', namespace='eguard')),
     url(r'^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT}),

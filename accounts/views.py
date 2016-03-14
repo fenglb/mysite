@@ -1,4 +1,3 @@
-#-*- coding: utf-8 -*-
 from django.shortcuts import render, render_to_response
 from django.template.loader import render_to_string
 from django.http import HttpResponseRedirect, HttpResponse
@@ -25,11 +24,9 @@ def getActiveCode( email ):
 
 def send_email( user, email_code ):
     email = user.email
-    if isinstance( email, unicode ):
-        email = email.encode( 'utf-8' )
 
     html_content = render_to_string( 'accounts/send_email.html', {'email_code': email_code, 'pk': user.id } )
-    subject, from_email, to_email = u'您注册了厦门大学高场核磁中心网站', 'tonyfeng@xmu.edu.cn', email
+    subject, from_email, to_email = '您注册了厦门大学高场核磁中心网站', 'tonyfeng@xmu.edu.cn', email
     text_content = 'tmp'
     msg = EmailMultiAlternatives( subject, text_content, from_email, [to_email] )
     msg.attach_alternative( html_content, 'text/html' )
@@ -140,12 +137,12 @@ def register(request):
         form = UserCreationForm(request.POST)
         if form.is_valid():
             user = form.save( commit=False )
-            email_code = getActiveCode( user.email.encode('utf-8') )
+            email_code = getActiveCode( user.email )
             user.email_code = email_code
             user.save()
             if ( send_email( user, email_code ) != 1 ):
                 user.delete()
-                form.errors['email'] = u"您输入电子邮箱无效，请重新输入！"
+                form.errors['email'] = "您输入电子邮箱无效，请重新输入！"
                 return render(request, "accounts/register.html", {'form':form, },)
             else:
                 return render(request, "accounts/register_done.html", {'email': user.email})

@@ -1,4 +1,3 @@
-#-*- coding: utf-8 -*-
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect, HttpResponse
@@ -20,10 +19,11 @@ from .colorlist import textcolor, bordercolor, colorlist
 def dealSampleAppoint(request):
     if request.method == 'POST':
         appointment = get_object_or_404(SampleAppointment, id=request.POST['sample'])
-        appointment.start_time = datetime.strptime(request.POST['start_time'], "%Y-%m-%d %H:%M:%S" )
-        appointment.times = float(request.POST['times'])
+        appointment.has_approved = request.POST.get('check', False)
+        if ( appointment.has_approved ):
+            appointment.start_time = datetime.strptime(request.POST['start_time'], "%Y-%m-%d %H:%M:%S" )
+            appointment.times = float(request.POST['times'])
         appointment.feedback = request.POST['feedback']
-        appointment.has_approved = request.POST['check']
         appointment.save()
     return redirect( reverse("accounts:profile") )
 
@@ -31,10 +31,11 @@ def dealSampleAppoint(request):
 def dealInstrumentAppoint(request):
     if request.method == 'POST':
         appointment = get_object_or_404(InstrumentAppointment, id=request.POST['train'])
+        appointment.has_approved = request.POST.get('check', False)
+        if ( appointment.has_approved ):
+            appointment.target_datetime = datetime.strptime(request.POST['start_time'], "%Y-%m-%d %H:%M:%S")
+            appointment.times = float(request.POST['times'])
         appointment.feedback = request.POST['feedback']
-        appointment.has_approved = request.POST['check']
-        appointment.target_datetime = datetime.strptime(request.POST['start_time'], "%Y-%m-%d %H:%M:%S")
-        appointment.times = float(request.POST['times'])
         appointment.save()
     return redirect( reverse("accounts:profile") )
 
@@ -87,7 +88,7 @@ def getEvent(request, instrument):
             if instrument=='all':
                 event['title'] = "{0} {1}".format(exp.user.get_full_name(), exp.instrument.short_name)
             else:
-                event['title'] = "{0}[{1}]".format(exp.user.get_full_name(), exp.user.person_in_charge.surname0.encode('utf-8'))
+                event['title'] = "{0}[{1}]".format(exp.user.get_full_name(), exp.user.person_in_charge.surname0)
             start = exp.start_time
             event['start'] = cnfromutc( start ).strftime("%Y-%m-%dT%H:%M:%S%z")
             end = cnfromutc( exp.start_time+timedelta(hours=exp.times) )

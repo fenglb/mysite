@@ -9,8 +9,8 @@ from eguard.models import Entrance, EntranceAppointment
 def dealAppoint(request):
     if request.method == 'POST':
         appointment = get_object_or_404(EntranceAppointment, id=request.POST['entrance'])
+        appointment.has_approved = request.POST.get('check', False)
         appointment.feedback = request.POST['feedback']
-        appointment.has_approved = request.POST['check']
         appointment.save()
 
     return redirect( reverse("accounts:profile") )
