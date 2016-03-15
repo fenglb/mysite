@@ -1,1 +1,0 @@
-# Registed Manual

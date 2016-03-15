@@ -7,3 +7,4 @@ mathjax
 mistune -- a simple API that render a markdown dormatted text, this is modified mistune for mathjax
 requert
 beautfiul4
+password_reset https://github.com/brutasse/django-password-reset
