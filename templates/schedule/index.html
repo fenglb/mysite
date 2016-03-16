@@ -1,84 +1,10 @@
-{% extends "bootstrap_base.html" %}
+{% extends "base.html" %}
 {% block title %} 仪器预约 {% endblock %}
-{% block css_js %}
 {% load staticfiles %}
-<script src="{% static 'js/moment.min.js' %}"></script>
-<script src="{% static 'js/fullcalendar.js' %}"></script>
-<script src="{% static 'js/jquery.simple-dtpicker.js' %}"></script>
+{% block css %}
 <link href="{% static 'css/fullcalendar.css' %}" rel="stylesheet" />
 <link href="{% static 'css/jquery.simple-dtpicker.css' %}" rel="stylesheet" />
-<script type="text/javascript">
-	$(document).ready(function() {
-		$('#calendar').fullCalendar({
-		    header: {
-				left: 'prev,next today',
-				center: 'title',
-				right: 'month, customWeek, basicWeek'
-			    },
-		    defaultDate: '{% now "Y-m-d" %}',
-		    events: { url: "{% url 'schedule:getEvent' instrument|default_if_none:'all' %}", },
-		    timeFormat: 'H:mm',
-		    eventLimit: true,
-		    displayEventEnd: true,
-		    views: {
-			  customWeek: { 
-			  type: 'agenda',
-			  buttonText: 'agenda',
-			  duration: { week:  1, },
-			  slotDuration: '00:15:00',
-			  }
-		    },
-        eventClick: function( event, jsEvent, view) {
-          $(this).popover({title: event, placement: 'bottom'});
-        },
-        {% if is_perm %}
-          selectable: true,
-          selectHelper: true,
-          select: function(start, end) {
-            var span_time = (end-start)/(3600*1000);
-            var start_str = start.format("YYYY-MM-DD HH:mm");
-            var end_str = end.format("YYYY-MM-DD HH:mm");
-            var start_time = moment( start_str );
-            var end_time = moment( end_str );
-            var now = moment();
 
-            var week = now.week();
-            var startWeek = start_time.week();
-
-            if ( startWeek - week > 1 ) return;
-
-            if ( end_time.isBefore(now) ) {
-              $("#warning-for-add-exp").modal('show');
-              return;
-            }
-            if ( start_time.isBefore( moment() ) ) {
-              var start_add30m = moment().startOf('hours');
-              start_add30m.add(30, 'minutes');
-
-              if ( start_add30m.isAfter( moment() ) ) {
-                $('#id_start_time').val( start_add30m.format("YYYY-MM-DD HH:mm") );
-                $('#id_times').val( (end_time - start_add30m)/(3600*1000) );
-              }
-              else {
-                var start_add1h = moment().startOf('hours')
-                start_add1h.add(1, 'hours');
-                $('#id_start_time').val( start_add1h.format("YYYY-MM-DD HH:mm") );
-                $('#id_times').val( (end_time - start_add1h)/(3600*1000) );
-              }
-
-            }
-            else{
-              $('#id_start_time').val( start_str );
-              $('#id_times').val( span_time );
-            }
-
-            $('#id_end_time').val( end_str );
-            $('#create_experiment').modal( 'show' );
-          },
-        {% endif %}
-		});
-	});
-</script>
 <style>
   h4 {
     font-family: "AR PL UKai CN", "KaiTi", "STKaiti", monospace;
@@ -282,6 +208,85 @@
     </div><!-- /.modal-dialog-->
 </div><!-- /.modal -->
 {% endif %}
+{% endblock %}
+
+{% block js %}
+<script src="{% static 'js/moment.min.js' %}"></script>
+<script src="{% static 'js/fullcalendar.js' %}"></script>
+<script src="{% static 'js/jquery.simple-dtpicker.js' %}"></script>
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('#calendar').fullCalendar({
+		    header: {
+				left: 'prev,next today',
+				center: 'title',
+				right: 'month, customWeek, basicWeek'
+			    },
+		    defaultDate: '{% now "Y-m-d" %}',
+		    events: { url: "{% url 'schedule:getEvent' instrument|default_if_none:'all' %}", },
+		    timeFormat: 'H:mm',
+		    eventLimit: true,
+		    displayEventEnd: true,
+		    views: {
+			  customWeek: { 
+			  type: 'agenda',
+			  buttonText: 'agenda',
+			  duration: { week:  1, },
+			  slotDuration: '00:15:00',
+			  }
+		    },
+        eventClick: function( event, jsEvent, view) {
+          $(this).popover({title: event, placement: 'bottom'});
+        },
+        {% if is_perm %}
+          selectable: true,
+          selectHelper: true,
+          select: function(start, end) {
+            var span_time = (end-start)/(3600*1000);
+            var start_str = start.format("YYYY-MM-DD HH:mm");
+            var end_str = end.format("YYYY-MM-DD HH:mm");
+            var start_time = moment( start_str );
+            var end_time = moment( end_str );
+            var now = moment();
+
+            var week = now.week();
+            var startWeek = start_time.week();
+
+            if ( startWeek - week > 1 ) return;
+
+            if ( end_time.isBefore(now) ) {
+              $("#warning-for-add-exp").modal('show');
+              return;
+            }
+            if ( start_time.isBefore( moment() ) ) {
+              var start_add30m = moment().startOf('hours');
+              start_add30m.add(30, 'minutes');
+
+              if ( start_add30m.isAfter( moment() ) ) {
+                $('#id_start_time').val( start_add30m.format("YYYY-MM-DD HH:mm") );
+                $('#id_times').val( (end_time - start_add30m)/(3600*1000) );
+              }
+              else {
+                var start_add1h = moment().startOf('hours')
+                start_add1h.add(1, 'hours');
+                $('#id_start_time').val( start_add1h.format("YYYY-MM-DD HH:mm") );
+                $('#id_times').val( (end_time - start_add1h)/(3600*1000) );
+              }
+
+            }
+            else{
+              $('#id_start_time').val( start_str );
+              $('#id_times').val( span_time );
+            }
+
+            $('#id_end_time').val( end_str );
+            $('#create_experiment').modal( 'show' );
+          },
+        {% endif %}
+		});
+	});
+</script>
+
 <script>
   {% if form.errors %}
     $(document).ready( function() {
@@ -325,6 +330,4 @@
     });
   {% endif %}
 </script>
-
-
 {% endblock %}

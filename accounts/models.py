@@ -88,7 +88,7 @@ class CustomUser( AbstractBaseUser, PermissionsMixin ):
                 ('visit',   "其他"),
     )
     position     = models.CharField( verbose_name='身份', max_length=7, choices=position_choice, default='student' )
-    person_in_charge = models.ForeignKey( PersonInCharge, verbose_name='负责人', help_text='课题组负责人, 导师或者领导', null=True, blank=True )
+    person_in_charge = models.ForeignKey( PersonInCharge, verbose_name='负责人', help_text='课题组负责人, 导师或者领导，里面找不到暂时不用填写，登录以后请修改个人资料！', null=True, blank=True )
     create_time  = models.DateTimeField(auto_now_add=True)
     expired_time = models.DateField( default=(timezone.now()+timedelta(days=100*365)).date(), verbose_name='失效日期' )
 

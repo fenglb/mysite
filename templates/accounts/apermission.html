@@ -1,8 +1,7 @@
-{% extends "bootstrap_base.html" %}
+{% extends "base.html" %}
 {% block title %} 权限申请 {% endblock %}
-{% block css_js %}
+{% block css %}
 {% load staticfiles %}
-<script src="{% static 'js/jquery.simple-dtpicker.js' %}"></script>
 <link href="{% static 'css/jquery.simple-dtpicker.css' %}" rel="stylesheet" />
 <style>
   .register .row {
@@ -217,6 +216,9 @@
   </div>
 
 </div>
+{% endblock %}
+{% block js %}
+<script src="{% static 'js/jquery.simple-dtpicker.js' %}"></script>
 <script>
   $("input").toggleClass('form-control input-lg');
   $("select[name=user]").hide();
@@ -236,5 +238,6 @@
     $("select#id_instrument option[value='{{instrument.id}}']").attr("disabled", true);
   {% endfor %}
 </script>
+
 {% endblock %}
 

@@ -1,12 +1,38 @@
-{% extends "bootstrap_base.html" %}
+{% extends "base.html" %}
 {% block title %} 个人资料 {% endblock %}
-{% block css_js %}
 {% load staticfiles %}
-<style>
+{% block css %}
+<style type="text/css">
   h3 {
     font-family: "AR PL UKai CN", "KaiTi", "STKaiti", monospace;
     font-weight: bold;
   }
+  #image-preview {
+      width: 160px;
+      height: 160px;
+      position: relative;
+      overflow: hidden;
+      background-color: #ffffff;
+      color: #000;
+    }
+   #image-preview label {
+        position: absolute;
+        z-index: 5;
+        opacity: 0.8;
+        cursor: pointer;
+        background-color: #f8fbef;
+        width: 200px;
+        height: 50px;
+        font-size: 20px;
+        line-height: 50px;
+        text-transform: uppercase;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        margin: auto;
+        text-align: center;
+      }
 </style>
 {% endblock %}
 {% block content %}
@@ -14,15 +40,10 @@
 
   <div class="row">
     <div class="col-sm-2" style="padding-top:16px">
-      <p><img class="img-rounded" src="{{ user.profile_image.url }}" alt="{{ user.surname }}的照片"/></p>
-      <p> {{ user.surname }}[{{ user.username }}] {{user.get_position_name}}</p>
-      {% if user.position == 'visit' %}
-        <p>编号：{{ user.identify }}</p>
-      {% elif user.position == 'student' %}
-        <p>学号：{{ user.identify }}</p>
-      {% else %}
-        <p>教工号：{{ user.identify }}</p>
-      {% endif %}
+        <div id="image-preview">
+            <label for="image-upload" id="image-label">修改头像</label>
+            <img class="img img-rounded" src="{{ user.profile_image.url }}" alt="{{user.surname}}">
+        </div>
     </div>
 
     <div class="col-sm-5">
@@ -212,4 +233,3 @@
   $('#id_address').attr('placeholder', '厦门市思明区思明南路220号');
 </script>
 {% endblock %}
-

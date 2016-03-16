@@ -1,9 +1,14 @@
-from django.shortcuts import render, render_to_response
+from django.shortcuts import render, render_to_response, redirect
 from django.template.loader import render_to_string
 from django.http import HttpResponseRedirect, HttpResponse
 from django.views.decorators.csrf import csrf_protect
 from django.contrib.auth.decorators import login_required
 from django.core.mail import EmailMultiAlternatives
+try:
+    from django.contrib.sites.shortcuts import get_current_site
+except ImportError:
+    from django.contrib.sites.models import get_current_site
+
 from .admin import UserCreationForm, UserInforForm, PersonInChargeForm, OrgnizationForm
 from .models import CustomUser, PersonInCharge
 from eguard.admin import EntranceAppointmentForm
@@ -22,10 +27,10 @@ def getActiveCode( email ):
     email_code = uuid.uuid5( uuid.NAMESPACE_DNS, email+str(time.time())).hex
     return email_code
 
-def send_email( user, email_code ):
+def send_email( user, email_code, site ):
     email = user.email
 
-    html_content = render_to_string( 'accounts/send_email.html', {'email_code': email_code, 'pk': user.id } )
+    html_content = render_to_string( 'accounts/send_email.html', {'email_code': email_code, 'pk': user.id, 'site': site } )
     subject, from_email, to_email = '您注册了厦门大学高场核磁中心网站', 'tonyfeng@xmu.edu.cn', email
     text_content = 'tmp'
     msg = EmailMultiAlternatives( subject, text_content, from_email, [to_email] )
@@ -140,7 +145,8 @@ def register(request):
             email_code = getActiveCode( user.email )
             user.email_code = email_code
             user.save()
-            if ( send_email( user, email_code ) != 1 ):
+            site = get_current_site(request)
+            if ( send_email( user, email_code, site ) != 1 ):
                 user.delete()
                 form.errors['email'] = "您输入电子邮箱无效，请重新输入！"
                 return render(request, "accounts/register.html", {'form':form, },)
@@ -153,3 +159,39 @@ def register(request):
 
 def register_done(request):
     return render(request, "accounts/register_done.html")
+
+def activeUser(request):
+
+    errors = None
+    if request.method == 'POST':
+        username=request.POST.get('username', None)
+        surname =request.POST.get('surname', None)
+        identify =request.POST.get('identify', None)
+        phone_number =request.POST.get('phone_number', None)
+        email =request.POST.get('email', None)
+
+        user = CustomUser.objects.get(username=username)
+
+        if user:
+            if user.surname == surname:
+                if user.identify == identify:
+                    email_code = getActiveCode( email )
+                    user.email_code = email_code
+                    site = get_current_site( request )
+                    if ( send_email( user, email_code, site ) == 1 ):
+                        user.email = email
+                        user.phone_number = phone_number
+                        user.save()
+                    else:
+                        errors = "您输入电子邮箱无效(%s)，请重新输入！" % email
+                else:
+                    errors = "您输入的学号/教工卡 (%s) 有误" % identify
+            else:
+                errors = "您输入的真实姓名(%s)有误" % surname
+            return render(request, "accounts/active.html", {'errors':errors, 'email': user.email})
+        else:
+            errors = "您输入的用户名有误 %s" % username
+    else:
+        errors = "有错误"
+
+    return render(request, "accounts/active.html", {'errors': errors,})

@@ -1,10 +1,7 @@
-{% extends "bootstrap_base.html" %}
+{% extends "base.html" %}
 {% block title %}送样申请{% endblock %}
-{% block appoint %} active {% endblock %}
 {% load staticfiles %}
-{% block css_js %}
-<script src="{% static 'js/jquery.simple-dtpicker.js' %}"></script>
-<script src="{% static 'js/bootstrap-filestyle.min.js' %}"></script>
+{% block css %}
 <link href="{% static 'css/jquery.simple-dtpicker.css' %}" rel="stylesheet" />
 <style>
   .container-fuild {
@@ -162,6 +159,11 @@
 </div><!--row-->
 </form><!--form-->
 </div><!--container-->
+{% endblock %}
+
+{% block js%}
+<script src="{% static 'js/jquery.simple-dtpicker.js' %}"></script>
+<script src="{% static 'js/bootstrap-filestyle.min.js' %}"></script>
 <script>
   $("input").toggleClass('form-control input-lg');
   $("input#_attachmentName").removeClass('form-control input-lg');

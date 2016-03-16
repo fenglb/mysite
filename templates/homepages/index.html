@@ -1,9 +1,7 @@
-{% extends "bootstrap_base.html" %}
+{% extends "base.html" %}
 {% block title %} 厦门大学高场核磁中心 {% endblock %}
 {% load staticfiles %}
-{% block home %} active {% endblock %}
-{% block css_js %}
-{% load staticfiles %}
+{% block css %}
 	<script type="text/javascript" src="{% static 'js/jquery.bxslider.min.js' %}"></script>
 	<link rel="stylesheet" type="text/css" media="all" href="{% static 'css/jquery.bxslider.min.css' %}">
 {% endblock %}
@@ -85,4 +83,7 @@
     {% include "homepages/staff.html" %}
   </div>
 </div>
+{% endblock %}
+
+{% block js %}
 {% endblock %}

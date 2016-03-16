@@ -14,7 +14,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include(blog_urls))
 """
 from django.conf.urls import include, url
-from accounts.views import register, register_done, verifyUserMail, profile, userinfo, apermission, getPersonInChargeInfo
+from accounts.views import register, register_done, verifyUserMail, profile, userinfo, apermission, getPersonInChargeInfo, activeUser
 from django.contrib.auth.views import login, logout, password_change, password_change_done
 
 urlpatterns = [
@@ -22,6 +22,7 @@ urlpatterns = [
     url(r'^register_done/$', register_done),
     url(r'^profile/$', profile, name='profile'),
     url(r'^userinfo/$', userinfo, name='userinfo'),
+    url(r'^activeUser/$', activeUser, name='activeUser'),
     url(r'^apermission/$', apermission, name='apermission'),
     url(r'^apermission/(\w+)$', apermission, name='apermission'),
     url(r'^verifymail/(?P<pk>\d+)/(?P<email_code>\w+)$', verifyUserMail ),

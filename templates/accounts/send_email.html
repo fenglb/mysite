@@ -6,7 +6,7 @@
 </head>
 <body>
   请激活！
-  <a href="http://nmrcen.xmu.edu.cn:8000/accounts/verifymail/{{pk}}/{{email_code}}">
-  http://nmrcen.xmu.edu.cn:8000/accounts/verifymail/{{pk}}/{{email_code}}</a>
+  <a href="http{% if secure %}s{%endif %}://{{ site.domain }}/accounts/verifymail/{{pk}}/{{email_code}}">
+  http{% if secure %}s{%endif %}://{{ site.domain }}/accounts/verifymail/{{pk}}/{{email_code}} </a>
 </body>
 </html>

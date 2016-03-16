@@ -1,6 +1,6 @@
-{% extends "bootstrap_base.html" %}
+{% extends "base.html" %}
 {% block title %} 用户登入 {% endblock %}
-{% block css_js %}
+{% block css %}
 <style>
   .login {
     margin-top: 100px;
@@ -17,8 +17,12 @@
   </div>
     {% if form.errors %}
         <div class="row">
-          <div class="col-sm-offset-4 col-sm-5">
+          <div class="col-sm-offset-4 col-sm-5" style="font-size:16px;color:red;">
+            {% if user.is_active %}
             <p>您的账号和密码不匹配。请重新输入！谢谢！</p>
+            {% else %}
+            <p>您的账号还没有激活，请<a type="button" data-toggle="modal" data-target="#activeModal">激活</a>！</p>
+            {% endif %}
           </div>
         </div>
     {% endif %}
@@ -27,12 +31,6 @@
         <div class="row">
             <div class="col-sm-offset-4 col-sm-5">
                <p>您的账号没有权限访问这里。如果要继续，请选择一个有权限的账号<a href="{% url 'accounts:login' %}">登入</a>！</p>
-            </div>
-        </div>
-        {% else %}
-        <div class="row">
-            <div class="col-sm-offset-4 col-sm-5">
-                <p>请<a href="{% url 'accounts:login' %}">登入</a>！</p>
             </div>
         </div>
         {% endif %}
@@ -52,6 +50,7 @@
               <span class="text-danger" style="font-size:12px">
               <p>如果您的校园卡能够打开核磁中心外门，您就已经拥有账号！</p>
               <p>账号为您的教工号/学号，密码为教工号/学号后四位！</p>
+              <p style="color:red">如果您还没有激活用户，请<a type="button" data-toggle="modal" data-target="#activeModal">激活</a>才能登入！</p>
               </span>
           </div>
         </div>
@@ -79,9 +78,88 @@
   </div>
   </form>
 </div>
+
+<!-- Modal -->
+<form method="post" action="{% url 'accounts:activeUser' %}">
+<div class="modal fade" id="activeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h2 class="modal-title" id="myModalLabel">激活您的账号</h2>
+      </div>
+      <div class="modal-body">
+           {% csrf_token %}
+              <div class="row">
+                <div class="form-group">
+                  <div class="col-sm-offset-1 col-sm-3">
+                    <label class="input-lg">用户名:</label>
+                  </div>
+                  <div class="col-sm-6">
+                  <input type="text" id="id_username" name="username" maxlength="30" />
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="form-group">
+                  <div class="col-sm-offset-1 col-sm-3">
+                    <label class="input-lg">姓名:</label>
+                  </div>
+                  <div class="col-sm-6">
+                    <input type="text" id="id_surname" name="surname" maxlength="30" />
+                    <span style="font-size:10px" class="helptext">请填写真实姓名！</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="form-group">
+                  <div class="col-sm-offset-1 col-sm-3">
+                    <label class="input-lg">学号/教工号:</label>
+                  </div>
+                  <div class="col-sm-6">
+                    <input type="text" id="id_identify" name="identify" maxlength="30" />
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="form-group">
+                  <div class="col-sm-offset-1 col-sm-3">
+                    <label class="input-lg">电话号码:</label>
+                  </div>
+                  <div class="col-sm-6">
+                    <input type="text" id="id_phone_number" name="phone_number" maxlength="18" placehold="0592000000"/>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group">
+                  <div class="col-sm-offset-1 col-sm-3">
+                    <label class="input-lg">邮箱:</label>
+                  </div>
+                  <div class="col-sm-6">
+                    <input type="text" id="id_email" name="email" maxlength="255" placehold="email"/>
+                  </div>
+                </div>
+              </div>
+          <div class="row">
+            <div class="col-sm-offset-1 col-sm-11">
+            <p class="input-lg text-danger">激活登录以后，请更改自己的个人资料,课题组信息！</p>
+            </div>
+          </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+</form>
 <script>
   $("input").toggleClass('form-control input-lg');
   $("input#id_username").focus();
 </script>
-
 {% endblock %}
