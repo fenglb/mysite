@@ -1,4 +1,9 @@
-@import url("http://fonts.useso.com/css?family=Aladin");
+@font-face {
+    font-family: 'Aladin';
+    font-style: normal;
+    font-weight: 400;
+    src: url(/static/font/buRUtoRWOWPeMPMKs6Y-uw.woff) format('woff');
+}
 html { 
   height: 100%;
 }

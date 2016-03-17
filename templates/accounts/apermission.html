@@ -70,7 +70,7 @@
               {% if appoint.has_approved == None %}
                 未处理，请等待！
               {% elif appoint.has_approved %}
-                已经通过!
+                已经通过！<span>{{appoint.feedback}}</span>
               {% else %}
                 未通过！<span style="color:red">{{appoint.feedback}}</span>
               {% endif %}
@@ -85,7 +85,7 @@
               {% if appoint.has_approved == None %}
                 未处理，请等待！
               {% elif appoint.has_approved %}
-                已经通过!
+                已经通过！<span>{{appoint.feedback}}</span>
               {% else %}
                 未通过！<span style="color:red">{{appoint.feedback}}</span>
               {% endif %}

@@ -32,13 +32,13 @@
         <tbody>
         {% for appoint in samples %}
           <tr class="{% if appoint.has_approved == None %}active{% elif appoint.has_approved %}success{%else%}danger{%endif%}">
-            <td><span class="label label-primary">A{{ forloop.counter }}<span></td>
+            <td><span class="label label-info">O{{ forloop.counter }}<span></td>
             <td>{{ appoint }}</td>
             <td>
               {% if appoint.has_approved == None %}
                 未处理，请等待！
               {% elif appoint.has_approved %}
-                已经通过!
+                已经通过！<span>{{appoint.feedback}}</span>
               {% else %}
                 未通过！<span style="color:red">{{appoint.feedback}}</span>
               {% endif %}

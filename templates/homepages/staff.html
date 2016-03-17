@@ -3,7 +3,7 @@
 <ul class="staff_bxslider">
     {% for staff in staffs %}
         <li>
-          <div class="item">
+          <div class="item" style="background-color:{% cycle '#86e8fa' '#cdf4d7' '#edacb5' '#febfba' '#33ffbd' %};">
           <center>
               <img class="img-circle img-responsive" src="{{ staff.profile_image.url }}">
                 <h3 class="media-heading">{{ staff.surname }} <small>{{staff.title}}</small></h3>

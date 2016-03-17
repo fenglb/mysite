@@ -135,8 +135,8 @@ h1,h2,h3 {
     -moz-box-shadow: 0 0 5px #ccc;
     -webkit-box-shadow: 0 0 5px #ccc;
     box-shadow: 0 0 5px #ccc;
-    border: 5px solid #fff;
-    border-radius: 5px;
+    border: 2px solid #fff;
+    border-radius: 10px;
     background: #fefefe;
 }
 .staff .item .media-heading{
