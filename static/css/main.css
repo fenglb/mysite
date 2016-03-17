@@ -1,4 +1,10 @@
-@import url("http://fonts.useso.com/css?family=Aladin");
+@font-face {
+    font-family: 'Aladin';
+    font-style: normal;
+    font-weight: 400;
+    src: url(/static/font/buRUtoRWOWPeMPMKs6Y-uw.woff) format('woff');
+}
+
 html, body {
     margin: auto;
 }
@@ -123,8 +129,18 @@ h1,h2,h3 {
   background: url(/static/images/staff_pattern.png);
   margin-bottom: -10px;
 }
-.carousel-control.left,.carousel-control.right {background-image:none!important;width:25px;}
-@media (max-width: 1200px) {
+.staff .item{
+    margin: 5px;
+    padding: 20px 0 40px 0;
+    -moz-box-shadow: 0 0 5px #ccc;
+    -webkit-box-shadow: 0 0 5px #ccc;
+    box-shadow: 0 0 5px #ccc;
+    border: 5px solid #fff;
+    border-radius: 5px;
+    background: #fefefe;
+}
+.staff .item .media-heading{
+    padding: 10px 0 10px 0;
 }
 .homepost {
   background: #F8F7EE url(/static/images/pattern.png);

@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+ 
+{% block title %}编辑头像{% endblock %}
+ 
+{% block css %}
+    <link rel="stylesheet" href="/static/css/Jcrop.min.css" type="text/css" />
+{% endblock %}
+ 
+{% block content %}
+<div class="container">
+<div id="avatar">
+</div>
+<div style="width:300px;height:300px;overflow:hidden;">
+    <img src="{{ user.profile_image.url }}" id="target" alt="{{user.surname}}"/>
+    <div id="preview-pane">
+        <div class="preview-container">
+            <img src="{{ user.profile_image.url }}" class="jcrop-preview" alt="Preview">
+        </div>
+    </div>
+</div>
+
+<form enctype="multipart/form-data" action="{% url 'accounts:edit_mugshot' %}" method="post">
+{% csrf_token %}
+    <div><input id="mugshot" type="file" name="mugshot" /></div>    
+    <table style="margin-top: 1em;">  
+        <thead>  
+        <tr>  
+            <th style="font-size: 110%; font-weight: bold; text-align: left; padding-left: 0.1em;" colspan="2">  
+                剪切坐标   
+            </th>  
+            <th style="font-size: 110%; font-weight: bold; text-align: left; padding-left: 0.1em;" colspan="2">  
+                剪切尺寸   
+            </th>  
+        </tr>  
+        </thead>  
+        <tbody>  
+        <tr>  
+            <td style="width: 10%;"><b>X<sub>1</sub>:</b></td>  
+            <td style="width: 30%;">{{form.x1}}</td>  
+            <td style="width: 20%;"><b>宽度:</b></td>  
+            <td>{{form.w}}</td>  
+        </tr>  
+        <tr>  
+            <td><b>Y<sub>1</sub>:</b></td>  
+            <td>{{form.y1}}</td>  
+            <td><b>高度:</b></td>  
+            <td>{{form.h}}</td>  
+        </tr>  
+        <tr>  
+           <td><b>X<sub>2</sub>:</b></td>  
+           <td>{{form.x2}}</td>  
+           <td></td>  
+           <td></td>  
+        </tr>  
+        <tr>  
+           <td><b>Y<sub>2</sub>:</b></td>  
+           <td>{{form.y2}}</td>  
+           <td></td>  
+           <td><input type="submit" name="submit" value="提交" class="submit" /></td>  
+        </tr>  
+        </tbody>  
+    </table>  
+</form>
+</div>
+{% endblock %}
+ 
+{% block js%}
+    <script src="/static/js/Jcrop.min.js" type="text/javascript"></script> 
+    <script type="text/javascript" src="/static/js/mugshot.js"></script>
+{% endblock%}

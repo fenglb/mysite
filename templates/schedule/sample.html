@@ -3,6 +3,7 @@
 {% load staticfiles %}
 {% block css %}
 <link href="{% static 'css/jquery.simple-dtpicker.css' %}" rel="stylesheet" />
+<script src="{% static 'js/jquery.simple-dtpicker.js' %}"></script>
 <style>
   .container-fuild {
     margin-left: 50px;
@@ -162,13 +163,13 @@
 {% endblock %}
 
 {% block js%}
-<script src="{% static 'js/jquery.simple-dtpicker.js' %}"></script>
 <script src="{% static 'js/bootstrap-filestyle.min.js' %}"></script>
 <script>
   $("input").toggleClass('form-control input-lg');
   $("input#_attachmentName").removeClass('form-control input-lg');
   $("textarea").toggleClass('form-control input-lg');
   $("select").toggleClass('form-control input-lg');
+  $("input#id_start_time").attr('readonly', 'readonly');
   $("input#id_structure").hide( );
   $("select#id_user").hide( );
   function submitSmiles(){

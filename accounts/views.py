@@ -58,7 +58,10 @@ def verifyUserMail(request, pk, email_code ):
 
 @login_required
 def profile(request):
-    samples = SampleAppointment.objects.all().order_by("-created_time")
+    if request.user.is_superuser:
+        samples = SampleAppointment.objects.all().order_by("-created_time")
+    else:
+        samples = SampleAppointment.objects.all().order_by("-created_time").filter(user=request.user)
 
     trains = InstrumentAppointment.objects.all().order_by("-created_datetime")
     entrances = EntranceAppointment.objects.all().order_by("-created_datetime")
