@@ -1,4 +1,5 @@
 {% if samples %}
+<h3>送样申请情况：</h3>
 <div class="table-responsive">
 <table class="table table-striped">
   <thead>
@@ -81,9 +82,12 @@
   {% endfor %}
   </tbody>
 </table>
+</div><!--responsive-->
 {% endif %}
 {% if trains %}
-<table class="table table-striped table-responsive">
+<h3>仪器培训申请情况：</h3>
+<div class="table-responsive">
+<table class="table table-striped">
   <thead>
     <tr>
       <th>#</th>
@@ -157,9 +161,12 @@
   {% endfor %}
   </tbody>
 </table>
+</div><!--responsive-->
 {% endif %}
 {% if entrances %}
-<table class="table table-striped table-responsive">
+<h3>门禁申请情况：</h3>
+<div class="table-responsive">
+<table class="table table-striped">
   <thead>
     <tr>
       <th>#</th>
@@ -210,6 +217,5 @@
   {% endfor %}
   </tbody>
 </table>
+</div><!--responsive-->
 {% endif %}
-
-</div><!-- table-responsive-->

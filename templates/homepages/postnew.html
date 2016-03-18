@@ -3,7 +3,7 @@
     {% for post in lastest_blogs %}
       <li>
       <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
-      <small>post in {{ post.pub_date|date:"Y-m-d" }} by {% for author in post.author.all %}{{ author.surname }}{% if forloop.last %}{%else%},{%endif%}{%endfor%}</small>
+      <span class="label label-primary" style="margin-right: 3px;">{{ post.pub_date|date:"Y-m-d" }}</span><span class="label label-success">{% for author in post.author.all %}{{ author.username }}{% if forloop.last %}{%else%},{%endif%}{%endfor%}</span>
       </li>
     {% endfor %}
   </ol>

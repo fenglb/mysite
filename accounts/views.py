@@ -180,6 +180,7 @@ def activeUser(request):
                 if user.identify == identify:
                     email_code = getActiveCode( email )
                     user.email_code = email_code
+                    user.email = email
                     site = get_current_site( request )
                     if ( send_email( user, email_code, site ) == 1 ):
                         user.email = email

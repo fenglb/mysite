@@ -28,6 +28,8 @@
         <a href="{% url 'schedule:sample' %}">送样测试</a></p>
     </div>
     <div class="col-sm-10">
+    {% if samples %}<h3>送样申请处理状态：</h3>{% endif %}
+    <div class="table-responsive">
       <table class="table">
         <tbody>
         {% for appoint in samples %}
@@ -47,6 +49,7 @@
         {% endfor %}
         </tbody>
       </table>
+      </div>
       {% if user.is_superuser %}
         {% include 'accounts/profile_superuser.html' %}
       {% endif %}
