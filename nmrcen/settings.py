@@ -127,9 +127,9 @@ GOOGLE_ANALYTICS_PROPERTY_ID = 'UA-68383122-1'
 GOOGLE_ANALYTICS_DOMAIN = 'nmrcen.xmu.edu.cn'
 
 # email settings
-EMAIL_HOST = 'smtp.xmu.edu.cn'
-EMAIL_HOST_USER = 'tonyfeng'
-EMAIL_HOST_PASSWORD = 'xmu314159'
-DEFAULT_FROM_EMAIL = 'tonyfeng@xmu.edu.cn'
+EMAIL_HOST = 'smtp.163.com'
+EMAIL_HOST_USER = 'nmrcen'
+EMAIL_HOST_PASSWORD = 'xxxx'
+DEFAULT_FROM_EMAIL = 'xxx@163.com'
 EMAIL_POST = 25
 EMAIL_USE_TLS = True

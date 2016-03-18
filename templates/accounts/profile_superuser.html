@@ -20,9 +20,8 @@
       <td>{{sample.instrument.short_name}}</td>
       <td>{{sample.start_time}}</td>
       <td>{{sample.times}}</td>
-      <td><button type="button" class="btn btn-primary {% if sample.has_approved != None %}disabled{%endif%}" data-toggle="modal" data-target="#Modal{{forloop.counter}}" >More...</button></td>
+      <td><button type="button" class="btn {% if sample.has_approved == None %}btn-primary{% elif sample.has_approved %}btn-success{%else%}btn-danger{%endif%}" data-toggle="modal" data-target="#Modal{{forloop.counter}}" >More...</button></td>
 
-{% if sample.has_approved == None %}
 <div class="modal fade" id="Modal{{forloop.counter}}" tabindex="-1" role="dialog">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -30,16 +29,18 @@
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <h2 class="modal-title text-center">送样详情</h2>
       </div>
+{% if sample.has_approved == None %}
       <form action="{% url 'schedule:dealSampleAppoint' %}" method="post" class="form-horizontal">
         {% csrf_token %}
         <div class="modal-body">
           <p>{{ sample.user.surname }}[{{sample.user.person_in_charge}}]申请在{{sample.start_time}}{{sample.instrument}}使用<strong>{{sample.times}}</strong>小时。具体需要测试:</p>
           <p>测量类型：{{sample.measure_type|default_if_none:'无提供'}}</p>
           {% if sample.sample %}
-            <p>样品名称为{{sample.sample.name|default_if_none:'无样品名称'}},</p>
-            <p>浓度为{{sample.sample.concentration|default_if_none:'无提供浓度'}}mM,</p>
-            <p>分子量为{{sample.sample.molecular_weight|default_if_none:'无提供'}},</p>
-            <p>其他说明{{sample.sample.others}}.{%else%}没有样品说明</p>
+            <p>样品名称为{{sample.sample.name|default_if_none:'无样品名称'}},
+            浓度为{{sample.sample.concentration|default_if_none:'无提供浓度'}}mM,
+            溶剂为{{sample.sample.solvent|default_if_none:'无提供'}},
+            分子量为{{sample.sample.molecular_weight|default_if_none:'无提供'}},
+            其他说明{{sample.sample.others}}.{%else%}没有样品说明</p>
           {%endif%}
             <input id="sample" name="sample" value={{sample.id}} hidden>
             <div class="from-group row">
@@ -68,6 +69,19 @@
               </div>
             </div>
         </div>
+{%else%}
+        <div class="modal-body">
+          <p>{{ sample.user.surname }}[{{sample.user.person_in_charge}}]申请在{{sample.start_time}}{{sample.instrument}}使用<strong>{{sample.times}}</strong>小时。具体需要测试:</p>
+          <p>测量类型：{{sample.measure_type|default_if_none:'无提供'}}</p>
+          {% if sample.sample %}
+            <p>样品名称为{{sample.sample.name|default_if_none:'无样品名称'}},
+            浓度为{{sample.sample.concentration|default_if_none:'无提供浓度'}}mM,
+            溶剂为{{sample.sample.solvent|default_if_none:'无提供'}},
+            分子量为{{sample.sample.molecular_weight|default_if_none:'无提供'}},
+            其他说明{{sample.sample.others}}.{%else%}没有样品说明</p>
+          {%endif%}
+        </div>
+{%endif%}
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
           <button type="submit" class="btn btn-primary">Save changes</button>
@@ -76,7 +90,6 @@
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
-{%endif%}
 
     </tr>
   {% endfor %}
@@ -84,6 +97,7 @@
 </table>
 </div><!--responsive-->
 {% endif %}
+
 {% if trains %}
 <h3>仪器培训申请情况：</h3>
 <div class="table-responsive">
@@ -106,9 +120,8 @@
       <td>{% for inst in train.instrument.all %}{{inst.short_name}}{% if forloop.last %}{%else%},{%endif%}{%endfor%}</td>
       <td>{{ train.target_datetime }}</td>
       <td>{{ train.times }}</td>
-      <td><button type="button" class="btn btn-primary {% if train.has_approved != None %}disabled{%endif%}" data-toggle="modal" data-target="#myModal{{forloop.counter}}" >Yes/No</button></td>
+      <td><button type="button" class="btn {% if train.has_approved == None %}btn-primary{% elif train.has_approved %}btn-success{%else%}btn-danger{%endif%}" data-toggle="modal" data-target="#myModal{{forloop.counter}}" data-toggle="modal" data-target="#myModal{{forloop.counter}}" >Yes/No</button></td>
     </tr>
-
 {% if train.has_approved == None %}
 <div class="modal fade" id="myModal{{forloop.counter}}" tabindex="-1" role="dialog">
   <div class="modal-dialog">
@@ -157,12 +170,12 @@
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 {% endif %}
-
   {% endfor %}
   </tbody>
 </table>
 </div><!--responsive-->
-{% endif %}
+{% endif %}<!--train-->
+
 {% if entrances %}
 <h3>门禁申请情况：</h3>
 <div class="table-responsive">
@@ -181,8 +194,9 @@
       <td><span class="label label-success">C{{ forloop.counter }}<span></td>
       <td>{{ entrance.user.surname }} [{{entrance.user.person_in_charge}}]</td>
       <td>{% for inst in entrance.entrance.all %}{{inst}}{% if forloop.last %}{%else%},{%endif%}{%endfor%}</td>
-      <td><button type="button" class="btn btn-primary {% if entrance.has_approved != None %}disabled{%endif%}" data-toggle="modal" data-target="#eModal{{forloop.counter}}" >Yes/No</button></td>
+      <td><button type="button" class="btn {% if entrance.has_approved == None %}btn-primary{% elif entrance.has_approved %}btn-success{%else%}btn-danger{%endif%}" data-toggle="modal" data-target="#eModal{{forloop.counter}}" >Yes/No</button></td>
     </tr>
+
 
 {% if entrance.has_approved == None %}
 <div class="modal fade" id="eModal{{forloop.counter}}" tabindex="-1" role="dialog">
@@ -213,7 +227,6 @@
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 {% endif %}
-
   {% endfor %}
   </tbody>
 </table>

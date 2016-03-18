@@ -2,7 +2,7 @@
 {% block title %} 仪器预约 {% endblock %}
 {% load staticfiles %}
 {% block css %}
-<link href="{% static 'css/fullcalendar.css' %}" rel="stylesheet" />
+<link href="//cdn.bootcss.com/fullcalendar/2.6.1/fullcalendar.min.css" rel="stylesheet" />
 <link href="{% static 'css/jquery.simple-dtpicker.css' %}" rel="stylesheet" />
 
 <style>
@@ -211,8 +211,8 @@
 {% endblock %}
 
 {% block js %}
-<script src="{% static 'js/moment.min.js' %}"></script>
-<script src="{% static 'js/fullcalendar.js' %}"></script>
+<script src="//cdn.bootcss.com/moment.js/2.11.2/moment.min.js"></script>
+<script src="//cdn.bootcss.com/fullcalendar/2.6.1/fullcalendar.min.js"></script>
 <script src="{% static 'js/jquery.simple-dtpicker.js' %}"></script>
 <script type="text/javascript">
 	$(document).ready(function() {

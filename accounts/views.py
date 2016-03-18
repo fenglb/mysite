@@ -4,6 +4,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.views.decorators.csrf import csrf_protect
 from django.contrib.auth.decorators import login_required
 from django.core.mail import EmailMultiAlternatives
+from django.conf import settings
 try:
     from django.contrib.sites.shortcuts import get_current_site
 except ImportError:
@@ -31,7 +32,7 @@ def send_email( user, email_code, site ):
     email = user.email
 
     html_content = render_to_string( 'accounts/send_email.html', {'email_code': email_code, 'pk': user.id, 'site': site } )
-    subject, from_email, to_email = '您注册了厦门大学高场核磁中心网站', 'tonyfeng@xmu.edu.cn', email
+    subject, from_email, to_email = '您注册了厦门大学高场核磁中心网站', settings.DEFAULT_FROM_EMAIL, email
     text_content = 'tmp'
     msg = EmailMultiAlternatives( subject, text_content, from_email, [to_email] )
     msg.attach_alternative( html_content, 'text/html' )

@@ -34,7 +34,7 @@ class SampleAppointment( models.Model ):
 
     start_time = models.DateTimeField(verbose_name='起始时间', help_text='实验预约起始时间')
     times  = models.FloatField( verbose_name='实验用时/小时', help_text='实验预估用时，请参考不同实验估计用时！' )
-    measure_type = models.TextField(verbose_name='实验类型', blank=True, null=True , help_text='实验测量类型，C13，H1， HSQC，HMBC等')
+    measure_type = models.TextField(verbose_name='实验类型', blank=True, null=True , help_text='实验测量类型，C13，H1， HSQC，HMBC等, 以及谱宽等实验参数特殊说明。默认sw（1H）=20ppm，o1p（1H）=6.2ppm，sw（13C）=240ppm，o1p（13C）=100ppm。')
 
     created_time = models.DateTimeField(auto_now_add=True)
     has_approved = models.NullBooleanField(verbose_name='是否赞同', help_text='空着表示未处理', null=True, blank=True)

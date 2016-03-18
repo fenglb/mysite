@@ -34,7 +34,7 @@
         <tbody>
         {% for appoint in samples %}
           <tr class="{% if appoint.has_approved == None %}active{% elif appoint.has_approved %}success{%else%}danger{%endif%}">
-            <td><span class="label label-info">O{{ forloop.counter }}<span></td>
+            <td><span class="label label-info">O{{ forloop.counter }}</span></td>
             <td>{{ appoint }}</td>
             <td>
               {% if appoint.has_approved == None %}
