@@ -2,8 +2,8 @@
 {% block title %}送样申请{% endblock %}
 {% load staticfiles %}
 {% block css %}
-<link href="{% static 'css/jquery.simple-dtpicker.css' %}" rel="stylesheet" />
-<script src="{% static 'js/jquery.simple-dtpicker.js' %}"></script>
+<link href="//mugifly.github.io/jquery-simple-datetimepicker/jquery.simple-dtpicker.css" rel="stylesheet" />
+<script src="//mugifly.github.io/jquery-simple-datetimepicker/jquery.simple-dtpicker.js"></script>
 <style>
   .container-fuild {
     margin-left: 50px;
@@ -21,10 +21,13 @@
 <form method="post" action="{% url 'schedule:sample' %}">
 {% csrf_token %}
 <div class="row">
+<h2 class="text-center label-success" style="color:blue">4月5号到4月19号，管理员休假期间不接受送样申请，敬请见谅！</h2>
+</div>
+<div class="row">
 	<div class="col-sm-4">
     <h3 style="border-bottom:1px solid #eee;">送样申请说明</h3>
     <ol class="comment">
-      <li>送样测试是用户送样，由管理员进行的测试；</li>
+      <li>送样测试是用户送样，由管理员进行的测试, 所以放假期间不接收送样测试，请合适安排您的送样时间；</li>
       <li>请尽量详细填写右边的表格；</li>
       <li class="text-danger">用户首先根据目前仪器的<a href="{% url 'homepages:appoint' %}">预约情况</a>填写<strong>起始时间</strong>,最终的安排以管理员确定邮件或者信息为准！</li>
       <li>实验用时请参考<a href="">这篇博文</a>计算自己的实验用时！</li>
@@ -163,7 +166,7 @@
 {% endblock %}
 
 {% block js%}
-<script src="{% static 'js/bootstrap-filestyle.min.js' %}"></script>
+<script src="//cdn.bootcss.com/bootstrap-filestyle/1.2.1/bootstrap-filestyle.min.js"></script>
 <script>
   $("input").toggleClass('form-control input-lg');
   $("input#_attachmentName").removeClass('form-control input-lg');

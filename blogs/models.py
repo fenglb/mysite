@@ -90,9 +90,9 @@ class BlogPost(models.Model):
             self.body = self.md_file.read()
 
         # generate rendered html file with same name as md
-        #headers = {'Content-Type': 'text/plain'}
+        headers = {'Content-Type': 'text/plain'}
 
-        self.body = md(self.body) # convert the markdown to html
+        #self.body = md(self.body) # convert the markdown to html
 
         if type(self.body) == bytes:  # sometimes body is str sometimes bytes...
             data = self.body
@@ -101,11 +101,12 @@ class BlogPost(models.Model):
         else:
             print("somthing is wrong")
 
+        r = requests.post('https://api.github.com/markdown/raw', headers=headers, data=data)
+        html_data = r.content
         if not self.description:
-            self.description = data[:300]
-        #r = requests.post('https://api.github.com/markdown/raw', headers=headers, data=data)
+            self.description = html_data[:300]
         # avoid recursive invoke
-        self.html_file.save(unidecode(self.title)+'.html', ContentFile(data), save=False)
+        self.html_file.save(self.title+'.html', ContentFile(html_data), save=False)
         self.html_file.close()
 
         super(BlogPost, self).save(*args, **kwargs)

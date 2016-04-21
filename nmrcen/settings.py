@@ -129,7 +129,7 @@ GOOGLE_ANALYTICS_DOMAIN = 'nmrcen.xmu.edu.cn'
 # email settings
 EMAIL_HOST = 'smtp.163.com'
 EMAIL_HOST_USER = 'nmrcen'
-EMAIL_HOST_PASSWORD = 'xxxx'
-DEFAULT_FROM_EMAIL = 'xxx@163.com'
+EMAIL_HOST_PASSWORD = 'wangyi314159'
+DEFAULT_FROM_EMAIL = 'nmrcen@163.com'
 EMAIL_POST = 25
 EMAIL_USE_TLS = True

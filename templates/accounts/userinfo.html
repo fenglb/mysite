@@ -207,7 +207,6 @@
             </div>
           </div>
         </div>
-
       </form>
     </div>
   </div>
@@ -219,9 +218,15 @@
   $("#id_surname0").change(
     function (element) {
       $.getJSON('/accounts/getpi/'+$(this).val(), function(data){
+        if( data.phone_number0 ) {
         document.getElementById("id_phone_number0").value = data.phone_number0;
-        document.getElementById("id_email0").value = data.email0;
-        document.getElementById("id_titles").value = data.titles;
+        }
+        if( data.email0 ) {
+            document.getElementById("id_email0").value = data.emial0;
+        }
+        if( data.titles ) {
+            document.getElementById("id_titles").value = data.titles;
+        }
         document.getElementById("id_name").value = data.name;
         document.getElementById("id_department").value = data.department;
         document.getElementById("id_address").value = data.address;

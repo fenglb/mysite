@@ -2,7 +2,7 @@
 {% block title %} 权限申请 {% endblock %}
 {% block css %}
 {% load staticfiles %}
-<link href="{% static 'css/jquery.simple-dtpicker.css' %}" rel="stylesheet" />
+<link href="//mugifly.github.io/jquery-simple-datetimepicker/jquery.simple-dtpicker.css" rel="stylesheet" />
 <style>
   .register .row {
     padding-top: 10px;
@@ -218,7 +218,7 @@
 </div>
 {% endblock %}
 {% block js %}
-<script src="{% static 'js/jquery.simple-dtpicker.js' %}"></script>
+<script src="//mugifly.github.io/jquery-simple-datetimepicker/jquery.simple-dtpicker.js"></script>
 <script>
   $("input").toggleClass('form-control input-lg');
   $("select[name=user]").hide();

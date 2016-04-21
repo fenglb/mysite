@@ -3,7 +3,7 @@
 {% load staticfiles %}
 {% block css %}
 <link href="//cdn.bootcss.com/fullcalendar/2.6.1/fullcalendar.min.css" rel="stylesheet" />
-<link href="{% static 'css/jquery.simple-dtpicker.css' %}" rel="stylesheet" />
+<link href="//mugifly.github.io/jquery-simple-datetimepicker/jquery.simple-dtpicker.css" rel="stylesheet" />
 
 <style>
   h4 {
@@ -213,7 +213,7 @@
 {% block js %}
 <script src="//cdn.bootcss.com/moment.js/2.11.2/moment.min.js"></script>
 <script src="//cdn.bootcss.com/fullcalendar/2.6.1/fullcalendar.min.js"></script>
-<script src="{% static 'js/jquery.simple-dtpicker.js' %}"></script>
+<script src="//mugifly.github.io/jquery-simple-datetimepicker/jquery.simple-dtpicker.js"></script>
 <script type="text/javascript">
 	$(document).ready(function() {
 		$('#calendar').fullCalendar({
@@ -298,7 +298,7 @@
     });
   {% endif %}
   {% if is_perm %}
-  $("input#id_start_time").appendDtpicker({'futureOnly': true });
+  $("input#id_start_time").appendDtpicker({'futureOnly': true});
   $("input#id_end_time").appendDtpicker({'futureOnly': true});
   $("input#id_start_time").attr('readonly', 'readonly');
   $("input#id_end_time").attr('readonly', 'readonly');

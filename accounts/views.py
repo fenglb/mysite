@@ -5,6 +5,8 @@ from django.views.decorators.csrf import csrf_protect
 from django.contrib.auth.decorators import login_required
 from django.core.mail import EmailMultiAlternatives
 from django.conf import settings
+from django.contrib.auth import login as auth_login
+from django.contrib.auth import authenticate
 try:
     from django.contrib.sites.shortcuts import get_current_site
 except ImportError:
@@ -57,6 +59,22 @@ def verifyUserMail(request, pk, email_code ):
         return render_to_response('accounts/register_activated.html')
 
 
+def login(request):
+    context = {}
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(username=username, password=password)
+        if user is not None:
+            if user.is_active:
+                auth_login(request, user)
+                return HttpResponseRedirect( request.POST['next'] )
+            else:
+                context['errors'] = '您的用户没有激活！请激活！'
+        else:
+            context['errors'] = '您的密码和用户名不匹配！'
+    return render( request, 'accounts/login.html', context )
+
 @login_required
 def profile(request):
     if request.user.is_superuser:
@@ -79,10 +97,14 @@ def getPersonInChargeInfo( request, surname ):
         fields = PersonInChargeForm.Meta.fields
         values = {}
         for field in fields:
-            values[field] = getattr( person_in_charge, field )
+            if person_in_charge:
+                values[field] = getattr( person_in_charge, field )
+            else: values[field] = ""
         fields =  OrgnizationForm.Meta.fields
         for field in fields:
-            values[field] = getattr( person_in_charge.orgnization, field )
+            if person_in_charge:
+                values[field] = getattr( person_in_charge.orgnization, field )
+            else: values[field] = ""
 
     return HttpResponse(json.dumps(values, ensure_ascii=False))
 
