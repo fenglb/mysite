@@ -3,7 +3,6 @@ from django.template.loader import render_to_string
 from django.http import HttpResponseRedirect, HttpResponse
 from django.views.decorators.csrf import csrf_protect
 from django.contrib.auth.decorators import login_required
-from django.core.mail import EmailMultiAlternatives
 from django.conf import settings
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import authenticate
@@ -22,27 +21,13 @@ from schedule.models import Instrument, InstrumentAppointment, SampleAppointment
 import uuid
 import json
 import time
-import smtplib
+from mail.sendmail import sendEmail
 
 # Create your views here.
 
 def getActiveCode( email ):
     email_code = uuid.uuid5( uuid.NAMESPACE_DNS, email+str(time.time())).hex
     return email_code
-
-def send_email( user, email_code, site ):
-    email = user.email
-
-    html_content = render_to_string( 'accounts/send_email.html', {'email_code': email_code, 'pk': user.id, 'site': site } )
-    subject, from_email, to_email = '您注册了厦门大学高场核磁中心网站', settings.DEFAULT_FROM_EMAIL, email
-    text_content = 'tmp'
-    msg = EmailMultiAlternatives( subject, text_content, from_email, [to_email] )
-    msg.attach_alternative( html_content, 'text/html' )
-    try:
-        msg.send()
-        return 1
-    except smtplib.SMTPException:
-        return 0
 
 def verifyUserMail(request, pk, email_code ):
     try:
@@ -172,12 +157,14 @@ def register(request):
             user.email_code = email_code
             user.save()
             site = get_current_site(request)
-            if ( send_email( user, email_code, site ) != 1 ):
+            html_content = render_to_string( 'accounts/send_email.html', {'email_code': email_code, 'pk': user.id, 'site': site } )
+            subject, from_email, to_email = '您注册了厦门大学高场核磁中心网站', settings.DEFAULT_FROM_EMAIL, user.email
+            if ( sendEmail(  to_email, from_email, subject, html_content ) ):
+                return render(request, "accounts/register_done.html", {'email': user.email})
+            else:
                 user.delete()
                 form.errors['email'] = "您输入电子邮箱无效，请重新输入！"
                 return render(request, "accounts/register.html", {'form':form, },)
-            else:
-                return render(request, "accounts/register_done.html", {'email': user.email})
     else:
         form = UserCreationForm()
 
@@ -192,27 +179,33 @@ def activeUser(request):
     if request.method == 'POST':
         username=request.POST.get('username', None)
         surname =request.POST.get('surname', None)
-        identify =request.POST.get('identify', None)
+        #identify =request.POST.get('identify', None)
         phone_number =request.POST.get('phone_number', None)
         email =request.POST.get('email', None)
 
         user = CustomUser.objects.get(username=username)
 
+        if user.is_active:
+            errors = "您的用户已经激活，请直接<a href='/accounts/login/'>登录</a>！如果您忘记密码，请<a href='/password_reset/recover/'>重设密码</a>!"
+            return render(request, "accounts/active.html", {'errors': errors,})
+
         if user:
             if user.surname == surname:
-                if user.identify == identify:
-                    email_code = getActiveCode( email )
-                    user.email_code = email_code
+                #if user.identify == identify:
+                email_code = getActiveCode( email )
+                user.email_code = email_code
+                user.email = email
+                site = get_current_site( request )
+                html_content = render_to_string( 'accounts/send_email.html', {'email_code': email_code, 'pk': user.id, 'site': site } )
+                subject, from_email, to_email = '您注册了厦门大学高场核磁中心网站', settings.DEFAULT_FROM_EMAIL, user.email
+                if ( sendEmail(  to_email, from_email, subject, html_content ) ):
                     user.email = email
-                    site = get_current_site( request )
-                    if ( send_email( user, email_code, site ) == 1 ):
-                        user.email = email
-                        user.phone_number = phone_number
-                        user.save()
-                    else:
-                        errors = "您输入电子邮箱无效(%s)，请重新输入！" % email
+                    user.phone_number = phone_number
+                    user.save()
                 else:
-                    errors = "您输入的学号/教工卡 (%s) 有误" % identify
+                    errors = "您输入电子邮箱无效(%s)，请重新输入！" % email
+                #else:
+                #    errors = "您输入的学号/教工卡 (%s) 有误" % identify
             else:
                 errors = "您输入的真实姓名(%s)有误" % surname
             return render(request, "accounts/active.html", {'errors':errors, 'email': user.email})

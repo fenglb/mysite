@@ -14,7 +14,7 @@
   <div class="row">
     <div class="col-sm-5 text-center">
         {% if errors %}
-            {{ errors }}
+            {{ errors|safe }}
           <p>请返回再次<a href="{% url 'accounts:login' %}">激活</a>！</p>
         {% else %}
           <p>请登录您用于注册的邮箱{{ email }}进行激活！</p>
