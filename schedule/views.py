@@ -84,21 +84,22 @@ def getEvent(request, instrument):
             experiments = Experiment.objects.filter(instrument__short_name=instrument)
         data = []
         for exp in experiments:
+            person_in_charge_name = ''
             event={}
             if instrument=='all':
                 event['title'] = "{0} {1}".format(exp.user.get_full_name(), exp.instrument.short_name)
             else:
                 if exp.user.person_in_charge:
-                    person_in_charge = exp.user.person_in_charge.surname0
+                    person_in_charge_name = exp.user.person_in_charge.surname0
                 else:
-                    person_in_charge = 'NONE'
-                event['title'] = "{0}[{1}]".format(exp.user.get_full_name(), person_in_charge)
+                    person_in_charge_name = 'NONE'
+                event['title'] = "{0}[{1}]".format(exp.user.get_full_name(), person_in_charge_name)
             start = exp.start_time
             event['start'] = cnfromutc( start ).strftime("%Y-%m-%dT%H:%M:%S%z")
             end = cnfromutc( exp.start_time+timedelta(hours=exp.times) )
             event['end'] = end.strftime("%Y-%m-%dT%H:%M:%S%z")
             try:
-                group_id = PersonInCharge.objects.get(surname0=person_in_charge).id % len(bordercolor)
+                group_id = PersonInCharge.objects.get(surname0=person_in_charge_name).id % len(bordercolor)
             except PersonInCharge.DoesNotExist:
                 group_id = len(bordercolor) - 1
             event['borderColor'] = bordercolor[group_id]
