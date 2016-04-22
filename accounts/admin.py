@@ -30,7 +30,7 @@ class UserCreationForm(forms.ModelForm):
         position = self.cleaned_data.get("position")
         if position == "visit":
             users = CustomUser.objects.filter( position="visit" ).filter( create_time__year=datetime.now().year )
-            date_str = datetime.now().strftime("%Y%m")
+            date_str = datetime.now().strftime("%Y%m%d")
             identify = "T"+date_str+"{:03}".format(len(users))
         else:
             surname = self.cleaned_data.get("surname")
