@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.conf import settings
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import authenticate
+from django.db.models import Q
 try:
     from django.contrib.sites.shortcuts import get_current_site
 except ImportError:
@@ -21,6 +22,7 @@ from schedule.models import Instrument, InstrumentAppointment, SampleAppointment
 import uuid
 import json
 import time
+from datetime import date
 from mail.sendmail import sendEmail
 
 # Create your views here.
@@ -62,13 +64,14 @@ def login(request):
 
 @login_required
 def profile(request):
+    today = date.today()
     if request.user.is_superuser:
-        samples = SampleAppointment.objects.all().order_by("-created_time")
+        samples = SampleAppointment.objects.all().order_by("-created_time").filter(Q(start_time__gte=today)| Q(has_approved=None))
     else:
         samples = SampleAppointment.objects.all().order_by("-created_time").filter(user=request.user)
 
-    trains = InstrumentAppointment.objects.all().order_by("-created_datetime")
-    entrances = EntranceAppointment.objects.all().order_by("-created_datetime")
+    trains = InstrumentAppointment.objects.all().order_by("-created_datetime").filter(Q(target_datetime__gte=today)|Q(has_approved=None))
+    entrances = EntranceAppointment.objects.all().order_by("-created_datetime").filter(Q(created_datetime__gte=today)|Q(has_approved=None))
 
     return render(request, "accounts/profile.html", {'samples': samples, "trains": trains, "entrances": entrances} )
 
