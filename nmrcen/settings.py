@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+import shelve
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -23,10 +24,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = ')9^)1yl#w#)4_o+nsy5s&0tp&(yn@l_t37t=ovwhf^n6m-i4*2'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['127.0.0.1', 'nmrcen.xmu.edu.cn']
-ADMINS = [('FengLiubin', 'fengliubin@126.com'),]
+ALLOWED_HOSTS = ['nmrcen.xmu.edu.cn', ]
+ADMINS = [('nmrcen', 'nmrcen@163.com'),]
 
 # Application definition
 
@@ -90,7 +91,7 @@ WSGI_APPLICATION = 'nmrcen.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'NAME': os.path.join('/var/www/db', 'db.sqlite3'),
     }
 }
 
@@ -113,10 +114,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
 STATIC_URL = '/static/'
-#STATIC_ROOT = os.path.join( BASE_DIR, "static" )
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, "static"),
-)
+STATIC_ROOT = os.path.join( BASE_DIR, "static" )
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join( BASE_DIR, 'media' )
@@ -127,9 +125,12 @@ GOOGLE_ANALYTICS_PROPERTY_ID = 'UA-68383122-1'
 GOOGLE_ANALYTICS_DOMAIN = 'nmrcen.xmu.edu.cn'
 
 # email settings
-EMAIL_HOST = 'smtp.163.com'
-EMAIL_HOST_USER = 'nmrcen'
-EMAIL_HOST_PASSWORD = 'wangyi314159'
-DEFAULT_FROM_EMAIL = 'nmrcen@163.com'
-EMAIL_POST = 25
+database = shelve.open(os.path.join(BASE_DIR) + "secretkeys.txt")
+email_setings = database["email_setings"]
+SERVER_EMAIL = email_setings["server_email"]
+EMAIL_HOST = email_setings["email_host"]
+EMAIL_HOST_USER = email_setings["email_host_user"]
+EMAIL_HOST_PASSWORD = email_setings["email_host_password"]
+DEFAULT_FROM_EMAIL = email_setings["default_from_email"]
+EMAIL_POST = email_setings["email_post"]
 EMAIL_USE_TLS = True

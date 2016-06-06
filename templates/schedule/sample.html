@@ -18,11 +18,9 @@
 {% endblock %}
 {% block content %}
 <div class="container-fuild">
+
 <form method="post" action="{% url 'schedule:sample' %}">
 {% csrf_token %}
-<div class="row">
-<h2 class="text-center label-success" style="color:blue">4月5号到4月19号，管理员休假期间不接受送样申请，敬请见谅！</h2>
-</div>
 <div class="row">
 	<div class="col-sm-4">
     <h3 style="border-bottom:1px solid #eee;">送样申请说明</h3>
