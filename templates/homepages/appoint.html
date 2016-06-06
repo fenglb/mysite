@@ -37,7 +37,7 @@
     {% if user.is_anonymous %}
       <td>注册用户[<small><a href="{% url 'accounts:register' %}">注册</a>或者<a href="{% url 'accounts:login' %}">登录</a></small>]</td>
     {% else %}
-      <td>账号已注册</td>
+      <td>账号注册</td>
     {% endif %}
     <td>申请仪器自主上机<a href="{% url 'accounts:apermission' %}">操作权限</a></td>
     <td>上机培训</td>
@@ -51,7 +51,7 @@
     {% if user.is_anonymous %}
       <td>注册用户[<small><a href="{% url 'accounts:register' %}">注册</a>或者<a href="{% url 'accounts:login' %}">登录</a></small>]</td>
     {% else %}
-      <td>账号已注册</td>
+      <td>账号注册</td>
     {% endif %}
     <td>查看仪器预约情况申请单</td>
     <td>提交送样<a href="{% url 'accounts:apermission' %}">申请单</a></td>
@@ -63,7 +63,7 @@
 </div>
 
 <div class="row">
-  <h4>查看仪器预约情况或者预约实验</h4>
+  <h4>查看仪器预约情况或者预约实验(<small class="bg-primary">请点击下方相应仪器照片！</small>)</h4>
     {% for instrument in instruments %}
       <div class="col-sm-3 col-xs-4">
         <a href="{% url 'schedule:view' instrument.short_name %}"><img class="img-rounded img-responsive" src="{{ instrument.image.url }}" /></a>

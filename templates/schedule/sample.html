@@ -26,7 +26,7 @@
     <h3 style="border-bottom:1px solid #eee;">送样申请说明</h3>
     <ol class="comment">
       <li>送样测试是用户送样，由管理员进行的测试, 所以放假期间不接收送样测试，请合适安排您的送样时间；</li>
-      <li>请尽量详细填写右边的表格；</li>
+      <li>请尽量详细填写右边的表格, <strong>选择仪器</strong>, <strong>起始时间</strong>和<strong>实验用时</strong>为必填项目，其他项目为选择填写；</li>
       <li class="text-danger">用户首先根据目前仪器的<a href="{% url 'homepages:appoint' %}">预约情况</a>填写<strong>起始时间</strong>,最终的安排以管理员确定邮件或者信息为准！</li>
       <li>实验用时请参考<a href="">这篇博文</a>计算自己的实验用时！</li>
       <li>根据您的实验具体填写<strong>实验类型</strong>！</li>
@@ -39,7 +39,7 @@
     <h3>申请信息</h3>
 		<div class="row">
 				<div class="col-sm-4">
-					<label class="input-lg">{{ appform.instrument.label_tag }}</label>
+					<label class="input-lg text-danger">{{ appform.instrument.label_tag }}</label>
 				</div>
       <div class="col-sm-8">
         {{ appform.instrument }}
@@ -49,7 +49,7 @@
 		<div class="row">
 			<div class="form-group">
 				<div class="col-sm-4">
-					<label class="input-lg">{{ appform.start_time.label_tag }}</label>
+					<label class="input-lg text-danger">{{ appform.start_time.label_tag }}</label>
 				</div>
 				<div class="col-sm-8">
         {{ appform.start_time }}
@@ -62,7 +62,7 @@
 		<div class="row">
 			<div class="form-group">
 					<div class="col-sm-6">
-					<label class="input-lg">{{ appform.times.label_tag }}</label>
+					<label class="input-lg text-danger">{{ appform.times.label_tag }}</label>
 					</div>
 					<div class="col-sm-6">
             {{ appform.times }}
