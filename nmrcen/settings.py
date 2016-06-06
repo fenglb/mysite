@@ -12,7 +12,6 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
-import shelve
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -24,9 +23,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = ')9^)1yl#w#)4_o+nsy5s&0tp&(yn@l_t37t=ovwhf^n6m-i4*2'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['nmrcen.xmu.edu.cn', ]
+ALLOWED_HOSTS = ['127.0.0.1', 'nmrcen.xmu.edu.cn', ]
 ADMINS = [('nmrcen', 'nmrcen@163.com'),]
 
 # Application definition
@@ -125,12 +124,13 @@ GOOGLE_ANALYTICS_PROPERTY_ID = 'UA-68383122-1'
 GOOGLE_ANALYTICS_DOMAIN = 'nmrcen.xmu.edu.cn'
 
 # email settings
-database = shelve.open(os.path.join(BASE_DIR) + "secretkeys.txt")
-email_setings = database["email_setings"]
-SERVER_EMAIL = email_setings["server_email"]
-EMAIL_HOST = email_setings["email_host"]
-EMAIL_HOST_USER = email_setings["email_host_user"]
-EMAIL_HOST_PASSWORD = email_setings["email_host_password"]
-DEFAULT_FROM_EMAIL = email_setings["default_from_email"]
-EMAIL_POST = email_setings["email_post"]
+with open(os.path.join( BASE_DIR, "secretkeys.txt")) as f:
+    settings = dict([line.strip().split() for line in f.readlines()])
+print( settings )
+SERVER_EMAIL = settings["server_email"]
+EMAIL_HOST = settings["email_host"]
+EMAIL_HOST_USER = settings["email_host_user"]
+EMAIL_HOST_PASSWORD = settings["email_host_password"]
+DEFAULT_FROM_EMAIL = settings["default_from_email"]
+EMAIL_POST = settings["email_post"]
 EMAIL_USE_TLS = True
