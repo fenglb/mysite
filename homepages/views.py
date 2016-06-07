@@ -17,8 +17,8 @@ def home( request ):
     return render( request, 'homepages/index.html', {'lastest_blogs': lastest_blogs, 'lastest_news': lastest_news, 'projects': projects, 'instruments': instruments, 'staffs': staffs, 'hot_spots': hot_spots } )
 
 def post(request, slug, post_id):
-    args = {'post': get_object_or_404(BlogPost, pk=post_id)}
-    return render(request, 'homepages/post.html', args)
+    args = {'blogpost': get_object_or_404(BlogPost, pk=post_id)}
+    return render(request, 'blogs/blogpost.html', args)
 
 
 

@@ -147,17 +147,22 @@ h1,h2,h3 {
 .staff .item .media-heading{
     padding: 10px 0 10px 0;
 }
-.homepost {
+.blogs {
   background: #F8F7EE url(/static/images/pattern.png);
   margin-top: -20px;
   margin-bottom: -10px;
 }
-.homepost p {
+.blogs p {
   font: normal .80em ;
   font-family: "Georgia", "times", "AR PL UMing CN", "STSong", "SimSun", serif;
   color: #7A7A68;
-  padding: 0 0 20px 0;
   line-height: 1.7em;
   text-indent: 2em;
   font-size: 120%;
+}
+.blogs img {
+    max-width: 60% !important;
+    margin-left: auto;
+    margin-right: auto;
+    display:block;
 }

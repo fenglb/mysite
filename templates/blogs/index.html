@@ -1,18 +1,20 @@
-﻿{% extends 'blogs/blog_base.html' %}
-{% load static %}
-
-{% block pagecss %}
-{% endblock pagecss %}
+﻿{% extends 'base.html' %}
+{% load staticfiles %}
+{% block title %}博客{% endblock %}
+{% block css %}
+{% endblock %}
 
 {% block content %}
-<div class="blog-index">
+<div class="blogs">
+<div class="container">
+<div class="col-xs-offset-2 col-xs-8">
 {% for blogpost in blogposts|slice:sl %}
     {% autoescape off %}
       <article>
-        <h1 style="margin: 15px 0 0 0;">
+        <h3 style="margin: 15px 0 0 0;">
           <a href="{{ blogpost.get_absolute_url }}">{{ blogpost.title }}</a>
-        </h1>
-        <div class="label">{{ blogpost.pub_date|date:"jS F Y" }} by {% for author in blogpost.author.all %}{{author.surname}}{% if forloop.last %}{%else%},{%endif%} {% endfor %}</div>
+        </h3>
+        <span>{{ blogpost.pub_date|date:"jS F Y" }} by {% for author in blogpost.author.all %}{{author.surname}}{% if forloop.last %}{%else%},{%endif%} {% endfor %}</span>
         <span>{{ blogpost.description }}</span>
       </article>
     {% endautoescape %}
@@ -26,5 +28,7 @@
       <a class="prev" href="/blogs/{{ prev_page }}/">Older →</a>
     {% endif %}
   </div>
+</div>
+</div>
 </div>
 {% endblock content %}
