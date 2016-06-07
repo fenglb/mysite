@@ -82,13 +82,18 @@ h1,h2,h3 {
   font-family: cursive;
   font-size: 12px;
 }
-.lab-new {
-  margin-bottom: 1px;
-  padding-bottom: 10px;
+.lab-new li{
+  padding-top: 8px;
   border-bottom: 1px solid #e5e5e5;
-  background-color: #fefcff;
   font-size: 18px;
 }
+.new li:last-child {
+    border-bottom: none;
+}
+.post li:last-child {
+    border-bottom: none;
+}
+
 .project .item {
   display: block;
 }
