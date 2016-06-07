@@ -13,9 +13,9 @@
       <article>
         <h3 style="margin: 15px 0 0 0;">
           <a href="{{ blogpost.get_absolute_url }}">{{ blogpost.title }}</a>
+          <small>{{ blogpost.pub_date|date:"jS F Y" }} by {% for author in blogpost.author.all %}{{author.surname}}{% if forloop.last %}{%else%},{%endif%} {% endfor %}</small>
         </h3>
-        <span>{{ blogpost.pub_date|date:"jS F Y" }} by {% for author in blogpost.author.all %}{{author.surname}}{% if forloop.last %}{%else%},{%endif%} {% endfor %}</span>
-        <span>{{ blogpost.description }}</span>
+        <div>{{ blogpost.description }}</div>
       </article>
     {% endautoescape %}
     <div style="border-bottom: 1px solid #e5e5e5;padding-top:10px;"></div>
