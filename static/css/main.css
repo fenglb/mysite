@@ -1,14 +1,5 @@
-@font-face {
-    font-family: 'Aladin';
-    font-style: normal;
-    font-weight: 400;
-    src: url(/static/font/buRUtoRWOWPeMPMKs6Y-uw.woff) format('woff');
-}
-
 html, body {
     margin: auto;
-}
-body {
     background: #FFFFFF repeat;
 }
 * {
@@ -21,18 +12,8 @@ h1,h2,h3 {
 }
 
 .header-item {
-  color: #ffffff;
   background-color: #1861ad;
   border-bottom: 1px solid #333;
-  font-family: Georgia, "AR PL UMing CN", "STSong", "SimSun", serif;
-}
-.header-item .header {
-  font-size: 300%;
-}
-.header-item .caption{
-  font-size: 140%;
-  margin-left: 4%;
-  margin-top: -1%;
 }
 .nav-item{
 	background-color: #7d0552;
@@ -107,7 +88,7 @@ h1,h2,h3 {
 .card .card-title {
   min-height: 10%;
   font-weight: lighter;
-  font-family: "Aladin", "times", "AR PL UKai CN", "KaiTi", "STKaiti", monospace;
+  font-family: "times", "AR PL UKai CN", "KaiTi", "STKaiti", monospace;
   font-size: 160%;
 }
 .card .card-img {
