@@ -1,4 +1,5 @@
 import os
+import re
 from datetime import datetime
 
 from django.db import models
@@ -104,7 +105,10 @@ class BlogPost(models.Model):
         r = requests.post('https://api.github.com/markdown/raw', headers=headers, data=data)
         html_data = r.content
         if not self.description:
-            self.description = html_data[:300]
+            p = re.compile(r"\<p\>(.*)\<\/p\>")
+            m = p.finditer(html_data.decode('utf-8'))
+            try: self.description = next(m).groups()[0]
+            except StopIteration: self.description = self.body[:200]
         # avoid recursive invoke
         self.html_file.save(self.title+'.html', ContentFile(html_data), save=False)
         self.html_file.close()
