@@ -59,7 +59,10 @@ class ExperimentAdmin(admin.ModelAdmin):
     list_display = ('surname', 'instrument', 'start_time', 'stop_time', 'times')
 
     def surname(self, obj):
-        return '{0} [{1}]'.format(obj.user.surname, obj.user.person_in_charge.surname0)
+        if not obj.user.person_in_charge:
+            return '{0} [{1}]'.format(obj.user.surname, 'None')
+        else:
+            return '{0} [{1}]'.format(obj.user.surname, obj.user.person_in_charge.surname0)
 
     surname.short_description = "用户"
 
