@@ -18,6 +18,9 @@
 {% endblock %}
 {% block content %}
 <div class="container-fuild">
+<div class="row text-center text-success" style="border: 1px solid #000;">
+** 推荐使用Chrome，Firefox，Chromium等浏览器，如果您使用360浏览器，请切换到极速模式（默认为兼容模式）。如果你安装了360浏览器，IE也会有问题。
+</div>
 
 <form method="post" action="{% url 'schedule:sample' %}">
 {% csrf_token %}
@@ -156,6 +159,7 @@
 			<div class="col-sm-offset-2 col-sm-8">
 			  <button onclick="submitSmiles();" type="submit" class="btn btn-info btn-lg btn-block">====提交(Submit)====</button>
 			</div>
+              <div class="text-center col-sm-12">提醒：任务提交成功会生成等待审核项目，请注意查看管理员回复!</div>
 		</div>
 	</div>
 </div><!--row-->

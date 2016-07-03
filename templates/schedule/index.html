@@ -35,8 +35,10 @@
       您好！您还没有<a href="{% url 'accounts:login' %}">登录</a>，如果要预约实验，请参考<a href="{% url 'homepages:appoint' %}">仪器预约</a>!
     {% else %}
       {% if is_perm %}
+        <p class="text-success">
+        ** 推荐使用Chrome，Firefox，Chromium等浏览器，如果您使用360浏览器，请切换到极速模式（默认为兼容模式）。如果你安装了360浏览器，IE也会有问题。
+        </p>
         您可以预约实验，并且自主上机操作仪器“{{ instrument }}”！请在预约的时间做实验，遵守实验规则，有任何情况请联系管理员！
-        
       {% else %}
         {% if instrument == None %}
           以下页面仅可以查看仪器的预约使用情况，如果你要预约实验，请登入具体仪器的<a href="{% url 'homepages:appoint' %}">预约页面</a>。
