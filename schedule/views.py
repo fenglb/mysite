@@ -37,7 +37,7 @@ def dealSampleAppoint(request):
 
         #send the mail to the user of this appoint
         if appointment.has_approved:
-            subject = "您的核磁送样申请通过了,请于%s准时送样！" % appointment.start_time.strftime("%m-%d %H:%M")
+            subject = "您的核磁送样申请通过了,请于%s准时送样！" % cnfromutc(appointment.start_time).strftime("%m-%d %H:%M")
             if has_changed_start_time:
                 subject = "您的核磁送样申请时间被改为%s, 请注意送样时间！" % appointment.start_time.strftime("%m-%d %H:%M")
             condition="通过"
@@ -50,7 +50,7 @@ def dealSampleAppoint(request):
         有什么问题请联系核磁中心管理员mailto:tonyfeng@xmu.edu.cn,电话2186874.
         """.format(username=appointment.user.surname, 
             inst=appointment.instrument,
-            start_time=appointment.start_time.strftime("%m-%d %H:%M"),
+            start_time=cnfromutc(appointment.start_time).strftime("%m-%d %H:%M"),
             times=appointment.times,
             feedback=appointment.feedback,
             cond=condition
