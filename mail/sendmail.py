@@ -13,4 +13,3 @@ def sendEmail( to_emails, from_email, subject, content ):
         return True
     except smtplib.SMTPException:
         return False
-

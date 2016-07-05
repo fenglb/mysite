@@ -6,13 +6,14 @@ from django.contrib.auth.models import Group
 from .admin import ExperimentCreationForm, SampleAppointmentForm, SampleForm
 from .models import Experiment, Instrument, InstrumentAppointment, SampleAppointment
 from accounts.models import PersonInCharge
-from .tz import cnfromutc
+from .tz import cnfromutc, cntoutc
 
 from django.conf import settings
 
 import os, pytz, json
 from datetime import timedelta, datetime
 from .colorlist import textcolor, bordercolor, colorlist
+from mail.sendmail import sendEmail
 # Create your views here.
 
 @login_required
@@ -20,10 +21,46 @@ def dealSampleAppoint(request):
     if request.method == 'POST':
         appointment = get_object_or_404(SampleAppointment, id=request.POST['sample'])
         appointment.has_approved = request.POST.get('check', False)
+
+        has_changed_start_time = False
+        has_changed_times = False
         if ( appointment.has_approved ):
-            appointment.start_time = datetime.strptime(request.POST['start_time'], "%Y-%m-%d %H:%M:%S" )
-            appointment.times = float(request.POST['times'])
+            start_time = datetime.strptime(request.POST['start_time']+"-0800", "%Y-%m-%d %H:%M:%S%z" )
+            if (appointment.start_time - start_time).seconds < 60:
+                has_changed_start_time = True
+                appointment.start_time = start_time
+            times = float(request.POST['times'])
+            if  appointment.times != times:
+                has_changed_times = True
+                appointment.times = times
         appointment.feedback = request.POST['feedback']
+
+        #send the mail to the user of this appoint
+        if appointment.has_approved:
+            subject = "您的核磁送样申请通过了,请于%s准时送样！" % appointment.start_time.strftime("%m-%d %H:%M")
+            if has_changed_start_time:
+                subject = "您的核磁送样申请时间被改为%s, 请注意送样时间！" % appointment.start_time.strftime("%m-%d %H:%M")
+            condition="通过"
+        else:
+            subject = "您核磁送样申请被拒绝,详细原因请看内容!"
+            condition="被拒绝"
+        content = """{username}:\n
+        \t您在核磁仪器{inst}上从{start_time}的{times}个机时的申请{cond}了.\n
+        反馈意见:{feedback}\n
+        有什么问题请联系核磁中心管理员mailto:tonyfeng@xmu.edu.cn,电话2186874.
+        """.format(username=appointment.user.surname, 
+            inst=appointment.instrument,
+            start_time=appointment.start_time.strftime("%m-%d %H:%M"),
+            times=appointment.times,
+            feedback=appointment.feedback,
+            cond=condition
+            )
+
+        if sendEmail([appointment.user.email], settings.DEFAULT_FROM_EMAIL, subject, content):
+            appointment.feedback += ", 邮件已发送！"
+        else:
+            appointment.feedback += ", 邮件发送失败！"
+        
         appointment.save()
     return redirect( reverse("accounts:profile") )
 
@@ -36,6 +73,8 @@ def dealInstrumentAppoint(request):
             appointment.target_datetime = datetime.strptime(request.POST['start_time'], "%Y-%m-%d %H:%M:%S")
             appointment.times = float(request.POST['times'])
         appointment.feedback = request.POST['feedback']
+
+        #send the mail to the user of this appoint
         appointment.save()
     return redirect( reverse("accounts:profile") )
 
