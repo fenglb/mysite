@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
+from django.conf import settings
 from eguard.models import Entrance, EntranceAppointment
 from mail.sendmail import sendEmail
 
@@ -23,7 +24,6 @@ def dealAppoint(request):
         反馈意见:{feedback}\n
         有什么问题请联系核磁中心管理员mailto:tonyfeng@xmu.edu.cn,电话2186874.
         """.format(username=appointment.user.surname, 
-            times=appointment.times,
             feedback=appointment.feedback,
             cond=condition
             )
