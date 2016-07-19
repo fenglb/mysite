@@ -11,3 +11,5 @@
 * [Role of NMR Spectroscopy in Structural Determination](https://scifivewiki.wordpress.com/2016/07/15/role-of-nmr-spectroscopy-in-structural-determination/)
 
 * [Structure Peptide-metal Complexes Using 1D and 2D 1H NMR](http://www.jove.com/video/50747/structure-coordination-determination-peptide-metal-complexes-using-1d)
+
+* [Improved reliability, accuracy and quality in automated NMR structure calculation with ARIA](http://link.springer.com/article/10.1007%2Fs10858-015-9928-5)

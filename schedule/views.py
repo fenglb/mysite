@@ -25,7 +25,7 @@ def dealSampleAppoint(request):
         has_changed_start_time = False
         has_changed_times = False
         if ( appointment.has_approved ):
-            start_time = datetime.strptime(request.POST['start_time']+"-0800", "%Y-%m-%d %H:%M:%S%z" )
+            start_time = datetime.strptime(request.POST['start_time']+"+0800", "%Y-%m-%d %H:%M:%S%z" )
             if (appointment.start_time - start_time).seconds > 60:
                 has_changed_start_time = True
                 appointment.start_time = start_time
