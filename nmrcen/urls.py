@@ -27,6 +27,7 @@ urlpatterns = [
     url(r'^accounts/', include('accounts.urls', namespace='accounts')),
     url(r'^password_reset/', include('password_reset.urls', namespace='password_reset')),
     url(r'^blogs/', include('blogs.urls', namespace='blogs')),
+    url(r'^weixin/', include('weixin.urls', namespace='weixin')),
     url(r'^eguard/', include('eguard.urls', namespace='eguard')),
     url(r'^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT}),
 ]

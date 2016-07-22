@@ -43,6 +43,7 @@ INSTALLED_APPS = (
     'eguard',
     'blogs',
     'taggit',
+    'weixin',
     'password_reset',
 )
 

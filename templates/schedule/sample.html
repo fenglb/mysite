@@ -157,7 +157,7 @@
 		</div>
 		<div class="row">
 			<div class="col-sm-offset-2 col-sm-8">
-			  <button onclick="submitSmiles();" type="submit" class="btn btn-info btn-lg btn-block">====提交(Submit)====</button>
+			  <button onclick="this.disabled=true;submitSmiles();this.form.submit()" class="btn btn-info btn-lg btn-block">====提交(Submit)====</button>
 			</div>
               <div class="text-center col-sm-12">提醒：任务提交成功会生成等待审核项目，请注意查看管理员回复!</div>
 		</div>
