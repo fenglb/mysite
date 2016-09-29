@@ -11,7 +11,7 @@ from mail.sendmail import sendEmail
 def dealAppoint(request):
     if request.method == 'POST':
         appointment = get_object_or_404(EntranceAppointment, id=request.POST['entrance'])
-        appointment.has_approved = request.POST.get('check', False)
+        appointment.has_approved = bool(request.POST.get('check', False))
         appointment.feedback = request.POST['feedback']
         if appointment.has_approved:
             subject = "您的高场核磁中心门禁申请已通过了,等待学校服务器更新！"

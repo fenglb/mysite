@@ -1,6 +1,8 @@
 django
+pillow
 django-taggit
 unidecode
+pygments
 bs4
 pytz
 mathjax

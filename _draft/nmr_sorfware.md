@@ -8,6 +8,7 @@
         *   Tutorials by Gabriel Cornilescu : [I](http://spin.niddk.nih.gov/NMRPipe/doc1/) and [II](http://spin.niddk.nih.gov/NMRPipe/doc2new/)
         *   [Yahoo group](http://tech.groups.yahoo.com/group/nmrpipe/)
     *   [NMRView/NMRViewJ](http://www.onemoonscientific.com/nmrview/)
+    *   [ANSIG](http://rmni.iqfr.csic.es/HTML-manuals/ansig-manual/obtain_info.html)a program for the assignment of protein 1H 2D NMR spectra by interactive graphics
     *   Sparky
         *   [official site](http://www.cgl.ucsf.edu/home/sparky/)
         *   [official manual](http://www.cgl.ucsf.edu/home/sparky/manual/index.html)
@@ -22,7 +23,7 @@
         *   [Protein NMR-Practical Guide](http://www.protein-nmr.org.uk/) [updated by me 2016]
         *   [CcpNmr SpecView](http://www.ccpn.ac.uk/v2-software/software/specview) (visualise NMR spectrum and peak data, developed by Python) [updated by me 2016]
     *   [Rowland NMR toolkit](http://www.rowland.org/rnmrtk/)
-    *   [nmrglue](https://www.nmrglue.com/) [updated the links by me 2016] (developed by pure Python)
+    *   [nmrglue](https://www.nmrglue.com/) developed by pure Python[updated the links by me 2016] 
         *   [developing Github](https://github.com/jjhelmus/nmrglue)
     *   Cara (computer aided resonance assignment) (from Professor Kurt Wuthrich's group)
         *   [official site](http://www.nmr.ch/) (*now this site redirected to Swiss NMR, and here provides the nmr groups and nmr software in Swiss*)
@@ -30,26 +31,27 @@
         *   [AutoLink](http://www.nmr.ch/)
         *   [matNMR](http://matnmr.sourceforge.net/) (processing 1D and 2D NMR and EPR under MATLAB) [updated by me 2016]
 *   NMR data auto-assignment
-    *   [SmartNoteBook](http://www.bionmr.ualberta.ca/bds/software/snb/) (old program, out of dated)
-    *   [AutoAssign](http://www-nmr.cabm.rutgers.edu/software/autoassign.htm)
+    *   [SmartNoteBook](http://www.bionmr.ualberta.ca/bds/software/snb/) (old program, out of dated) latest version 5.1.3 released 2005.
+    *   [AutoAssign](http://www-nmr.cabm.rutgers.edu/software/autoassign.htm) (old program, this link donot provide the software download, updated by me 2016)
     *   [PINE](http://pine.nmrfam.wisc.edu/) webserver supported by NMRFAM
-    *   [Mars](http://www3.mpibpc.mpg.de/groups/zweckstetter/_links/software_mars.htm)
+    *   [Mars](http://www3.mpibpc.mpg.de/groups/zweckstetter/_links/software_mars.htm) robust automatic backbone assignment of proteins. JACS paper show it automatic assignment of protein tau with 441-residues
     *   [UNIO ’10](http://perso.ens-lyon.fr/torsten.herrmann/Herrmann/Software.html) (a complete package for backbone and side-chain assignments and automated structure calculation using Cyana, CNS or Xplor-NIH)
 *   Analysis of Secondary Structure using/for Chemical Shifts
     *   [SSP](http://abragam.med.utoronto.ca/software.html) – Secondary Structural Propensities (Forman-Kay group)
     *   [TALOS+](http://spin.niddk.nih.gov/NMRPipe/talos/) (Ad Bax group)
     *   [SPARTA+](http://spin.niddk.nih.gov/bax/software/SPARTA+/) (Ad Bax group)
-    *   [RCI](http://wishart.biology.ualberta.ca/rci/cgi-bin/rci_cgi_1_e.py)–Random Coil Index (David Wishart group)
+    *   [RCI](http://wishart.biology.ualberta.ca/download/rci/)–Random Coil Index (David Wishart group) [website server](http://randomcoilindex.com/cgi-bin/rci_cgi_current.py)
+    *   [CSI2.0](http://csi.wishartlab.com/cgi-bin/index.py)–Chemical Shift Index (David Wishart group)(updated by me 2016)
     *   [DANGLE](http://dangle.sourceforge.net/) (Dihedral Angle from Global Likelihood Estimation)
 *   NMR structure calculation
     *   [Xplor-NIH](http://nmr.cit.nih.gov/xplor-nih/)
-    *   [Cyana](http://www.bpc.uni-frankfurt.de/guentert/wiki/index.php/Software) (or [here](http://www.las.jp/english/products/#software)?)
+    *   [Cyana](http://www.bpc.uni-frankfurt.de/guentert/wiki/index.php/Software) list of software developed by P.Guntert and collaborators.
     *   [CNS](http://cns.csb.yale.edu) (Crystallography and NMR system)
     *   [AuotStructure](http://www-nmr.cabm.rutgers.edu/NMRsoftware/asdp/Home.html)
     *   [ARIA](http://www.pasteur.fr/recherche/unites/Binfs/aria/) (Ambiguous Restraints for Iterative Assignment)
     *   [PONDEROSA](http://ponderosa.nmrfam.wisc.edu/) (NMRFAM: peak picking of NOE data enabled by restriction of shift assignments)
-    *   [HADDOCK](http://www.nmr.chem.uu.nl/haddock/)
-    *   [CS-Rosetta](http://spin.niddk.nih.gov/bax/software/CSROSETTA/)(at Ab Bax group webpage)
+    *   [HADDOCK](http://www.nmr.chem.uu.nl/haddock/) (High Ambiguity Driven Biomolecular Docking based on biochemical and/or biophysical information. now release 2.2)
+    *   [CS-Rosetta](http://spin.niddk.nih.gov/bax/software/CSROSETTA/)(at Ab Bax group webpage) 
         *   requires [Rosetta Commons](http://www.rosettacommons.org/software/) from David Baker’s group
     *   [ENSEMBLE package](http://abragam.med.utoronto.ca/software.html) (Lewis Kay group)
 *   Analysis/Calculations of NMR parameters

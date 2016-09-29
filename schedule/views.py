@@ -20,7 +20,7 @@ from mail.sendmail import sendEmail
 def dealSampleAppoint(request):
     if request.method == 'POST':
         appointment = get_object_or_404(SampleAppointment, id=request.POST['sample'])
-        appointment.has_approved = request.POST.get('check', False)
+        appointment.has_approved = bool(request.POST.get('check', False))
 
         has_changed_start_time = False
         has_changed_times = False
@@ -68,7 +68,7 @@ def dealSampleAppoint(request):
 def dealInstrumentAppoint(request):
     if request.method == 'POST':
         appointment = get_object_or_404(InstrumentAppointment, id=request.POST['train'])
-        appointment.has_approved = request.POST.get('check', False)
+        appointment.has_approved = bool(request.POST.get('check', False))
         if ( appointment.has_approved ):
             appointment.target_datetime = datetime.strptime(request.POST['start_time'], "%Y-%m-%d %H:%M:%S")
             appointment.times = float(request.POST['times'])
