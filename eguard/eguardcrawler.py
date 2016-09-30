@@ -29,8 +29,8 @@ def login():
 def searchUser( s, identify, name ):
 
     entrance_data = { 'txtNo': identify,
-                      'txtName': name.encode('gb2312'),
-                      'submit':'查询'.encode('gb2312'), }
+                      'txtName': name.encode('gbk'),
+                      'submit':'查询', }
 
     r = s.post(search_link, data=entrance_data, headers=headers)
 
@@ -74,13 +74,13 @@ def checkUserExist( name, identify ):
 # 76|2*     核磁室里门[600M]
 def searchEntranceUsers( s, door, identify=None, name=None ):
 
-    if name:
-        name = name.encode('gb2312')
+    #if name:
+    #    name = name.encode('gb2312')
 
     entrance_data = { 'selWorkArea': door,
                     'txtNo': identify,
-                    'txtName': name,
-                   'submit':'查询'.encode('gb2312'), }
+                    'txtName': name.encode('gbk'),
+                   'submit':'查询', }
 
     r = s.post(entrance_search_link, data=entrance_data, headers=headers)
 
@@ -116,7 +116,7 @@ def parseEntranceUsersInfo( f ):
 
 def deleteEntranceUser( s, cmd ):
 
-    data =  { 'ck': cmd, 'action': 'ListBatchDel', 'Submit':'查询'.encode('gb2312'), }
+    data =  { 'ck': cmd, 'action': 'ListBatchDel', 'Submit':'查询', }
 
     f = s.post(entrance_delete_link, data=data, headers=headers)
     return True
@@ -136,7 +136,7 @@ def searchEntranceRecord(s, door, startdate, enddate, starttime, endtime ):
                     'starttime': starttime, #00:00:00
                     'endtime': endtime, #23:59:59
                     'selWorkArea': door, #75|2*75|3*75|4*76|1*76|2*76|3*
-                    'submit':'查询'.encode('gb2312'), }
+                    'submit':'查询', }
 
     r = s.post(entrance_record_search_link, data=search_data, headers=headers)
     return s
@@ -245,14 +245,15 @@ class EntranceGuard:
    
 if __name__ == "__main__":
 
-    eguard = EntranceGuard()
+    #eguard = EntranceGuard()
     #users = eguard.getEntranceRecords( door_dict["B"][0], "2016-2-18", "2016-2-19", "00:00:00", "23:59:59" )
-    users = eguard.getEntranceUsers( "D102" )
-    for user in users:
-        print( "{0}\t {1}".format( user['name'], user['identify'] ) )
+    #users = eguard.getEntranceUsers( "D102" )
+    #for user in users:
+    #    print( "{0}\t {1}".format( user['name'], user['identify'] ) )
     #print eguard.doEntranceUserCreated( ["15720111151868", "20620078101155"], "D102" )
     #for i, d in zip( ["20620078101155"], ["D500"] ):
     #    eguard.doEntranceUserDeleted( i, d )
     #for i, d in zip( ["20620078101155", "20620078101155", "15720111151868"], ["D102","D500", "D500"] ):
     #    print eguard.doEntranceUserCreated( i, d )
-    #print checkUserExist( '冯柳宾', '203100213' )
+    #print( checkUserExist( '冯柳宾'.encode('gbk'), '2013100213' ))
+    print( checkUserExist( '陈玥莹'.encode('gbk'), '26920161152886' ))
