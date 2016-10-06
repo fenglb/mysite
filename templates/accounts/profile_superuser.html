@@ -16,7 +16,7 @@
   {% for sample in samples %}
     <tr>
       <td><span class="label label-primary">A{{ forloop.counter }}<span></td>
-      <td>{{sample.user.surname}} [{{sample.user.person_in_charge}}]</td>
+      <td><a data-toggle="tooltip" data-placement="top" title="{{sample.user.username}}-{{sample.user.identify}}-{{sample.user.phone_number}}-{{sample.user.email}}">{{sample.user.surname}}</a>[<a data-toggle="tooltip" data-placement="top" title="{{sample.user.person_in_charge.phone_number0}}-{{sample.user.person_in_charge.email0}}-{{sample.user.person_in_charge.orgnization}}">{{sample.user.person_in_charge}}</a>]</td>
       <td>{{sample.instrument.short_name}}</td>
       <td>{{sample.start_time}}</td>
       <td>{{sample.times}}</td>
@@ -98,7 +98,7 @@
 </div><!--responsive-->
 {% endif %}
 
-{% if trains %}
+{% if entrances %}
 <h3>仪器培训申请情况：</h3>
 <div class="table-responsive">
 <table class="table table-striped">
@@ -113,16 +113,16 @@
     </tr>
   </thead>
   <tbody>
-  {% for train in trains %}
+  {% for entrance in entrances %}
     <tr>
       <td><span class="label label-danger">B{{ forloop.counter }}<span></td>
-      <td>{{ train.user.surname }} [{{train.user.person_in_charge}}]</td>
-      <td>{% for inst in train.instrument.all %}{{inst.short_name}}{% if forloop.last %}{%else%},{%endif%}{%endfor%}</td>
-      <td>{{ train.target_datetime }}</td>
-      <td>{{ train.times }}</td>
-      <td><button type="button" class="btn {% if train.has_approved == None %}btn-primary{% elif train.has_approved %}btn-success{%else%}btn-danger{%endif%}" data-toggle="modal" data-target="#myModal{{forloop.counter}}" data-toggle="modal" data-target="#myModal{{forloop.counter}}" >Yes/No</button></td>
+      <td><a data-toggle="tooltip" data-placement="top" title="{{entrance.user.username}}-{{entrance.user.identify}}-{{entrance.user.phone_number}}-{{entrance.user.email}}">{{entrance.user.surname}}</a>[<a data-toggle="tooltip" data-placement="top" title="{{entrance.user.person_in_charge.phone_number0}}-{{entrance.user.person_in_charge.email0}}-{{entrance.user.person_in_charge.orgnization}}">{{entrance.user.person_in_charge}}</a>]</td>
+      <td>{% for inst in entrance.instrument.all %}{{inst.short_name}}{% if forloop.last %}{%else%},{%endif%}{%endfor%}</td>
+      <td>{{ entrance.target_datetime }}</td>
+      <td>{{ entrance.times }}</td>
+      <td><button type="button" class="btn {% if entrance.has_approved == None %}btn-primary{% elif entrance.has_approved %}btn-success{%else%}btn-danger{%endif%}" data-toggle="modal" data-target="#myModal{{forloop.counter}}" data-toggle="modal" data-target="#myModal{{forloop.counter}}" >Yes/No</button></td>
     </tr>
-{% if train.has_approved == None %}
+{% if entrance.has_approved == None %}
 <div class="modal fade" id="myModal{{forloop.counter}}" tabindex="-1" role="dialog">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -133,20 +133,20 @@
       <div class="modal-body">
       <form action="{% url 'schedule:dealInstrumentAppoint' %}" method="post">
       {% csrf_token %}
-        <p>{{ train.user.surname }} 申请{% for inst in train.instrument.all %}{{inst.short_name}}{% if forloop.last %}{%else%},{%endif%}{%endfor%}培训，用户预计在{{ train.target_datetime }}进行培训！
+        <p>{{ entrance.user.surname }} 申请{% for inst in entrance.instrument.all %}{{inst.short_name}}{% if forloop.last %}{%else%},{%endif%}{%endfor%}培训，用户预计在{{ entrance.target_datetime }}进行培训！
         是否给予支持？</p>
-        <input id="train" name="train" value={{train.id}} hidden>
+        <input id="entrance" name="entrance" value={{entrance.id}} hidden>
         <div class="from-group row">
           <label for="inputStartTime" class="col-sm-4 control-label">开始时间:</label>
           <div class="col-sm-8">
-            <input class="form-control" id="start_time" name="start_time" value='{{train.target_datetime|date:"Y-m-d H:i:s"}}'>
+            <input class="form-control" id="start_time" name="start_time" value='{{entrance.target_datetime|date:"Y-m-d H:i:s"}}'>
           </div>
         </div>
 
         <div class="from-group row">
           <label class="col-sm-4 control-label">用时/小时:</label>
           <div class="col-sm-8">
-            <input class="form-control" id="times" name="times" value={{train.times}}>
+            <input class="form-control" id="times" name="times" value={{entrance.times}}>
           </div>
         </div>
         <div class="from-group row">
@@ -174,7 +174,7 @@
   </tbody>
 </table>
 </div><!--responsive-->
-{% endif %}<!--train-->
+{% endif %}<!--entrance-->
 
 {% if entrances %}
 <h3>门禁申请情况：</h3>
@@ -192,7 +192,7 @@
   {% for entrance in entrances %}
     <tr>
       <td><span class="label label-success">C{{ forloop.counter }}<span></td>
-      <td>{{ entrance.user.surname }} [{{entrance.user.person_in_charge}}]</td>
+      <td><a data-toggle="tooltip" data-placement="top" title="{{entrance.user.username}}-{{entrance.user.identify}}-{{entrance.user.phone_number}}-{{entrance.user.email}}">{{entrance.user.surname}}</a>[<a data-toggle="tooltip" data-placement="top" title="{{entrance.user.person_in_charge.phone_number0}}-{{entrance.user.person_in_charge.email0}}-{{entrance.user.person_in_charge.orgnization}}">{{entrance.user.person_in_charge}}</a>]</td>
       <td>{% for inst in entrance.entrance.all %}{{inst}}{% if forloop.last %}{%else%},{%endif%}{%endfor%}</td>
       <td><button type="button" class="btn {% if entrance.has_approved == None %}btn-primary{% elif entrance.has_approved %}btn-success{%else%}btn-danger{%endif%}" data-toggle="modal" data-target="#eModal{{forloop.counter}}" >Yes/No</button></td>
     </tr>

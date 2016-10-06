@@ -25,9 +25,9 @@
 <form method="post" action="{% url 'schedule:sample' %}">
 {% csrf_token %}
 <div class="row">
-	<div class="col-sm-4">
+	<div class="col-sm-3">
     <h3 style="border-bottom:1px solid #eee;">送样申请说明</h3>
-    <ol class="comment">
+    <ol>
       <li>送样测试是用户送样，由管理员进行的测试, 所以放假期间不接收送样测试，请合适安排您的送样时间；</li>
       <li>请尽量详细填写右边的表格, <strong>选择仪器</strong>, <strong>起始时间</strong>和<strong>实验用时</strong>为必填项目，其他项目为选择填写；</li>
       <li class="text-danger">用户首先根据目前仪器的<a href="{% url 'homepages:appoint' %}">预约情况</a>填写<strong>起始时间</strong>,最终的安排以管理员确定邮件或者信息为准！</li>
@@ -45,9 +45,8 @@
                 <label class="input-lg text-danger">选择仪器：</label>
             </div>
             <div class="col-sm-8">
-                {{ instruments }}
                 {% for instr in instruments %}
-                    <div><input type="checkbox" name="instrument" id="id_instrument" value="{{ instr.id }}">{{instr.name}}</input></div>
+                    <div><input type="radio" name="instrument" id="id_instrument" value="{{ instr.id }}">{{instr.name}}</input></div>
                 {% endfor %}
             </div>
 
@@ -55,82 +54,80 @@
 		<div class="row">
 			<div class="form-group">
 				<div class="col-sm-4">
-					<label class="input-lg text-danger">{{ appform.start_time.label_tag }}</label>
+					<label class="input-lg text-danger">起始时间：</label>
 				</div>
 				<div class="col-sm-8">
-        {{ appform.start_time }}
-				<script type="text/javascript">
-					$('*[name=start_time]').appendDtpicker({"futureOnly":true, });
-				</script>
+                    <input class="form-control input-lg" id="id_start_time" name="start_time" type="text" required />
+                    <script type="text/javascript">
+                        $('*[name=start_time]').appendDtpicker({"futureOnly":true, });
+                    </script>
 				</div>
 			</div>
 		</div>
 		<div class="row">
 			<div class="form-group">
 					<div class="col-sm-6">
-					<label class="input-lg text-danger">{{ appform.times.label_tag }}</label>
+					<label class="input-lg text-danger">实验用时/小时：</label>
 					</div>
 					<div class="col-sm-6">
-            {{ appform.times }}
-            {% if appform.times.errors %}
-              <span class="text-danger">{{ appform.times.errors }}</span>
-            {% endif %}
-				<script type="text/javascript">
-					$('#id_times').attr('placeholder', "Times");
-				</script>
-				</div>
+                    <input class="form-control input-lg" id="id_times" name="times" type="number" min="0" required />
+                    {% if times.errors %}
+                      <span class="text-danger">{{ times.errors }}</span>
+                    {% endif %}
+                    <script type="text/javascript">
+                        $('#id_times').attr('placeholder', "Times");
+                    </script>
+                    </div>
 			</div>
 		</div>
 		<div class="row">
   		<div class="col-sm-12 form-group">
-  			<label class="input-lg">实验类型(Spectrum Measure Type)</label>
-          {{ appform.measure_type }}
-  				<script type="text/javascript">
-  					$('#id_measure_type').attr('placeholder', "{{ appform.measure_type.help_text }}");
-  				</script>
+  			<label class="input-lg">实验说明(Spectrum Measure Info.)</label><br>
+            <span>实验测量类型，C13，H1， HSQC，HMBC等, 以及谱宽等实验参数特殊说明。默认sw（1H）=20ppm，o1p（1H）=6.2ppm，sw（13C）=240ppm，o1p（13C）=100ppm。</span>
+            <textarea class="form-control input-lg" rows="5" cols="40" id="id_measure_type"></textarea>
   		</div><!--form-group-->
 		</div>
 
 		<h3>样品信息（Sample characteristic）</h3>
 		<div class="row">
-        <div class="col-sm-4">
-        <label class="input-lg">{{ sampleform.name.label_tag }}</label>
-        </div>
-				<div class="col-sm-8">
-          {{ sampleform.name }}
-				</div>
+            <div class="col-sm-4">
+            <label class="input-lg">名称：</label>
+            </div>
+            <div class="col-sm-8">
+                <input class="form-control input-lg" maxlength="100" name="name" id="id_name" type="text" />
+            </div>
     </div>
     <div class="row">
       <div class="col-sm-4">
-      <label class="input-lg">{{ sampleform.solvent.label_tag }}</label>
+      <label class="input-lg">氘代溶剂：</label>
       </div>
       <div class="col-sm-8">
-        {{ sampleform.solvent }}
+           <input class="form-control input-lg" maxlength="30" name="solvent" id="id_solvent" type="text" />
       </div>
 		</div>
 
 		<div class="row form-group">
       <div class="col-sm-4">
-        <label class="input-lg">{{ sampleform.concentration.label_tag }}</label>
+        <label class="input-lg">浓度/mM：</label>
       </div>
       <div class="col-sm-8">
-        {{ sampleform.concentration }}
+           <input class="form-control input-lg" min="0" name="concentration" id="id_concentration" type="number" />
       </div>
     </div>
 		<div class="row form-group">
       <div class="col-sm-4">
-        <label class="input-lg">{{ sampleform.molecular_weight.label_tag }}</label>
+        <label class="input-lg">分子量：</label>
       </div>
-				<div class="col-sm-8">
-          {{ sampleform.molecular_weight }}
-				</div>
+	    <div class="col-sm-8">
+           <input class="form-control input-lg" min="0" name="molecular_weight" id="id_molecular_weight" step="1" type="number" />
 		</div>
+	</div>
   <script type="text/javascript">
       $('#id_name').attr('placeholder', '样品名称');
       $('#id_solvent').attr('placeholder', '氘代试剂');
       $('#id_concentration').attr('placeholder', '样品量/mM');
       $('#id_molecular_weight').attr('placeholder', '分子量');
-    </script>
+ </script>
   </div> <!--col-sm-5-->
 
 	<div class="col-sm-4">
@@ -138,16 +135,13 @@
 			<div class="col-sm-12">
 			<label class="control-label input-lg">分子结构式</label>
 			{% include "homepages/marvinjs.html" %}
-                {{ sampleform.structure }}
+            <input id="id_structure" maxlength="1000" name="structure" type="text" hidden />
 			</div>
 		</div>
 
 		<h4>其他说明</h4>
 		<div class="row form-group">
-        {{ sampleform.others }}
-        <script>
-          $("#id_others").attr('placeholder', '化学结构，样品纯度，样品毒性，是否需要协助培养等等')
-        </script>
+            <textarea class="form-control inputl-lg" cols="40" id="id_others" name="others" rows="5" placeholder="化学结构，样品纯度，样品毒性，是否需要协助培养等等"></textarea>
 		</div>
 
 		<div class="row">
@@ -173,13 +167,7 @@
 {% block js%}
 <script src="//cdn.bootcss.com/bootstrap-filestyle/1.2.1/bootstrap-filestyle.min.js"></script>
 <script>
-  $("input").toggleClass('form-control input-lg');
-  $("input#_attachmentName").removeClass('form-control input-lg');
-  $("textarea").toggleClass('form-control input-lg');
-  $("select").toggleClass('form-control input-lg');
   $("input#id_start_time").attr('readonly', 'readonly');
-  $("input#id_structure").hide( );
-  $("select#id_user").hide( );
   function submitSmiles(){
     var smiles = document.JME.smiles();
     $("input#id_structure").val( smiles );
