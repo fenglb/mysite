@@ -16,11 +16,9 @@ def home( request ):
     staffs = CustomUser.objects.filter( is_staff=True )
     return render( request, 'homepages/index.html', {'lastest_blogs': lastest_blogs, 'lastest_news': lastest_news, 'projects': projects, 'instruments': instruments, 'staffs': staffs, 'hot_spots': hot_spots } )
 
-def post(request, slug, post_id):
-    args = {'blogpost': get_object_or_404(BlogPost, pk=post_id)}
+def post(request, md5):
+    args = {'blogpost': get_object_or_404(BlogPost, md5=md5)}
     return render(request, 'blogs/blogpost.html', args)
-
-
 
 def about( request ):
 

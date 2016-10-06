@@ -1,0 +1,1109 @@
+<p>List of quantum chemistry, YES, the Wiki has the perfect collectation as follow. But I want to gather the software include the NMR modules and open source is best.
+the most popular one is <strong>Gaussian</strong> for NMR chemistry shift calculation, and I kown there are GAMESS, NWChem(open source), ...</p>
+
+<p>next I will talk about there detail.</p>
+
+<p>first I tablulate from the <a href="https://en.wikipedia.org/w/index.php?title=List_of_quantum_chemistry_and_solid-state_physics_software&amp;action=edit">Wiki</a>:</p>
+
+<table>
+<tr>
+<th>Package</th>
+<th>License<sup>†</sup>
+</th>
+<th><a href="/wiki/Programming_language" title="Programming language">Language</a></th>
+<th><a href="/wiki/Basis_set_(chemistry)" title="Basis set (chemistry)">Basis</a></th>
+<th>Periodic<sup>‡</sup>
+</th>
+<th><a href="/wiki/Molecular_mechanics" title="Molecular mechanics">Mol. mech.</a></th>
+<th><a href="/wiki/Semi-empirical_quantum_chemistry_method" title="Semi-empirical quantum chemistry method">Semi-emp.</a></th>
+<th><a href="/wiki/Hartree%E2%80%93Fock" title="Hartree–Fock">HF</a></th>
+<th><a href="/wiki/Post-Hartree%E2%80%93Fock" title="Post-Hartree–Fock">Post-HF</a></th>
+<th><a href="/wiki/Density_functional_theory" title="Density functional theory">DFT</a></th>
+<th><a href="/wiki/Molecular_modeling_on_GPUs" title="Molecular modeling on GPUs">GPU</a></th>
+</tr>
+<tr>
+<td><a href="/wiki/ABINIT" title="ABINIT">ABINIT</a></td>
+<td><a href="/wiki/GNU_General_Public_License" title="GNU General Public License">GPL</a></td>
+<td><a href="/wiki/Fortran" title="Fortran">Fortran</a></td>
+<td><a href="/wiki/Basis_set_(chemistry)#Plane-wave_basis_sets" title="Basis set (chemistry)">PW</a></td>
+<td>3d</td>
+<td>Yes</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><a href="/wiki/ACES_(computational_chemistry)" title="ACES (computational chemistry)">ACES</a></td>
+<td>GPL</td>
+<td>
+<a href="/wiki/Fortran" title="Fortran">Fortran</a>/<a href="/wiki/C%2B%2B" title="C++">C++</a>
+</td>
+<td><a href="/wiki/Gaussian_orbital" title="Gaussian orbital">GTO</a></td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><a href="/wiki/AMPAC" title="AMPAC">AMPAC</a></td>
+<td>Academic</td>
+<td>Unknown</td>
+<td>Unknown</td>
+<td>Unknown</td>
+<td>No</td>
+<td>Yes</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+</tr>
+<tr>
+<td><a href="/wiki/Amsterdam_Density_Functional" title="Amsterdam Density Functional">ADF</a></td>
+<td>Commercial</td>
+<td><a href="/wiki/Fortran" title="Fortran">Fortran</a></td>
+<td><a href="/wiki/Slater-type_orbital" title="Slater-type orbital">STO</a></td>
+<td>Any</td>
+<td>Yes</td>
+<td>Yes<sup>4</sup>
+</td>
+<td>Yes</td>
+<td>No</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>
+<a href="/wiki/Atomistix_ToolKit" title="Atomistix ToolKit">Atomistix ToolKit</a> (ATK)</td>
+<td>Commercial</td>
+<td>
+<a href="/wiki/C%2B%2B" title="C++">C++</a>/<a href="/wiki/Python_(programming_language)" title="Python (programming language)">Python</a>
+</td>
+<td>
+<a href="/w/index.php?title=Numerical_atomic_orbitals&amp;action=edit&amp;redlink=1" title="Numerical atomic orbitals (page does not exist)">NAO</a>/<a href="/wiki/Extended_H%C3%BCckel_method" title="Extended Hückel method">EHT</a>
+</td>
+<td>3d<sup>9</sup>
+</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>No</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><a href="/wiki/BigDFT" title="BigDFT">BigDFT</a></td>
+<td><a href="/wiki/GNU_General_Public_License" title="GNU General Public License">GPL</a></td>
+<td><a href="/wiki/Fortran" title="Fortran">Fortran</a></td>
+<td><a href="/wiki/Wavelet" title="Wavelet">Wavelet</a></td>
+<td>Any</td>
+<td>Yes</td>
+<td>No</td>
+<td>Yes</td>
+<td>No</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><a href="/wiki/CADPAC" title="CADPAC">CADPAC</a></td>
+<td>Academic</td>
+<td><a href="/wiki/Fortran" title="Fortran">Fortran</a></td>
+<td><a href="/wiki/Gaussian_orbital" title="Gaussian orbital">GTO</a></td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>
+<a href="/wiki/CASINO" title="CASINO">CASINO</a> (QMC)</td>
+<td>Academic</td>
+<td><a href="/wiki/Fortran_95" title="Fortran 95">Fortran 95</a></td>
+<td>
+<a href="/wiki/Gaussian_orbital" title="Gaussian orbital">GTO</a> / <a href="/wiki/Basis_set_(chemistry)#Plane-wave_basis_sets" title="Basis set (chemistry)">PW</a> / Spline / Grid / STO</td>
+<td>Any</td>
+<td>No</td>
+<td>No</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>No</td>
+<td>No</td>
+</tr>
+<tr>
+<td><a href="/wiki/CASTEP" title="CASTEP">CASTEP</a></td>
+<td>Academic (UK) / Commercial</td>
+<td>
+<a href="/wiki/Fortran_95" title="Fortran 95">Fortran 95</a>/<a href="/wiki/Fortran_2003" title="Fortran 2003">Fortran 2003</a>
+</td>
+<td><a href="/wiki/Basis_set_(chemistry)#Plane-wave_basis_sets" title="Basis set (chemistry)">PW</a></td>
+<td>3d</td>
+<td>Yes</td>
+<td>No</td>
+<td>Yes<sup>5</sup>
+</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><a href="/wiki/ACES_(computational_chemistry)" title="ACES (computational chemistry)">CFOUR</a></td>
+<td>Academic</td>
+<td><a href="/wiki/Fortran" title="Fortran">Fortran</a></td>
+<td><a href="/wiki/Gaussian_orbital" title="Gaussian orbital">GTO</a></td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+<tr>
+<td><a href="/wiki/COLUMBUS" title="COLUMBUS">COLUMBUS</a></td>
+<td>Academic</td>
+<td><a href="/wiki/Fortran" title="Fortran">Fortran</a></td>
+<td><a href="/wiki/Gaussian_orbital" title="Gaussian orbital">GTO</a></td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+<tr>
+<td><a href="/wiki/CONQUEST" title="CONQUEST">CONQUEST</a></td>
+<td>Academic</td>
+<td>Fortran 90</td>
+<td>
+<a href="/w/index.php?title=Numerical_Atomic_Orbitals&amp;action=edit&amp;redlink=1" title="Numerical Atomic Orbitals (page does not exist)">NAO</a>/Spline</td>
+<td>3d</td>
+<td>Yes</td>
+<td>No</td>
+<td>Yes<sup>5</sup>
+</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><a href="/wiki/CP2K" title="CP2K">CP2K</a></td>
+<td><a href="/wiki/GNU_General_Public_License" title="GNU General Public License">GPL</a></td>
+<td><a href="/wiki/Fortran_95" title="Fortran 95">Fortran 95</a></td>
+<td>Hybrid <a href="/wiki/Gaussian_orbital" title="Gaussian orbital">GTO</a> / <a href="/wiki/Basis_set_(chemistry)#Plane-wave_basis_sets" title="Basis set (chemistry)">PW</a>
+</td>
+<td>3d</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><a href="/wiki/CPMD" title="CPMD">CPMD</a></td>
+<td>Academic</td>
+<td><a href="/wiki/Fortran" title="Fortran">Fortran</a></td>
+<td><a href="/wiki/Basis_set_(chemistry)#Plane-wave_basis_sets" title="Basis set (chemistry)">PW</a></td>
+<td>3d</td>
+<td>Yes</td>
+<td>No</td>
+<td>Yes</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><a href="/wiki/CRYSTAL" title="CRYSTAL">CRYSTAL</a></td>
+<td>Academic (UK) / Commercial</td>
+<td><a href="/wiki/Fortran" title="Fortran">Fortran</a></td>
+<td><a href="/wiki/Gaussian_orbital" title="Gaussian orbital">GTO</a></td>
+<td>Any</td>
+<td>Yes</td>
+<td>No</td>
+<td>Yes</td>
+<td>Yes<sup>10</sup>
+</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><a href="/wiki/DACAPO" title="DACAPO">DACAPO</a></td>
+<td>
+<a href="/wiki/GNU_General_Public_License" title="GNU General Public License">GPL ?</a><sup>1</sup>
+</td>
+<td><a href="/wiki/Fortran" title="Fortran">Fortran</a></td>
+<td><a href="/wiki/Basis_set_(chemistry)#Plane-wave_basis_sets" title="Basis set (chemistry)">PW</a></td>
+<td>3d</td>
+<td>Yes</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><a href="/wiki/Dalton_(program)" title="Dalton (program)">DALTON</a></td>
+<td>Academic</td>
+<td><a href="/wiki/Fortran" title="Fortran">Fortran</a></td>
+<td><a href="/wiki/Gaussian_orbital" title="Gaussian orbital">GTO</a></td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><a href="http://www.demon-software.com/public_html/index.html">deMon2k</a></td>
+<td>Academic / Commercial</td>
+<td><a href="/wiki/Fortran" title="Fortran">Fortran</a></td>
+<td><a href="/wiki/Gaussian_orbital" title="Gaussian orbital">GTO</a></td>
+<td>No</td>
+<td>Yes</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+<tr>
+<td><a href="http://www.dftb-plus.info/">DFTB+</a></td>
+<td>Academic / Commercial</td>
+<td><a href="/wiki/Fortran_95" title="Fortran 95">Fortran 95</a></td>
+<td><a href="/w/index.php?title=Numerical_atomic_orbitals&amp;action=edit&amp;redlink=1" title="Numerical atomic orbitals (page does not exist)">NAO</a></td>
+<td>Any</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+</tr>
+<tr>
+<td><a href="http://dft.physics.cornell.edu/">DFT++</a></td>
+<td><a href="/wiki/GNU_General_Public_License" title="GNU General Public License">GPL</a></td>
+<td><a href="/wiki/C%2B%2B" title="C++">C++</a></td>
+<td>
+<a href="/wiki/Basis_set_(chemistry)#Plane-wave_basis_sets" title="Basis set (chemistry)">PW</a> / <a href="/wiki/Wavelet" title="Wavelet">Wavelet</a>
+</td>
+<td>3d</td>
+<td>Yes</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><a href="/wiki/Dirac_(program)" title="Dirac (program)">DIRAC</a></td>
+<td>Academic</td>
+<td>
+<a href="/wiki/Fortran_77" title="Fortran 77">Fortran 77</a>, <a href="/wiki/Fortran_90" title="Fortran 90">Fortran 90</a>, <a href="/wiki/C_(programming_language)" title="C (programming language)">C</a>
+</td>
+<td><a href="/wiki/Gaussian_orbital" title="Gaussian orbital">GTO</a></td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><a href="/wiki/DMol3" title="DMol3">DMol3</a></td>
+<td>Commercial</td>
+<td><a href="/wiki/Fortran_90" title="Fortran 90">Fortran 90</a></td>
+<td><a href="/w/index.php?title=Numerical_atomic_orbitals&amp;action=edit&amp;redlink=1" title="Numerical atomic orbitals (page does not exist)">NAO</a></td>
+<td>Any</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><a href="/wiki/EXCITING" title="EXCITING">ELK</a></td>
+<td><a href="/wiki/GPL" title="GPL">GPL</a></td>
+<td><a href="/wiki/Fortran_95" title="Fortran 95">Fortran 95</a></td>
+<td><a href="/w/index.php?title=Augmented_plane_wave_basis_set&amp;action=edit&amp;redlink=1" title="Augmented plane wave basis set (page does not exist)">FP-LAPW</a></td>
+<td>3d</td>
+<td>No</td>
+<td>No</td>
+<td>Yes</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><a href="http://www.ceposinsilico.de/products/empire.htm">Empire</a></td>
+<td><a href="/w/index.php?title=Academic_/_Commercial&amp;action=edit&amp;redlink=1" title="Academic / Commercial (page does not exist)">Academic / Commercial</a></td>
+<td><a href="/wiki/Fortran" title="Fortran">Fortran</a></td>
+<td><a href="/w/index.php?title=Minimal_STO&amp;action=edit&amp;redlink=1" title="Minimal STO (page does not exist)">Minimal STO</a></td>
+<td>Any</td>
+<td>No</td>
+<td>Yes</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+</tr>
+<tr>
+<td><a href="http://www.ergoscf.org/">ErgoSCF</a></td>
+<td><a href="/wiki/GNU_General_Public_License" title="GNU General Public License">GPL</a></td>
+<td><a href="/wiki/C%2B%2B" title="C++">C++</a></td>
+<td><a href="/wiki/Gaussian_orbital" title="Gaussian orbital">GTO</a></td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>Yes</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><a href="http://erkale.googlecode.com/">ERKALE</a></td>
+<td><a href="/wiki/GNU_General_Public_License" title="GNU General Public License">GPL</a></td>
+<td><a href="/wiki/C%2B%2B" title="C++">C++</a></td>
+<td><a href="/wiki/Gaussian_orbital" title="Gaussian orbital">GTO</a></td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>Yes</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><a href="/wiki/EXCITING" title="EXCITING">EXCITING</a></td>
+<td><a href="/wiki/GPL" title="GPL">GPL</a></td>
+<td><a href="/wiki/Fortran_95" title="Fortran 95">Fortran 95</a></td>
+<td><a href="/w/index.php?title=Augmented_plane_wave_basis_set&amp;action=edit&amp;redlink=1" title="Augmented plane wave basis set (page does not exist)">FP-LAPW</a></td>
+<td>3d</td>
+<td>No</td>
+<td>No</td>
+<td>Yes</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><a href="http://www.flapw.de/">FLEUR</a></td>
+<td>Academic</td>
+<td><a href="/wiki/Fortran_95" title="Fortran 95">Fortran 95</a></td>
+<td><a href="/w/index.php?title=Augmented_plane_wave_basis_set&amp;action=edit&amp;redlink=1" title="Augmented plane wave basis set (page does not exist)">FP-(L)APW+lo</a></td>
+<td>3d, 2d, 1d</td>
+<td>No</td>
+<td>No</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><a href="https://aimsclub.fhi-berlin.mpg.de/">FHI-aims</a></td>
+<td>Commercial</td>
+<td><a href="/wiki/Fortran" title="Fortran">Fortran</a></td>
+<td><a href="/w/index.php?title=Numerical_atomic_orbitals&amp;action=edit&amp;redlink=1" title="Numerical atomic orbitals (page does not exist)">NAO</a></td>
+<td>Any</td>
+<td>Yes</td>
+<td>No</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><a href="/wiki/FreeON" title="FreeON">FreeON</a></td>
+<td><a href="/wiki/GPL" title="GPL">GPL</a></td>
+<td><a href="/wiki/Fortran_95" title="Fortran 95">Fortran 95</a></td>
+<td><a href="/wiki/Gaussian_orbital" title="Gaussian orbital">GTO</a></td>
+<td>Any</td>
+<td>Yes</td>
+<td>No</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><a href="/wiki/PC_GAMESS" title="PC GAMESS">Firefly / PC GAMESS</a></td>
+<td>Academic</td>
+<td>
+<a href="/wiki/Fortran" title="Fortran">Fortran</a>, <a href="/wiki/C_(programming_language)" title="C (programming language)">C</a>, <a href="/wiki/Assembly_language" title="Assembly language">Assembly</a>
+</td>
+<td><a href="/wiki/Gaussian_orbital" title="Gaussian orbital">GTO</a></td>
+<td>No</td>
+<td>Yes<sup>3</sup>
+</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><a href="/wiki/GAMESS_(UK)" title="GAMESS (UK)">GAMESS (UK)</a></td>
+<td>Academic (UK) / Commercial</td>
+<td><a href="/wiki/Fortran" title="Fortran">Fortran</a></td>
+<td><a href="/wiki/Gaussian_orbital" title="Gaussian orbital">GTO</a></td>
+<td>No</td>
+<td>No</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><a href="/wiki/GAMESS_(US)" title="GAMESS (US)">GAMESS (US)</a></td>
+<td>Academic</td>
+<td><a href="/wiki/Fortran" title="Fortran">Fortran</a></td>
+<td><a href="/wiki/Gaussian_orbital" title="Gaussian orbital">GTO</a></td>
+<td>No</td>
+<td>Yes<sup>2</sup>
+</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><a href="/wiki/Gaussian_(software)" title="Gaussian (software)">Gaussian</a></td>
+<td>Commercial</td>
+<td><a href="/wiki/Fortran" title="Fortran">Fortran</a></td>
+<td><a href="/wiki/Gaussian_orbital" title="Gaussian orbital">GTO</a></td>
+<td>Any</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><a href="https://wiki.fysik.dtu.dk/gpaw/">GPAW</a></td>
+<td><a href="/wiki/GNU_General_Public_License" title="GNU General Public License">GPL</a></td>
+<td>
+<a href="/wiki/Python_(programming_language)" title="Python (programming language)">Python</a> / <a href="/wiki/C_(programming_language)" title="C (programming language)">C</a>
+</td>
+<td>Grid / <a href="/w/index.php?title=Numerical_atomic_orbitals&amp;action=edit&amp;redlink=1" title="Numerical atomic orbitals (page does not exist)">NAO</a> / <a href="/wiki/Basis_set_(chemistry)#Plane-wave_basis_sets" title="Basis set (chemistry)">PW</a>
+</td>
+<td>Any</td>
+<td>Yes</td>
+<td>No</td>
+<td>Yes<sup>5</sup>
+</td>
+<td>No</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><a href="http://home.hiroshima-u.ac.jp/fpc/manuals/HiLAPW/HiLAPW.html">HiLAPW</a></td>
+<td>Unknown</td>
+<td>Unknown</td>
+<td><a href="/w/index.php?title=FLAPW&amp;action=edit&amp;redlink=1" title="FLAPW (page does not exist)">FLAPW</a></td>
+<td>3d</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><a href="/wiki/HORTON_(software)" title="HORTON (software)">HORTON</a></td>
+<td><a href="/wiki/GNU_General_Public_License" title="GNU General Public License">GPL</a></td>
+<td>
+<a href="/wiki/Python_(programming_language)" title="Python (programming language)">Python</a> / <a href="/wiki/C%2B%2B" title="C++">C++</a>
+</td>
+<td><a href="/wiki/Gaussian_orbital" title="Gaussian orbital">GTO</a></td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+<tr>
+<td><a href="/wiki/Jaguar_(software)" title="Jaguar (software)">Jaguar</a></td>
+<td>Commercial</td>
+<td>
+<a href="/wiki/Fortran" title="Fortran">Fortran</a> / <a href="/wiki/C_(programming_language)" title="C (programming language)">C</a>
+</td>
+<td><a href="/wiki/Gaussian_orbital" title="Gaussian orbital">GTO</a></td>
+<td>No</td>
+<td>Yes</td>
+<td>No<sup>11</sup>
+</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><a href="http://jdftx.sourceforge.net/">JDFTx</a></td>
+<td><a href="/wiki/GNU_General_Public_License" title="GNU General Public License">GPL</a></td>
+<td>
+<a href="/wiki/C%2B%2B" title="C++">C++</a> / <a href="/wiki/CUDA" title="CUDA">CUDA</a>
+</td>
+<td><a href="/wiki/Basis_set_(chemistry)#Plane-wave_basis_sets" title="Basis set (chemistry)">PW</a></td>
+<td>3d</td>
+<td>No</td>
+<td>No</td>
+<td>Yes</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><a href="http://doi.wiley.com/10.1002/qua.24500">LOWDIN</a></td>
+<td>Academic</td>
+<td>Fortran 95/03</td>
+<td><a href="/wiki/Gaussian-type_orbital" title="Gaussian-type orbital">GTO</a></td>
+<td>No</td>
+<td>Yes</td>
+<td>No</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><a href="/wiki/MADNESS" title="MADNESS">MADNESS</a></td>
+<td>GPL</td>
+<td>C++</td>
+<td><a href="/wiki/Wavelet" title="Wavelet">Wavelet</a></td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>Yes</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><a href="/w/index.php?title=MISSTEP&amp;action=edit&amp;redlink=1" title="MISSTEP (page does not exist)">MISSTEP</a></td>
+<td>GPL</td>
+<td>C++</td>
+<td><a href="/wiki/Basis_set_(chemistry)#Plane-wave_basis_sets" title="Basis set (chemistry)">PW</a></td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><a href="/wiki/MOLCAS" title="MOLCAS">MOLCAS</a></td>
+<td>Academic</td>
+<td><a href="/wiki/Fortran" title="Fortran">Fortran</a></td>
+<td><a href="/wiki/Gaussian-type_orbital" title="Gaussian-type orbital">GTO</a></td>
+<td>No</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><a href="http://en.sourceforge.jp/projects/molds/">MolDS</a></td>
+<td>GPL</td>
+<td>C++</td>
+<td>STO/GTO</td>
+<td>No</td>
+<td>No</td>
+<td>Yes</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+</tr>
+<tr>
+<td><a href="/wiki/MOLPRO" title="MOLPRO">MOLPRO</a></td>
+<td>Commercial</td>
+<td><a href="/wiki/Fortran" title="Fortran">Fortran</a></td>
+<td><a href="/wiki/Gaussian-type_orbital" title="Gaussian-type orbital">GTO</a></td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><a href="http://www.noc.utoronto.ca/~mikep/MG/">MONSTERGAUSS</a></td>
+<td>Open Source</td>
+<td><a href="/wiki/Fortran" title="Fortran">Fortran</a></td>
+<td><a href="/wiki/Gaussian-type_orbital" title="Gaussian-type orbital">GTO</a></td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+<tr>
+<td><a href="/wiki/MOPAC" title="MOPAC">MOPAC</a></td>
+<td>Academic / Commercial</td>
+<td><a href="/wiki/Fortran" title="Fortran">Fortran</a></td>
+<td>Minimal GTO</td>
+<td>Any</td>
+<td>No</td>
+<td>Yes</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><a href="/wiki/MPQC" title="MPQC">MPQC</a></td>
+<td><a href="/wiki/GNU_Lesser_General_Public_License" title="GNU Lesser General Public License">LGPL</a></td>
+<td><a href="/wiki/C%2B%2B" title="C++">C++</a></td>
+<td>GTO</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><a href="http://quantum.utep.edu/nrlmol/nrlmol.html">NRLMOL</a></td>
+<td>Unknown</td>
+<td><a href="/wiki/Fortran" title="Fortran">Fortran</a></td>
+<td>GTO</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><a href="http://labs.aics.riken.jp/nakajimat_top/ntchem_e.html">NTChem</a></td>
+<td>Unknown</td>
+<td>Unknown</td>
+<td>GTO</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><a href="/wiki/NWChem" title="NWChem">NWChem</a></td>
+<td><a href="/wiki/Educational_Community_License" title="Educational Community License">ECL v2</a></td>
+<td>
+<a href="/wiki/Fortran_77" title="Fortran 77">Fortran 77</a> / <a href="/wiki/C_(programming_language)" title="C (programming language)">C</a>
+</td>
+<td>
+<a href="/wiki/Gaussian-type_orbital" title="Gaussian-type orbital">GTO</a>, <a href="/wiki/Basis_set_(chemistry)#Plane-wave_basis_sets" title="Basis set (chemistry)">PW</a>
+</td>
+<td>Yes(PW) No(GTO)</td>
+<td>Yes</td>
+<td>No</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><a href="/wiki/The_Octopus_Project_(software)" title="The Octopus Project (software)">Octopus</a></td>
+<td><a href="/wiki/GNU_General_Public_License" title="GNU General Public License">GPL</a></td>
+<td>
+<a href="/wiki/Fortran_95" title="Fortran 95">Fortran 95</a>, <a href="/wiki/C_(programming_language)" title="C (programming language)">C</a>, <a href="/wiki/OpenCL" title="OpenCL">OpenCL</a>
+</td>
+<td>Grid</td>
+<td>Any</td>
+<td>Yes</td>
+<td>No</td>
+<td>Yes</td>
+<td>No</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><a href="/wiki/ONETEP" title="ONETEP">ONETEP</a></td>
+<td>Academic (UK) / Commercial</td>
+<td><a href="/wiki/Fortran" title="Fortran">Fortran</a></td>
+<td><a href="/wiki/Basis_set_(chemistry)#Plane-wave_basis_sets" title="Basis set (chemistry)">PW</a></td>
+<td>3d</td>
+<td>Yes</td>
+<td>No</td>
+<td>Yes<sup>5</sup>
+</td>
+<td>No</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><a href="/wiki/OpenAtom" title="OpenAtom">OpenAtom</a></td>
+<td>Academic</td>
+<td>
+<a href="/wiki/Charm%2B%2B" title="Charm++">Charm++</a> (<a href="/wiki/C%2B%2B" title="C++">C++</a>)</td>
+<td><a href="/wiki/Basis_set_(chemistry)#Plane-wave_basis_sets" title="Basis set (chemistry)">PW</a></td>
+<td><a href="/w/index.php?title=Template:3d&amp;action=edit&amp;redlink=1" title="Template:3d (page does not exist)">Template:3d</a></td>
+<td>Yes</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><a href="http://www.openmx-square.org/">OpenMX</a></td>
+<td><a href="/wiki/GNU_General_Public_License" title="GNU General Public License">GPL</a></td>
+<td><a href="/wiki/C_(programming_language)" title="C (programming language)">C</a></td>
+<td><a href="/w/index.php?title=Numerical_atomic_orbitals&amp;action=edit&amp;redlink=1" title="Numerical atomic orbitals (page does not exist)">NAO</a></td>
+<td>3d</td>
+<td>Yes</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><a href="/wiki/ORCA_(Quantum_Chemistry_Program)" title="ORCA (Quantum Chemistry Program)">ORCA</a></td>
+<td>Academic</td>
+<td><a href="/wiki/C%2B%2B" title="C++">C++</a></td>
+<td><a href="/wiki/Gaussian_orbital" title="Gaussian orbital">GTO</a></td>
+<td>No</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><a href="/wiki/PLATO_(Package_for_Linear_Combination_of_Atomic_Orbitals)" title="PLATO (Package for Linear Combination of Atomic Orbitals)">PLATO</a></td>
+<td>Academic</td>
+<td>Unknown</td>
+<td><a href="/w/index.php?title=Numerical_atomic_orbitals&amp;action=edit&amp;redlink=1" title="Numerical atomic orbitals (page does not exist)">NAO</a></td>
+<td>Any</td>
+<td>Yes</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><a href="/wiki/PQS_(chemical)" title="PQS (chemical)">PQS</a></td>
+<td>Commercial</td>
+<td>Unknown</td>
+<td>Unknown</td>
+<td>Unknown</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><a href="https://web.archive.org/20080603181950/http://www.physto.se:80/~laikov/p/">Priroda-06</a></td>
+<td>Academic</td>
+<td><a href="/wiki/C_(programming_language)" title="C (programming language)">C</a></td>
+<td><a href="/wiki/Gaussian_orbital" title="Gaussian orbital">GTO</a></td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><a href="/wiki/PSI_(computational_chemistry)" title="PSI (computational chemistry)">PSI</a></td>
+<td><a href="/wiki/GNU_General_Public_License" title="GNU General Public License">GPL</a></td>
+<td>
+<a href="/wiki/C_(programming_language)" title="C (programming language)">C</a> / <a href="/wiki/C%2B%2B" title="C++">C++</a> / <a href="/wiki/Python_(programming_language)" title="Python (programming language)">Python</a>
+</td>
+<td><a href="/wiki/Gaussian_orbital" title="Gaussian orbital">GTO</a></td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><a href="http://pupil.sourceforge.net/index.html">PUPIL</a></td>
+<td><a href="/wiki/GNU_General_Public_License" title="GNU General Public License">GPL</a></td>
+<td>
+<a href="/wiki/Fortran" title="Fortran">Fortran</a> / <a href="/wiki/C_(programming_language)" title="C (programming language)">C</a>
+</td>
+<td>
+<a href="/wiki/Gaussian_orbital" title="Gaussian orbital">GTO</a>, <a href="/wiki/Basis_set_(chemistry)#Plane-wave_basis_sets" title="Basis set (chemistry)">PW</a>
+</td>
+<td>Any</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><a href="http://www.pwmat.com/pwmat">PWmat</a></td>
+<td>Commercial</td>
+<td><a href="/wiki/Fortran" title="Fortran">Fortran</a></td>
+<td><a href="/wiki/Basis_set_(chemistry)#Plane-wave_basis_sets" title="Basis set (chemistry)">PW</a></td>
+<td>3d</td>
+<td>Yes</td>
+<td>No</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>
+<a href="/wiki/PWscf" title="PWscf">PWscf</a><sup>6</sup>
+</td>
+<td><a href="/wiki/GNU_General_Public_License" title="GNU General Public License">GPL</a></td>
+<td><a href="/wiki/Fortran" title="Fortran">Fortran</a></td>
+<td><a href="/wiki/Basis_set_(chemistry)#Plane-wave_basis_sets" title="Basis set (chemistry)">PW</a></td>
+<td>3d</td>
+<td>No</td>
+<td>No</td>
+<td>Yes</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><a href="/wiki/PyQuante" title="PyQuante">PyQuante</a></td>
+<td><a href="/wiki/BSD_licenses" title="BSD licenses">BSD</a></td>
+<td><a href="/wiki/Python_(programming_language)" title="Python (programming language)">Python</a></td>
+<td><a href="/wiki/Gaussian_orbital" title="Gaussian orbital">GTO</a></td>
+<td>No</td>
+<td>No</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><a href="/wiki/PySCF" title="PySCF">PySCF</a></td>
+<td><a href="/wiki/BSD_licenses" title="BSD licenses">BSD</a></td>
+<td><a href="/wiki/Python_(programming_language)" title="Python (programming language)">Python</a></td>
+<td><a href="/wiki/Gaussian_orbital" title="Gaussian orbital">GTO</a></td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><a href="/wiki/Q-Chem" title="Q-Chem">Q-Chem</a></td>
+<td>Commercial</td>
+<td>
+<a href="/wiki/Fortran" title="Fortran">Fortran</a> / <a href="/wiki/C%2B%2B" title="C++">C++</a>
+</td>
+<td><a href="/wiki/Gaussian_orbital" title="Gaussian orbital">GTO</a></td>
+<td>No</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>
+<a href="/w/index.php?title=QMCPACK&amp;action=edit&amp;redlink=1" title="QMCPACK (page does not exist)">QMCPACK</a> (QMC)</td>
+<td><a href="http://opensource.org/licenses/UoI-NCSA.php">U. Illinois Open Source</a></td>
+<td>
+<a href="/wiki/C%2B%2B" title="C++">C++</a> / <a href="/wiki/CUDA" title="CUDA">CUDA</a>
+</td>
+<td>
+<a href="/wiki/Gaussian_orbital" title="Gaussian orbital">GTO</a> / <a href="/wiki/Basis_set_(chemistry)#Plane-wave_basis_sets" title="Basis set (chemistry)">PW</a> / Spline / Grid / STO</td>
+<td>Any</td>
+<td>No</td>
+<td>No</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><a href="/wiki/Quantemol" title="Quantemol">Quantemol-N</a></td>
+<td>Academic / Commercial</td>
+<td><a href="/wiki/Fortran" title="Fortran">Fortran</a></td>
+<td><a href="/wiki/Gaussian-type_orbital" title="Gaussian-type orbital">GTO</a></td>
+<td>No</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+<tr>
+<td><a href="http://www.schrodinger.com/QSite">QSite</a></td>
+<td>Unknown</td>
+<td>Unknown</td>
+<td><a href="/wiki/Gaussian-type_orbital" title="Gaussian-type orbital">GTO</a></td>
+<td>No</td>
+<td>Yes</td>
+<td>No<sup>11</sup>
+</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><a href="/wiki/Quantum_ESPRESSO" title="Quantum ESPRESSO">Quantum ESPRESSO</a></td>
+<td><a href="/wiki/GNU_General_Public_License" title="GNU General Public License">GPL</a></td>
+<td><a href="/wiki/Fortran" title="Fortran">Fortran</a></td>
+<td><a href="/wiki/Basis_set_(chemistry)#Plane-wave_basis_sets" title="Basis set (chemistry)">PW</a></td>
+<td>3d</td>
+<td>Yes</td>
+<td>No</td>
+<td>Yes</td>
+<td>No</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><a href="/wiki/RMG_(program)" title="RMG (program)">RMG</a></td>
+<td>GPL</td>
+<td>C/C++</td>
+<td>Grid</td>
+<td>3d</td>
+<td>Yes</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><a href="http://www.rspt.net/">RSPt</a></td>
+<td>Academic</td>
+<td>
+<a href="/wiki/Fortran" title="Fortran">Fortran</a> / <a href="/wiki/C_(programming_language)" title="C (programming language)">C</a>
+</td>
+<td><a href="/w/index.php?title=FP-LMTO&amp;action=edit&amp;redlink=1" title="FP-LMTO (page does not exist)">FP-LMTO</a></td>
+<td>3d</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><a href="/wiki/Scigress" title="Scigress">SCIGRESS</a></td>
+<td>Commercial</td>
+<td>
+<a href="/wiki/C%2B%2B" title="C++">C++</a>, <a href="/wiki/C_(programming_language)" title="C (programming language)">C</a>, <a href="/wiki/Java_(programming_language)" title="Java (programming language)">Java</a>, <a href="/wiki/Fortran" title="Fortran">Fortran</a>
+</td>
+<td><a href="/wiki/Gaussian_orbital" title="Gaussian orbital">GTO</a></td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>No</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><a href="/wiki/Spartan_(software)" title="Spartan (software)">Spartan</a></td>
+<td>Commercial</td>
+<td>
+<a href="/wiki/Fortran" title="Fortran">Fortran</a> / <a href="/wiki/C_(programming_language)" title="C (programming language)">C</a> / <a href="/wiki/C%2B%2B" title="C++">C++</a>
+</td>
+<td><a href="/wiki/Gaussian_orbital" title="Gaussian orbital">GTO</a></td>
+<td>No</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><a href="https://sites.google.com/site/siamquantum/">Siam Quantum</a></td>
+<td><a href="/wiki/GNU_General_Public_License" title="GNU General Public License">GPL</a></td>
+<td><a href="/wiki/C_(programming_language)" title="C (programming language)">C</a></td>
+<td><a href="/wiki/Gaussian_orbital" title="Gaussian orbital">GTO</a></td>
+<td>No</td>
+<td>Yes</td>
+<td>No</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+<tr>
+<td><a href="/wiki/SIESTA_(computer_program)" title="SIESTA (computer program)">SIESTA</a></td>
+<td>Academic</td>
+<td><a href="/wiki/Fortran" title="Fortran">Fortran</a></td>
+<td><a href="/w/index.php?title=Numerical_atomic_orbitals&amp;action=edit&amp;redlink=1" title="Numerical atomic orbitals (page does not exist)">NAO</a></td>
+<td>3d<sup>12</sup>
+</td>
+<td>Yes</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><a href="http://www.fkf.mpg.de/andersen/">TB-LMTO</a></td>
+<td>Academic</td>
+<td><a href="/wiki/Fortran" title="Fortran">Fortran</a></td>
+<td><a href="/w/index.php?title=LMTO&amp;action=edit&amp;redlink=1" title="LMTO (page does not exist)">LMTO</a></td>
+<td>3d</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>
+<a href="/wiki/TeraChem" title="TeraChem">TERACHEM</a> <b><sup>8</sup></b>
+</td>
+<td>Commercial</td>
+<td>
+<a href="/wiki/C_(programming_language)" title="C (programming language)">C</a>/<a href="/wiki/Compute_Unified_Device_Architecture" title="Compute Unified Device Architecture">CUDA</a>
+</td>
+<td><a href="/wiki/Gaussian_orbital" title="Gaussian orbital">GTO</a></td>
+<td>No</td>
+<td>Yes</td>
+<td>No</td>
+<td>Yes</td>
+<td>No</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><a href="/wiki/TURBOMOLE" title="TURBOMOLE">TURBOMOLE</a></td>
+<td>Commercial</td>
+<td><a href="/wiki/Fortran" title="Fortran">Fortran</a></td>
+<td><a href="/wiki/Gaussian_orbital" title="Gaussian orbital">GTO</a></td>
+<td>Yes</td>
+<td>Yes</td>
+<td>No</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><a href="/wiki/Vienna_Ab-initio_Simulation_Package" title="Vienna Ab-initio Simulation Package">VASP</a></td>
+<td>Academic(AT)/ Commercial</td>
+<td><a href="/wiki/Fortran" title="Fortran">Fortran</a></td>
+<td><a href="/wiki/Basis_set_(chemistry)#Plane-wave_basis_sets" title="Basis set (chemistry)">PW</a></td>
+<td>3d</td>
+<td>Yes</td>
+<td>No</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><a href="/wiki/WIEN2k" title="WIEN2k">WIEN2k</a></td>
+<td>Commercial</td>
+<td>
+<a href="/wiki/Fortran" title="Fortran">Fortran</a> / <a href="/wiki/C_(programming_language)" title="C (programming language)">C</a>
+</td>
+<td><a href="/w/index.php?title=Augmented_plane_wave_basis_set&amp;action=edit&amp;redlink=1" title="Augmented plane wave basis set (page does not exist)">FP-(L)APW+lo</a></td>
+<td>3d</td>
+<td>Yes</td>
+<td>No</td>
+<td>Yes</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><a href="/wiki/YAMBO_code" title="YAMBO code">Yambo Code</a></td>
+<td><a href="/wiki/GNU_General_Public_License" title="GNU General Public License">GPL</a></td>
+<td><a href="/wiki/Fortran" title="Fortran">Fortran</a></td>
+<td><a href="/wiki/Basis_set_(chemistry)#Plane-wave_basis_sets" title="Basis set (chemistry)">PW</a></td>
+<td>3d</td>
+<td>No</td>
+<td>No</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+</table>

@@ -126,27 +126,27 @@ def userinfo(request):
 @login_required
 def apermission(request, item=None):
     
-    eform = EntranceAppointmentForm(request.POST or None, initial={'expired_time': request.user.expired_time} )
-    iform = InstrumentAppointmentForm(request.POST or None )
-
+    #eform = EntranceAppointmentForm(request.POST or None, initial={'expired_time': request.user.expired_time} )
+    #iform = InstrumentAppointmentForm(request.POST or None )
+    doors = Entrance.objects.all()
+    instruments = Instrument.objects.all()
     has_permission_entrance = Entrance.objects.filter( user=request.user )
     has_permission_instrument = Instrument.objects.filter( user=request.user )
     has_appointed_entrance = EntranceAppointment.objects.filter( user=request.user )
     has_appointed_instrument = InstrumentAppointment.objects.filter( user=request.user )
 
     if request.method == 'POST':
-        if item=="eguard" and eform.is_valid():
-            eform.save()
+        if item=="eguard":
             return HttpResponseRedirect("/accounts/apermission")
-        if item=="instr" and iform.is_valid():
-            iform.save()
+        if item=="instr":
             return HttpResponseRedirect("/accounts/apermission")
 
-    return render(request, "accounts/apermission.html", {'eform': eform, 'iform': iform, 
+    return render(request, "accounts/apermission.html", {
                             'has_permission_instrument': has_permission_instrument,
                             'has_permission_entrance': has_permission_entrance,
                             'has_appointed_instrument': has_appointed_instrument,
                             'has_appointed_entrance': has_appointed_entrance,
+                            'doors': doors, 'instruments': instruments,
                               })
 
 @csrf_protect

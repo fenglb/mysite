@@ -1,5 +1,6 @@
 import os
 import re
+import hashlib
 from datetime import datetime
 
 from django.db import models
@@ -62,6 +63,7 @@ class BlogPost(models.Model):
         (u'pg', 'Python/Programming'),
         (u'ot', 'Others' )
         )
+    md5  = models.CharField(unique=True, max_length=32)
     title = models.CharField(max_length=150)
     thumbnail = models.ImageField(upload_to=get_upload_img_name, blank=True)
     body = models.TextField(blank=True)
@@ -89,7 +91,11 @@ class BlogPost(models.Model):
         self.slug = slugify(unidecode(self.title))
         if not self.body and self.md_file:
             self.body = self.md_file.read()
-
+        if not self.md5:
+            md5_model = hashlib.md5()
+            md5_str = self.pub_date.isoformat()+self.slug
+            md5_model.update(md5_str.encode('utf-8'))
+            self.md5 = md5_model.hexdigest()
         # generate rendered html file with same name as md
         headers = {'Content-Type': 'text/plain'}
 
@@ -110,7 +116,7 @@ class BlogPost(models.Model):
             try: self.description = next(m).groups()[0]
             except StopIteration: self.description = self.body[:200]
         # avoid recursive invoke
-        self.html_file.save(self.title+'.html', ContentFile(html_data), save=False)
+        self.html_file.save(self.slug+'.html', ContentFile(html_data), save=False)
         self.html_file.close()
 
         super(BlogPost, self).save(*args, **kwargs)
@@ -122,9 +128,9 @@ class BlogPost(models.Model):
     def get_absolute_url(self):
 
         if self.category in exclude_category:
-            return reverse('homepages:post', kwargs={'slug': self.slug, 'post_id': self.id})
+            return reverse('homepages:post', kwargs={'md5': self.md5})
         else:
-            return reverse('blogs:blogpost', kwargs={'slug': self.slug, 'post_id': self.id})
+            return reverse('blogs:blogpost', kwargs={'md5': self.md5})
 
 
 @receiver(pre_delete, sender=BlogPost)
@@ -133,8 +139,6 @@ def blogpost_delete(instance, **kwargs):
         instance.md_file.delete(save=False)
     if instance.html_file:
         instance.html_file.delete(save=False)
-
-
 
 class BlogPostImage(models.Model):
 

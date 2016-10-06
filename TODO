@@ -2,7 +2,7 @@
 [x][*** ] add the quene experiment in the appoint web, to help submit the appointment, avoid the same time as other experiment has set
 [x][**  ] update the "aobut me", "lab intro", "instr intro" webpage
 [x][*** ] add the function for send email to user for admin, and send email to admin for user
-[x][*   ] update the blog function
+[o][*   ] update the blog function, fix the encode/decode bug.
 [x][*   ] update the index function, like as the ...
 [x][*   ] add the weixin function
 [x][*   ] fix the user avator updated function

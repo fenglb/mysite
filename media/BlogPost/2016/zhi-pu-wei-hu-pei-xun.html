@@ -1,0 +1,47 @@
+<p>昨天和今天Bruker在厦门大学举行Q-TOF<a href="">用户交流会</a>，第一天介绍他们Q-TOF在小分子和大分子分析应用，还介绍他们相关的软件和数据的更新和使用。今天主要是回顾前天的流程和关于仪器的维护。我下面简单介绍一下今天讲的质谱的维护内容（主要是结合一些照片和记忆）。</p>
+
+<h3>
+<a id="user-content-真空系统" class="anchor" href="#%E7%9C%9F%E7%A9%BA%E7%B3%BB%E7%BB%9F" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>真空系统</h3>
+
+<p><a href="https://camo.githubusercontent.com/edae83e6ad2799d0c51b1b9017727cdb3407213d/687474703a2f2f696d67302e70682e3132362e6e65742f415339646d313774425f6a7869674a354161524242413d3d2f333735313231373031343732343130383435312e6a7067" target="_blank"><img src="https://camo.githubusercontent.com/edae83e6ad2799d0c51b1b9017727cdb3407213d/687474703a2f2f696d67302e70682e3132362e6e65742f415339646d313774425f6a7869674a354161524242413d3d2f333735313231373031343732343130383435312e6a7067" alt="真空系统" data-canonical-src="http://img0.ph.126.net/AS9dm17tB_jxigJ5AaRBBA==/3751217014724108451.jpg" style="max-width:100%;"></a>
+这张图中主要是说明Q-TOF的这三个型号具有一个机械泵和两个分子泵，在飞行器这边还有一个分子泵。还有在正常工作不同部件上大体上的真空度。对于这些真空度和结构的了解有助于故障排查。</p>
+
+<p><a href="https://camo.githubusercontent.com/fd419eeaeacf55ea262d7f0696cf7cb4bdd2cc95/687474703a2f2f696d67322e70682e3132362e6e65742f4d5a672d7272314f67414b7158626649694d565055513d3d2f323837333835393531323331373139373439312e6a7067" target="_blank"><img src="https://camo.githubusercontent.com/fd419eeaeacf55ea262d7f0696cf7cb4bdd2cc95/687474703a2f2f696d67322e70682e3132362e6e65742f4d5a672d7272314f67414b7158626649694d565055513d3d2f323837333835393531323331373139373439312e6a7067" alt="真空计" data-canonical-src="http://img2.ph.126.net/MZg-rr1OgAKqXbfIiMVPUQ==/2873859512317197491.jpg" style="max-width:100%;"></a>
+这张图是说明如果真空计出现问题的处理方式。比如在软件的下面显示的High真空度出现为1e-10mbar，就说明真空计不工作或者出现问题了。这边的真空计比较容易出现问题。</p>
+
+<p><a href="https://camo.githubusercontent.com/061b84db7a35fac1916043e22f1e6688d656da86/687474703a2f2f696d67302e70682e3132362e6e65742f335f4c5145625259446142505933676a774f54614a413d3d2f343931393035363639333039363136313532322e6a7067" target="_blank"><img src="https://camo.githubusercontent.com/061b84db7a35fac1916043e22f1e6688d656da86/687474703a2f2f696d67302e70682e3132362e6e65742f335f4c5145625259446142505933676a774f54614a413d3d2f343931393035363639333039363136313532322e6a7067" alt="分子泵" data-canonical-src="http://img0.ph.126.net/3_LQEbRYDaBPY3gjwOTaJA==/4919056693096161522.jpg" style="max-width:100%;"></a>
+这张图主要是排查分子泵的情况，正常情况下两个分子泵的速度和功率要如图所示，如果出现偏差比较大，就可以通过上面推荐的步骤进行处理。</p>
+
+<p><a href="https://camo.githubusercontent.com/f48c4c496ba6867ca13c145cdaa6b3c1e0c62c82/687474703a2f2f696d67302e70682e3132362e6e65742f4836553838367044654467516b6d79713079344434413d3d2f343933323834383936363935353434323330382e6a7067" target="_blank"><img src="https://camo.githubusercontent.com/f48c4c496ba6867ca13c145cdaa6b3c1e0c62c82/687474703a2f2f696d67302e70682e3132362e6e65742f4836553838367044654467516b6d79713079344434413d3d2f343933323834383936363935353434323330382e6a7067" alt="开机" data-canonical-src="http://img0.ph.126.net/H6U886pDeDgQkmyq0y4D4A==/4932848966955442308.jpg" style="max-width:100%;"></a>
+这张讲的时候开机的时候要注意真空情况才能启动standby。在High没有达到-7的时候，保持shutdown模式。主要是如果你在真空度还不够高情况下开启standby就会给仪器机上高压，会导致出现击穿放电而损坏仪器。</p>
+
+<h3>
+<a id="user-content-离子传输" class="anchor" href="#%E7%A6%BB%E5%AD%90%E4%BC%A0%E8%BE%93" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>离子传输</h3>
+
+<p><a href="https://camo.githubusercontent.com/5d68f4c09c9e0629590d60c6d1e8f0dd89d6c3d4/687474703a2f2f696d67322e70682e3132362e6e65742f6d425f537434475a7362444d4851364764456b395a513d3d2f333735373639303933393138373939363633362e6a7067" target="_blank"><img src="https://camo.githubusercontent.com/5d68f4c09c9e0629590d60c6d1e8f0dd89d6c3d4/687474703a2f2f696d67322e70682e3132362e6e65742f6d425f537434475a7362444d4851364764456b395a513d3d2f333735373639303933393138373939363633362e6a7067" alt="传输故障" data-canonical-src="http://img2.ph.126.net/mB_St4GZsbDMHQ6GdEk9ZQ==/3757690939187996636.jpg" style="max-width:100%;"></a>
+这张主要是讲传输故障排查问题。其实对于传输出现故障的现象主要是是看不到样品信号。这个时候就要判断到底是哪里离子源没有传输过来。这张图是说明TOF上面有一个Source detector检查离子是否有到底飞行管。</p>
+
+<p><a href="https://camo.githubusercontent.com/d45d21689528ab810a11635e703f3360e110a529/687474703a2f2f696d67302e70682e3132362e6e65742f74364a5033447a7064346e66484249684857646c64773d3d2f313632373438383331353434323935363435332e6a7067" target="_blank"><img src="https://camo.githubusercontent.com/d45d21689528ab810a11635e703f3360e110a529/687474703a2f2f696d67302e70682e3132362e6e65742f74364a5033447a7064346e66484249684857646c64773d3d2f313632373438383331353434323935363435332e6a7067" alt="喷雾针" data-canonical-src="http://img0.ph.126.net/t6JP3Dzpd4nfHBIhHWdldw==/1627488315442956453.jpg" style="max-width:100%;"></a>
+这个主要是讲喷雾针出现问题的情况。判断主要是从毛细管的电源和电流偏离预设值太大来。</p>
+
+<h3>
+<a id="user-content-电路系统" class="anchor" href="#%E7%94%B5%E8%B7%AF%E7%B3%BB%E7%BB%9F" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>电路系统</h3>
+
+<p><a href="https://camo.githubusercontent.com/3efc51cfb7a831b7cb24a65a5e3b2a6e7be420e7/687474703a2f2f696d67322e70682e3132362e6e65742f74686f394a4435654951336f4c6d784b6173516c32673d3d2f343832383134303237353631383631393633322e6a7067" target="_blank"><img src="https://camo.githubusercontent.com/3efc51cfb7a831b7cb24a65a5e3b2a6e7be420e7/687474703a2f2f696d67322e70682e3132362e6e65742f74686f394a4435654951336f4c6d784b6173516c32673d3d2f343832383134303237353631383631393633322e6a7067" alt="电路故障" data-canonical-src="http://img2.ph.126.net/tho9JD5eIQ3oLmxKasQl2g==/4828140275618619632.jpg" style="max-width:100%;"></a>
+这张主要是讲电路反馈数据把！</p>
+
+<p><a href="https://camo.githubusercontent.com/eee892a65ccc19ecd3c413f2f288c71346b8e49e/687474703a2f2f696d67302e70682e3132362e6e65742f73356a615353753036513262336b6d4931424d3548673d3d2f323837333835393531323331373139373438362e6a7067" target="_blank"><img src="https://camo.githubusercontent.com/eee892a65ccc19ecd3c413f2f288c71346b8e49e/687474703a2f2f696d67302e70682e3132362e6e65742f73356a615353753036513262336b6d4931424d3548673d3d2f323837333835393531323331373139373438362e6a7067" alt="程序升压" data-canonical-src="http://img0.ph.126.net/s5jaSSu06Q2b3kmI1BM5Hg==/2873859512317197486.jpg" style="max-width:100%;"></a>
+<a href="https://camo.githubusercontent.com/7ff894e8c2706312808ba684a1dc1350c3bfa210/687474703a2f2f696d67302e70682e3132362e6e65742f4e634c6a4b4f735a30444667595f30735a36355776773d3d2f343834393235303839383837323538313237352e6a7067" target="_blank"><img src="https://camo.githubusercontent.com/7ff894e8c2706312808ba684a1dc1350c3bfa210/687474703a2f2f696d67302e70682e3132362e6e65742f4e634c6a4b4f735a30444667595f30735a36355776773d3d2f343834393235303839383837323538313237352e6a7067" alt="" data-canonical-src="http://img0.ph.126.net/NcLjKOsZ0DFgY_0sZ65Wvw==/4849250898872581275.jpg" style="max-width:100%;"></a>
+这个主要是应用于长久不使用以后，不要一下子把检测器的电压升上去，而是要一步一步上升。这个使用的是AtlasControl这个小软件。</p>
+
+<p><a href="https://camo.githubusercontent.com/d4b7e3dae1f3bf23104a668597d89f9078555f92/687474703a2f2f696d67322e70682e3132362e6e65742f676139625247545533374d62525f63675772734766673d3d2f343835393636353437333031303939353635302e6a7067" target="_blank"><img src="https://camo.githubusercontent.com/d4b7e3dae1f3bf23104a668597d89f9078555f92/687474703a2f2f696d67322e70682e3132362e6e65742f676139625247545533374d62525f63675772734766673d3d2f343835393636353437333031303939353635302e6a7067" alt="离子源" data-canonical-src="http://img2.ph.126.net/ga9bRGTU37MbR_cgWrsGfg==/4859665473010995650.jpg" style="max-width:100%;"></a>
+这张是讲离子源的操作注意事项。</p>
+
+<h3>
+<a id="user-content-联用的色谱" class="anchor" href="#%E8%81%94%E7%94%A8%E7%9A%84%E8%89%B2%E8%B0%B1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>联用的色谱</h3>
+
+<p><a href="https://camo.githubusercontent.com/be2a948e341f5aa28b86be2facfd750d8a2aed56/687474703a2f2f696d67312e70682e3132362e6e65742f5a5745584d7a5130667a6130456873316636754236513d3d2f323837333537383033373334303533373432312e6a7067" target="_blank"><img src="https://camo.githubusercontent.com/be2a948e341f5aa28b86be2facfd750d8a2aed56/687474703a2f2f696d67312e70682e3132362e6e65742f5a5745584d7a5130667a6130456873316636754236513d3d2f323837333537383033373334303533373432312e6a7067" alt="色谱泵" data-canonical-src="http://img1.ph.126.net/ZWEXMzQ0fza0Ehs1f6uB6Q==/2873578037340537421.jpg" style="max-width:100%;"></a>
+这个注意是值联用的色谱操作需要注意的事项。</p>
+
+<p><a href="https://camo.githubusercontent.com/e025fa32012c09a1b73735d10bd00acf5200d260/687474703a2f2f696d67322e70682e3132362e6e65742f5f59316434694b4c374a6e69487a6b48486b56682d413d3d2f343834333035383434393338343939373438302e6a7067" target="_blank"><img src="https://camo.githubusercontent.com/e025fa32012c09a1b73735d10bd00acf5200d260/687474703a2f2f696d67322e70682e3132362e6e65742f5f59316434694b4c374a6e69487a6b48486b56682d413d3d2f343834333035383434393338343939373438302e6a7067" alt="维护" data-canonical-src="http://img2.ph.126.net/_Y1d4iKL7JniHzkHHkVh-A==/4843058449384997480.jpg" style="max-width:100%;"></a>
+这个是日常维护的项目。</p>

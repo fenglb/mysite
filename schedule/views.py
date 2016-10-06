@@ -82,6 +82,8 @@ def dealInstrumentAppoint(request):
 def sample(request):
     app_form = SampleAppointmentForm( request.POST or None, initial={'user': request.user, 'instrument': 1} )
     sample_form = SampleForm( request.POST or None )
+    instruments = Instrument.objects.all()
+
     if request.method == 'POST':
         is_valid = app_form.is_valid() and sample_form.is_valid()
         if is_valid:
@@ -90,7 +92,10 @@ def sample(request):
             app.sample = sample
             app.save()
             return HttpResponseRedirect("/accounts/profile")
-    return render(request, 'schedule/sample.html', {'appform': app_form, 'sampleform': sample_form})
+    return render(request, 'schedule/sample.html', 
+                {'appform': app_form, 'sampleform': sample_form,
+                'instruments': instruments,
+                })
     
 def viewSchedule(request, instrument=None):
     is_perm = False

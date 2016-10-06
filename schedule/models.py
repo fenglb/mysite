@@ -83,7 +83,11 @@ class InstrumentAppointment(models.Model):
 
     def __str__(self):
         all_instrument = ",".join( [inst.name for inst in self.instrument.all()] )
-        target_datetime = cnfromutc(self.target_datetime).strftime("%Y-%m-%d %H:%m")
+        target_datetime = "None"
+        print( self.target_datetime )
+        if self.target_datetime:
+            print('hee')
+            target_datetime = cnfromutc(self.target_datetime).strftime("%Y-%m-%d %H:%m")
         strforback = '[{0}]申请[{1}]预计在{2}培训'.format(self.user.surname, all_instrument, target_datetime )
         return strforback
 

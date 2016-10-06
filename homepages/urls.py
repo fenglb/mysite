@@ -4,7 +4,7 @@ from homepages.views import home, about, labs, insts, service, contact, appoint,
 
 urlpatterns = [
     url(r'^$', home, name='home'),
-    url(r'^(?P<slug>[-\w\d]+),(?P<post_id>\d+)/$', post, name='post'),
+    url(r'^(?P<md5>\w{32})/$', post, name='post'),
     url(r'^about/$', about, name='about'),
     url(r'^labs/$', labs, name='labs'),
     url(r'^insts/', insts, name='insts'),

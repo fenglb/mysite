@@ -41,13 +41,16 @@
 	<div class="col-sm-4">
     <h3>申请信息</h3>
 		<div class="row">
-				<div class="col-sm-4">
-					<label class="input-lg text-danger">{{ appform.instrument.label_tag }}</label>
-				</div>
-      <div class="col-sm-8">
-        {{ appform.instrument }}
-        {{ appform.user }}
-      </div>
+            <div class="col-sm-4">
+                <label class="input-lg text-danger">选择仪器：</label>
+            </div>
+            <div class="col-sm-8">
+                {{ instruments }}
+                {% for instr in instruments %}
+                    <div><input type="checkbox" name="instrument" id="id_instrument" value="{{ instr.id }}">{{instr.name}}</input></div>
+                {% endfor %}
+            </div>
+
 		</div>
 		<div class="row">
 			<div class="form-group">

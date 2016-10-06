@@ -8,7 +8,7 @@
 	<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 	{% load staticfiles %}
 	<link rel="stylesheet" type="text/css" media="all" href="{% static 'css/main.css' %}">
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+	<link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <script type="text/javascript" src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
 	<title>{% block title %}{% endblock %}</title>
 	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -42,9 +42,10 @@
   <p><a href="http://Register.xmu.edu.cn/Record.aspx?RecordID=D200992" target=_blank>厦门大学高场核磁中心备案号D200992</a></p>
 </div>
 {% if GOOGLE_ANALYTICS_PROPERTY_ID %}
-{% include "google_analytics.html" %}
+    {% include "google_analytics.html" %}
 {% endif %}
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+{{ GOOGLE_ANALYTICS_PROPERTY_ID }}
+<script src="http://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 {% block js %}{% endblock %}
 </body>
 </html>

@@ -117,12 +117,13 @@
       <div class="row">
         <div class="form-group">
           <div class="col-sm-4">
-            <label class="input-lg">{{ eform.entrance.label_tag }}</label>
+            <label class="input-lg">门禁：</label>
           </div>
           <div class="col-sm-8">
-               {{eform.user}}
-               {{eform.entrance}}
-               <span style="font-size:12px;color:red;" class="helptext">{{eform.entrance.help_text}}</span>
+            {% for door in doors %}
+                <div><input type="checkbox" name="entrance" id="id_entrance" value="{{ door.id }}">{{ door.name }}</input></div>
+            {% endfor %}
+            <p style="font-size:12px;color:red;" class="helptext">进出核磁中心请同时申请“值班室大门”，“值班室里门”；而其他申请请根据需求来。</p>
           </div>
         </div>
       </div>
@@ -130,11 +131,11 @@
       <div class="row">
         <div class="eform-group">
           <div class="col-sm-4">
-            <label class="input-lg">{{ eform.reason.label_tag }}</label>
+            <label class="input-lg">申请理由：</label>
           </div>
           <div class="col-sm-8">
-               {{eform.reason}}
-               <span style="font-size:12px;" class="helptext">{{eform.reason.help_text}}</span>
+            <textarea class="form-control input-lg" name="reason" id="id_reason" rows=6></textarea>
+            <span style="font-size:12px;" class="helptext">请给出申请理由，不然可能会导致申请不通过！</span>
           </div>
         </div>
       </div>
@@ -142,11 +143,11 @@
       <div class="row">
         <div class="eform-group">
           <div class="col-sm-4">
-            <label class="input-lg">{{ eform.expired_time.label_tag }}</label>
+            <label class="input-lg">截止日期：</label>
           </div>
           <div class="col-sm-8">
-               {{eform.expired_time}}
-               <span style="font-size:12px;" class="helptext">{{eform.expired_time.help_text}}</span>
+               <input class="form-control input-lg" id="id_expired_time" name="expired_time" type="text" value="2116-07-01" required />
+               <span style="font-size:12px;" class="helptext"></span>
           </div>
         </div>
       </div>
@@ -173,33 +174,34 @@
     <div class="row">
         <div class="form-group">
           <div class="col-sm-4">
-            <label class="input-lg">{{ iform.instrument.label_tag }}</label>
+            <label class="input-lg">仪器：</label>
           </div>
           <div class="col-sm-8">
-               {{iform.instrument}}
-               <span style="font-size:12px;color:red;" class="helptext">{{iform.instrument.help_text}}</span>
-               {{iform.user}}
+            {% for instr in instruments %}
+                <div><input type="checkbox" name="instrument" id="id_instrument" value="{{ instr.id }}">{{instr.name}}</input></div>
+            {% endfor %}
+               <span style="font-size:12px;color:red;" class="helptext"></span>
           </div>
         </div>
       </div>
     <div class="row">
         <div class="form-group">
           <div class="col-sm-4">
-            <label class="input-lg">{{ iform.target_datetime.label_tag }}</label>
+            <label class="input-lg">预定时间：</label>
           </div>
           <div class="col-sm-8">
-               {{iform.target_datetime}}
+               <input class="form-control input-lg" id="id_target_datetime" name="target_datetime" type="text" required />
           </div>
         </div>
       </div>
     <div class="row">
         <div class="form-group">
           <div class="col-sm-4">
-            <label class="input-lg">{{ iform.times.label_tag }}</label>
+            <label class="input-lg">用时/小时：</label>
           </div>
           <div class="col-sm-8">
-               {{iform.times}}
-               <span style="font-size:12px;color:red;" class="helptext">{{iform.times.help_text}}</span>
+            <input class="form-control input-lg" id="id_times" name="times" type="number" min="0" step="0.5" value="0.5" required />
+            <span style="font-size:12px;color:red;" class="helptext">预估培训使用时间,如果不需要培训把这个数值设置为0。</span>
           </div>
         </div>
       </div>
@@ -225,23 +227,17 @@
 {% block js %}
 <script src="//mugifly.github.io/jquery-simple-datetimepicker/jquery.simple-dtpicker.js"></script>
 <script>
-  $("input").toggleClass('form-control input-lg');
-  $("select[name=user]").hide();
-  $("select[name=user] option[value='{{user.id}}'").attr('selected', true);
-  $("select").toggleClass('form-control input-lg');
-  $("li>label").toggleClass('checkbox-inline');
-  $("input[name=entrance]").removeClass('form-control input-lg');
-  $("textarea").toggleClass('form-control input-lg');
   $("#id_target_datetime").appendDtpicker({'futureOnly': true});
   $("#id_expired_time").appendDtpicker({'dateOnly':true, 'futureOnly': true});
   $("#id_expired_time").attr('readonly', 'readonly');
   $("#id_target_datetime").attr('readonly', 'readonly');
   {% for entrance in has_permission_entrance %}
-    $("select#id_entrance option[value='{{entrance.id}}']").attr("disabled", true);
+    $("input#id_entrance[value='{{entrance.id}}']").attr("disabled", true);
   {% endfor %}
   {% for instrument in has_permission_instrument %}
-    $("select#id_instrument option[value='{{instrument.id}}']").attr("disabled", true);
+    $("input#id_instrument[value='{{instrument.id}}']").attr("disabled", true);
   {% endfor %}
+
 </script>
 
 {% endblock %}

@@ -1,0 +1,89 @@
+<ol>
+<li>The <a href="http://aria.pasteur.fr/downloads/installation-notes">installation notes</a> have the system and software packages requirements. And the installing proceduce, you can check your env and set your environment variables.</li>
+<li>But when you only unpack the CNS, and link this cns_solve execute with running aria2, it will popup the error as follow. This is because aria installation has some extra CNS source files that you need to compile with CNS. the <em>installation nates</em> indices that copy all the $ARIA/cns/src files to the directory cns_solve_x.xx/source, then edit the "cns_solve_env", and "make install" to start compile CNS. It will fix the bugs.</li>
+</ol>
+
+<pre><code>&gt;&gt; MESSAGE [Job manager]: shutdown.
+&gt;&gt; Traceback (most recent call last):
+&gt;&gt;   File "/Users/usr//Software/aria2.3/aria2.py", line 903, in &lt;module&gt;
+&gt;&gt;     verbose_level, use_condor=condor)
+&gt;&gt;   File "/Users/usr//Software/aria2.3/aria2.py", line 813, in run_aria
+&gt;&gt;     project.go(use_condor)
+&gt;&gt;   File "/Users/usr/Software/aria2.3/src/py/aria/Project.py", line 1574, in go
+&gt;&gt;     self.run_protocol(first_iteration)
+&gt;&gt;   File "/Users/usr/Software/aria2.3/src/py/aria/Project.py", line 1580, in run_protocol
+&gt;&gt;     last_iteration = self.getProtocol().go(iteration, self.getMolecule())
+&gt;&gt;   File "/Users/usr/Software/aria2.3/src/py/aria/Protocol.py", line 1730, in go
+&gt;&gt;     iteration = self.start(iteration, molecule)
+&gt;&gt;   File "/Users/usr/Software/aria2.3/src/py/aria/Protocol.py", line 1714, in start
+&gt;&gt;     return self.run_protocol(molecule, iteration)
+&gt;&gt;   File "/Users/usr/Software/aria2.3/src/py/aria/Protocol.py", line 2182, in run_protocol
+&gt;&gt;     is_first_it)
+&gt;&gt;   File "/Users/usr/Software/aria2.3/src/py/aria/Protocol.py", line 2137, in run_iteration
+&gt;&gt;     self.error(StandardError, err_msg)
+&gt;&gt;   File "/Users/usr/Software/aria2.3/src/py/aria/ariabase.py", line 211, in error
+&gt;&gt;     raise exception, msg
+&gt;&gt; StandardError: USER ERROR &lt;aria.Protocol.Protocol&gt; File "/Users/usr/Software/aria2.3/src/py/aria/Protocol.py", line 2182 in run_protocol
+&gt;&gt; Structure calculation failed for structure 1.
+&gt;&gt; Structure calculation failed for structure 2.
+&gt;&gt; Structure calculation failed for structure 3.
+&gt;&gt; Structure calculation failed for structure 4.
+&gt;&gt; Structure calculation failed for structure 5.
+&gt;&gt; Structure calculation failed for structure 6.
+&gt;&gt; Structure calculation failed for structure 7.
+&gt;&gt; Structure calculation failed for structure 8.
+&gt;&gt; Structure calculation failed for structure 9.
+&gt;&gt; Structure calculation failed for structure 10.
+&gt;&gt; Structure calculation failed for structure 11.
+&gt;&gt; Structure calculation failed for structure 12.
+&gt;&gt; Structure calculation failed for structure 13.
+&gt;&gt; Structure calculation failed for structure 14.
+&gt;&gt; Structure calculation failed for structure 15.
+&gt;&gt; Structure calculation failed for structure 16.
+&gt;&gt; Structure calculation failed for structure 17.
+&gt;&gt; Structure calculation failed for structure 18.
+&gt;&gt; Structure calculation failed for structure 19.
+&gt;&gt; Structure calculation failed for structure 20.
+&gt;&gt; Please check your setup and the CNS output files for errors.
+</code></pre>
+
+<ol>
+<li>In Ubuntu 16.04, there is one other bugs like as belown. As internet advices, you can set MXFPEPS2 value to 8192 in source/machvar.inc, and removed flag -fastm in make file, third step, MXRTP to 4000 in source/rtf.inc and add the line <code>WRITE (6,'(I6,E10.3,E10.3)') I, ONEP, ONEM</code> in source/machvar.f before 67 line. Yes, this will fix the bug, but why?</li>
+</ol>
+
+<pre><code> %SETFPEPS Machine epsilon determined to be  0.494-323
+ %SETFPEPS error encountered: Machine epsilon value is too small
+ (CNS is in mode: SET ABORT=NORMal END)
+ WARNING: program encountered a fatal error.
+     However, in interactive mode, program execution
+     will continue.  Proceed at your own risk.
+ Program will stop immediately.
+         ============================================================
+            Maximum dynamic memory allocation:           0 bytes
+            Maximum dynamic memory overhead:             0 bytes
+            Program started at:  on 
+            Program stopped at: 20:55:38 on 31-Aug-2016
+            CPU time used:       0.0080 seconds
+         ============================================================
+Note: The following floating-point exceptions are signalling: IEEE_UNDERFLOW_FLAG IEEE_DENORMAL
+</code></pre>
+
+<ol>
+<li>Only this, it will popup the bugs, but it can run and give the result.But how to fix this problem, you can delete the -ffast in the makefile. where is the makefile, like me use the Ubuntu 64bit, the makefile is in the $CNS_SOLVE/instlib/machine/supported/intel-x86_64bit-linux/Makefile.header.2.gfortran. Now i delete the <em>write</em> line in machvar.f, can it's ok.</li>
+</ol>
+
+<pre><code> %SETFPEPS Machine epsilon determined to be  0.494-323
+ %SETFPEPS error encountered: Machine epsilon value is too small
+ (CNS is in mode: SET ABORT=NORMal END)
+ WARNING: program encountered a fatal error.
+     However, in interactive mode, program execution
+     will continue.  Proceed at your own risk.
+ Program will stop immediately.
+        ============================================================
+          Maximum dynamic memory allocation:           0 bytes
+          Maximum dynamic memory overhead:             0 bytes
+          Program started at:  on 
+          Program stopped at: 20:55:38 on 31-Aug-2016
+          CPU time used:       0.0080 seconds
+        ============================================================
+</code></pre>

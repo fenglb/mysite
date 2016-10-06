@@ -28,8 +28,8 @@ def home(request, page=''):
         return render(request, 'blogs/index.html', args)
 
 
-def blogpost(request, slug, post_id):
-    args = {'blogpost': get_object_or_404(BlogPost, pk=post_id)}
+def blogpost(request, md5):
+    args = {'blogpost': get_object_or_404(BlogPost, md5=md5)}
     return render(request, 'blogs/blogpost.html', args)
 
 def archive(request):
