@@ -137,8 +137,26 @@ def apermission(request, item=None):
 
     if request.method == 'POST':
         if item=="eguard":
+            door_list = request.POST.getlist('entrance')
+            if door_list:
+                door_appintment = EntranceAppointment(user=request.user)
+                door_appintment.reason = request.POST['reason']
+                door_appintment.expired_time = request.POST['expired_time']
+                door_appintment.save()
+                for door_id in door_list:
+                    door = Entrance.objects.get(id=door_id)
+                    door_appintment.entrance.add(door)
             return HttpResponseRedirect("/accounts/apermission")
         if item=="instr":
+            instr_list = request.POST.getlist('instrument')
+            if instr_list:
+                instr_appintment = InstrumentAppointment(user=request.user)
+                instr_appintment.target_datetime = request.POST['target_datetime']
+                instr_appintment.times = request.POST['times']
+                instr_appintment.save()
+                for dev_id in instr_list:
+                    dev = Instrument.objects.get(id=dev_id)
+                    instr_appintment.instrument.add(dev)
             return HttpResponseRedirect("/accounts/apermission")
 
     return render(request, "accounts/apermission.html", {

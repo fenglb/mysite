@@ -4,7 +4,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Group
 from .admin import ExperimentCreationForm, SampleAppointmentForm, SampleForm
-from .models import Experiment, Instrument, InstrumentAppointment, SampleAppointment
+from .models import Experiment, Instrument, InstrumentAppointment, SampleAppointment, Sample
 from accounts.models import PersonInCharge
 from .tz import cnfromutc, cntoutc
 
@@ -80,20 +80,54 @@ def dealInstrumentAppoint(request):
 
 @login_required
 def sample(request):
-    app_form = SampleAppointmentForm( request.POST or None, initial={'user': request.user, 'instrument': 1} )
-    sample_form = SampleForm( request.POST or None )
+    #app_form = SampleAppointmentForm( request.POST or None, initial={'user': request.user, 'instrument': 1} )
+    #sample_form = SampleForm( request.POST or None )
     instruments = Instrument.objects.all()
 
     if request.method == 'POST':
-        is_valid = app_form.is_valid() and sample_form.is_valid()
-        if is_valid:
-            sample = sample_form.save()
-            app = app_form.save(commit=False)
-            app.sample = sample
-            app.save()
-            return HttpResponseRedirect("/accounts/profile")
-    return render(request, 'schedule/sample.html', 
-                {'appform': app_form, 'sampleform': sample_form,
+        checked_instrument_id = request.POST['instrument']
+        if checked_instrument_id:
+            checked_instrument = Instrument.objects.get(id=checked_instrument_id)
+            sample_app = SampleAppointment(user=request.user)
+            sample_app.instrument = checked_instrument
+            sample_app.start_time = request.POST['start_time']
+            sample_app.times = request.POST['times']
+            sample_app.measure_type = request.POST['measure_type']
+            
+            null_sample = True
+            sample_name = request.POST['name']
+            if sample_name:
+                null_sample = False
+            sample_solvent = request.POST['solvent']
+            if sample_solvent:
+                null_sample = False
+            sample_concentration = request.POST['concentration']
+            if sample_concentration:
+                null_sample = False
+            sample_mw = request.POST['molecular_weight']
+            if sample_mw:
+                null_sample = False
+            sample_structure = request.POST['structure']
+            if sample_structure:
+                null_sample = False
+            sample_others = request.POST['others']
+            if sample_others:
+                null_sample = False
+            if not null_sample:
+                sample = Sample(name=sample_name,
+                                solvent=sample_solvent,
+                                concentration=sample_concentration,
+                                molecular_weight=sample_mw,
+                                structure=sample_structure,
+                                others=sample_others
+                )
+                sample.save()
+                sample_app.sample = sample
+            sample_app.save()
+
+        return HttpResponseRedirect("/accounts/profile")
+
+    return render(request, 'schedule/sample.html', {
                 'instruments': instruments,
                 })
     

@@ -24,9 +24,9 @@
 {% endblock %}
 {% block content %}
 <div class="container-fuild has_permission">
-<div class="row text-center text-success" style="border: 1px solid #000;">
+<h4 class="row text-center text-danger">
 ** 推荐使用Chrome，Firefox，Chromium等浏览器，如果您使用360浏览器，请切换到极速模式（默认为兼容模式）。如果你安装了360浏览器，IE也会有问题。
-</div>
+</h4>
   <div class="container">
     <div class="row">
       <h4>门禁状态</h3>
@@ -113,7 +113,6 @@
 
     <form action="{% url 'accounts:apermission' 'eguard' %}" method="post">
     {% csrf_token %}
-
       <div class="row">
         <div class="form-group">
           <div class="col-sm-4">
@@ -154,7 +153,7 @@
 
       <div class="row" >
         <div class="col-sm-offset-4 col-sm-8">
-          <button class="btn btn-primary btn-lg btn-block" onclick="this.disabled=true;this.form.submit()" value="submit">== 提交门禁申请 ==</button>
+          <button class="btn btn-primary btn-lg btn-block" onclick="this.form.submit();this.disabled=true" value="submit">== 提交门禁申请 ==</button>
         </div>
         <div class="text-center col-sm-12">提醒：任务提交成功会生成等待审核项目，请注意查看管理员回复!</div>
      </div>
@@ -213,7 +212,7 @@
 
     <div class="row" >
       <div class="col-sm-offset-4 col-sm-8">
-        <button class="btn btn-primary btn-lg btn-block" onclick="this.disabled=true;this.form.submit()" value="submit">== 提交培训申请 ==</button>
+        <button class="btn btn-primary btn-lg btn-block" onclick="this.form.submit();this.disabled=true" value="submit">== 提交培训申请 ==</button>
       </div>
         <div class="text-center col-sm-12">提醒：任务提交成功会生成等待审核项目，请注意查看管理员回复!</div>
    </div>
