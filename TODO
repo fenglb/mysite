@@ -1,12 +1,14 @@
-[O][****] add the link for the user name, to display the info about user
-[x][*** ] add the quene experiment in the appoint web, to help submit the appointment, avoid the same time as other experiment has set
-[x][**  ] update the "aobut me", "lab intro", "instr intro" webpage
+[X][*** ] add the quene experiment in the appoint web, to help submit the appointment, avoid the same time as other experiment has set
+[X][**  ] update the "aobut me", "lab intro", "instr intro" webpage
+[X][*   ] update the index function, like as the ...
+[X][*   ] add the weixin function
+[X][*   ] fix the user avator updated function
+[X][*** ] make the 15 min appoint table for 500M, so do nice for the old user
+[X][*** ] make the every cark can appoint the door
+[X][*   ] make work for weixin to display the instr appointment and appoint the exp.
+[X][*   ] change the datetime picker to flatpickr on jqueryrain.com
+[X][*   ] update the resign web
+[O][*   ] make the multiselector more nice in html web
 [O][*** ] add the function for send email to user for admin, and send email to admin for user
 [O][*   ] update the blog function, fix the encode/decode bug.
-[x][*   ] update the index function, like as the ...
-[x][*   ] add the weixin function
-[x][*   ] fix the user avator updated function
-[x][*** ] make the 15 min appoint table for 500M, so do nice for the old user
-[x][*** ] make the every cark can appoint the door
-[x][*   ] make work for weixin to display the instr appointment and appoint the exp.
-[O][*   ] make the multiselector more nice in html web
+[O][****] add the link for the user name, to display the info about user

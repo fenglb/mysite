@@ -27,17 +27,13 @@ class UserCreationForm(forms.ModelForm):
         return person_in_charge
 
     def clean_identify(self):
-        position = self.cleaned_data.get("position")
-        if position == "visit":
+        identify = self.cleaned_data.get("identify")
+        if not identify:
             users = CustomUser.objects.filter( position="visit" ).filter( create_time__year=datetime.now().year )
             date_str = datetime.now().strftime("%Y%m%d")
             identify = "T"+date_str+"{:03}".format(len(users))
         else:
             surname = self.cleaned_data.get("surname")
-            identify = self.cleaned_data.get("identify")
-
-            if not identify:
-                raise forms.ValidationError("厦大学生或者教工必须输入学号/教工号！")
 
             # login school service to comfirm the information
             if not checkUserExist( surname, identify ):

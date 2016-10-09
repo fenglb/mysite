@@ -104,7 +104,7 @@ class CustomUser( AbstractBaseUser, PermissionsMixin ):
     is_staff = models.BooleanField(verbose_name='NMRCEN_Man', default=False, null=False)
     title = models.CharField(verbose_name='职称', max_length=50, blank=True, null=False)
 
-    profile_image = models.ImageField(upload_to="profile", blank=False, null=False, verbose_name='个人照片', default="/media/profile/default.png")
+    profile_image = models.ImageField(upload_to="profile", blank=False, null=False, verbose_name='个人照片', default="profile/default.png")
     user_bio = models.TextField(verbose_name='自我介绍', max_length=600,blank=True)
 
     def get_full_name(self):

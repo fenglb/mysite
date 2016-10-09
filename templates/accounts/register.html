@@ -2,42 +2,270 @@
 {% block title %} 用户注册 {% endblock %}
 {% block content %}
 <div class="container register">
+<form action="{% url 'accounts:register' %}" method="post">
+{% csrf_token %}
+<div class="row">
+<div class="col-sm-6">
   <div class="row">
-    <div style="border-bottom:1px solid #eee; margin-bottom: 10px;" class="col-sm-offset-2 col-sm-5 text-center">
+    <div style="border-bottom:1px solid #eee; margin-bottom: 10px;" class="text-center">
       <h3><strong>新建用户</strong></h3>
     </div>
   </div>
-  <form action="{% url 'accounts:register' %}" method="post">
-{% csrf_token %}
-    {% for field in form %}
       <div class="row">
         <div class="form-group">
-          <div class="col-sm-offset-2 col-sm-2">
-            <label class="input-lg">{{ field.label_tag }}</label>
+          <div class="col-sm-4">
+            <label class="input-lg">用户名：</label>
           </div>
-          <div class="col-sm-3">
-               {{field}}
-               <span style="font-size:10px" class="helptext">{{field.help_text}}</span>
+          <div class="col-sm-6">
+            <input id="id_username" name="username" maxlenght="30" type="text" value="{{username}}" required>
+               <span style="font-size:10px" class="helptext">纯数字和字母</span>
           </div>
-          {% if form.errors %}
-            <div class="col-sm-5 text-danger">
-              {{ field.errors }}
+            <div class="col-sm-2">
+                <label class="text-danger" style="font-size:10px" id="id_error_username">{{ errors.username }}</label>
+            </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="form-group">
+          <div class="col-sm-4">
+            <label class="input-lg">姓名：</label>
+          </div>
+          <div class="col-sm-6">
+            <input id="id_surname" name="surname" maxlenght="30" type="text" value="{{surname}}" required >
+               <span style="font-size:10px" class="helptext">用户的真实姓名</span>
+          </div>
+          {% if errors.surname %}
+            <div class="col-sm-2">
+                <label class="text-danger" style="font-size:10px">{{ errors.surname }}</label>
             </div>
           {% endif %}
         </div>
       </div>
-    {% endfor %}
-  <div class="row" >
-    <div class="col-sm-offset-4 col-sm-3 text-center" style="border-top: 1px solid #eee; padding-top: 10px; margin-top: 10px;">
-      <button class="btn btn-primary btn-lg btn-block" onclick="this.disabled=true;this.form.submit()" value="新建">注册用户</button>
+      <div class="row">
+      <div class="form-group">
+          <div class="col-sm-4">
+            <label class="input-lg">学号/教工号：</label>
+          </div>
+          <div class="col-sm-6">
+            <input id="id_identify" name="identify" maxlenght="30" type="text" value={% if errors.identify %}""{%else%}"{{identify}}"{%endif%}>
+               <span style="font-size:10px" class="helptext">厦大学生号或者教工号，厦大临时卡号，非厦大学生,教师和没有临时卡不用填</span>
+          </div>
+          {% if errors.identify %}
+            <div class="col-sm-2">
+                <label class="text-danger" style="font-size:10px">{{ errors.identify }}</label>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+      <div class="row">
+      <div class="form-group">
+          <div class=" col-sm-4">
+            <label class="input-lg">电话号码：</label>
+          </div>
+          <div class="col-sm-6">
+            <input id="id_phone_number" name="phone_number" maxlenght="18" type="text" value="{{phone_number}}" required>
+               <span style="font-size:10px" class="helptext">格式为05922186874或者手机号码</span>
+          </div>
+          {% if errors.phone_number %}
+            <div class="col-sm-2">
+                <label class="text-danger" style="font-size:10px">{{ errors.phone_number }}</label>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+      <div class="row">
+      <div class="form-group">
+          <div class="col-sm-4">
+            <label class="input-lg">邮箱：</label>
+          </div>
+          <div class="col-sm-6">
+            <input id="id_email" name="email" maxlenght="255" type="text" value={% if errors.email %}""{%else%}"{{email}}"{%endif%} required>
+            <span style="font-size:10px" class="helptext">有效邮箱，用于认证通知</span>
+          </div>
+          {% if errors.email%}
+            <div class="col-sm-2">
+                <label class="text-danger" style="font-size:10px">{{ errors.email }}</label>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+      <div class="row">
+      <div class="form-group">
+          <div class="col-sm-4">
+            <label class="input-lg">密码：</label>
+          </div>
+          <div class="col-sm-6">
+            <input id="id_password1" name="password1" type="password" required>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+      <div class="form-group">
+          <div class="col-sm-4">
+            <label class="input-lg">确认密码：</label>
+          </div>
+          <div class="col-sm-6">
+            <input id="id_password2" name="password2" type="password" required>
+          </div>
+          {% if errors.password %}
+            <div class="col-sm-2">
+                <label class="text-danger" style="font-size:10px">{{ errors.password }}</label>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+</div>
+<div class="col-sm-6">
+  <div class="row">
+    <div style="border-bottom:1px solid #eee; margin-bottom: 10px;" class="text-center">
+      <h3><strong>课题组/单位信息</strong></h3>
     </div>
   </div>
-  </form>
-</div>
+  <div class="row">
+  <div class="form-group">
+      <div class="col-sm-4">
+        <label class="input-lg">负责人姓名：</label>
+      </div>
+      <div class="col-sm-6">
+        <input id="id_pi_name" name="pi_name" maxlenght="30" type="text" value="{{pi_name}}" required>
+        <span style="font-size:10px" class="helptext">请输入您课题组组长，经费负责人或者领导的真实姓名，如果此负责人存在，以下信息将自动填写，您还可以更正以下信息！</span>
+      </div>
+      {% if errors.pi_name %}
+        <div class="col-sm-2">
+            <label class="text-danger" style="font-size:10px">{{ errors.pi_name }}</label>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+  <div class="row">
+  <div class="form-group">
+      <div class="col-sm-4">
+        <label class="input-lg">负责人电话：</label>
+      </div>
+      <div class="col-sm-6">
+        <input id="id_pi_phone_number" name="pi_phone_number" maxlenght="18" type="text" value="{{pi_phone_number}}" required>
+        <span style="font-size:10px" class="helptext">格式为05922186874或者手机号码！</span>
+      </div>
+      {% if errors.pi_phone_number %}
+        <div class="col-sm-2">
+            <label class="text-danger" style="font-size:10px">{{ errors.pi_phone_number }}</label>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+  <div class="row">
+  <div class="form-group">
+      <div class="col-sm-4">
+        <label class="input-lg">负责人邮箱：</label>
+      </div>
+      <div class="col-sm-6">
+        <input id="id_pi_email" name="pi_email" type="text" value="{{pi_email}}" required>
+        <span style="font-size:10px" class="helptext">有效邮箱，用于认证！</span>
+      </div>
+      {% if errors.pi_email %}
+        <div class="col-sm-2">
+            <label class="text-danger" style="font-size:10px">{{ errors.pi_email }}</label>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+  <div class="row">
+  <div class="form-group">
+      <div class="col-sm-4">
+        <label class="input-lg">单位名称：</label>
+      </div>
+      <div class="col-sm-8">
+        <input id="id_orgnization" name="orgnization" type="text" placeholder="厦门大学" value="{{orgnization}}" required>
+      {% if errors.orgnization %}
+        <span class="text-danger" style="font-size:10px">{{ errors.orgnization }}</span>
+      {% endif %}
+      </div>
+
+    </div>
+  </div>
+  <div class="row">
+  <div class="form-group">
+      <div class="col-sm-4">
+        <label class="input-lg">部门：</label>
+      </div>
+      <div class="col-sm-8">
+        <input id="id_department" name="department" type="text" placeholder="化学化工学院" value="{{department}}" required>
+      {% if errors.pi_department %}
+        <span class="text-danger" style="font-size:10px">{{ errors.pi_department }}</span>
+      {% endif %}
+      </div>
+    </div>
+  </div>
+  <div class="row">
+  <div class="form-group">
+      <div class="col-sm-4">
+        <label class="input-lg">地址：</label>
+      </div>
+      <div class="col-sm-8">
+        <input id="id_address" name="address" type="text" placeholder="厦门市思明区思明南路220号" value="{{address}}" required>
+      {% if errors.pi_address %}
+        <span class="text-danger" style="font-size:10px">{{ errors.pi_address }}</span>
+      {% endif %}
+      </div>
+    </div>
+  </div>
+  <div class"row">
+   *  所有项目都是必填项目，除非您没有厦大一卡通（学生卡、教工卡或者临时卡）。<br>
+   *  请注意提供准确的邮箱，用于激活账号和通知！
+  </div>
+</div><!--col-sm-6-->
+</div><!--first row-->
+
+<div class="row text-center" style="border-top: 1px solid #eee; padding-top: 10px; margin-top: 10px; padding-bottom:10px;">
+    <div class="col-sm-offset-4 col-sm-4">
+      <button class="btn btn-primary btn-lg btn-block" type="submit">注册用户</button>
+    </div>
+  </div>
+</form>
 <script>
   $("input").toggleClass('form-control input-lg');
-  $("select").toggleClass('form-control input-lg');
   $("input#id_username").focus();
+  $("#id_pi_name").change(
+    function (element) {
+      if( !isNullOrWhiteSpace($(this).val()) ) {
+      $.getJSON('/accounts/getpi/'+$(this).val(), function(data){
+        if( data.phone_number0 ) {
+        document.getElementById("id_pi_phone_number").value = data.phone_number0;
+        };
+        if( data.email0 ) {
+            document.getElementById("id_pi_email").value = data.email0;
+        };
+        document.getElementById("id_orgnization").value = data.name;
+        document.getElementById("id_department").value = data.department;
+        document.getElementById("id_address").value = data.address;
+        });
+      }
+    }
+  );
+  function isNullOrWhiteSpace(str){
+      return str==null || str.replace(/\s/g, '').length < 1;
+  };
+  $("#id_username").change(
+    function(element) {
+        if( isNullOrWhiteSpace($(this).val()) ){
+            $("#id_error_username").removeClass("text-success");
+            $("#id_error_username").addClass("text-danger");
+            document.getElementById("id_error_username").innerHTML = "* 不能为空！";
+        } else {
+            $.getJSON('/accounts/checkUsername/'+$(this).val()+'/', function(data){
+                if( data.exist ) {
+                    $("#id_error_username").removeClass("text-success");
+                    $("#id_error_username").addClass("text-danger");
+                    document.getElementById("id_error_username").innerHTML = "* 此账号已被使用，请另外选择！";
+                }
+                else {
+                    document.getElementById("id_error_username").innerHTML = "* 此账号可以使用";
+                    $("#id_error_username").removeClass("text-danger");
+                    $("#id_error_username").addClass("text-success");
+                }
+        });
+        }
+    }
+  );
 </script>
 {% endblock %}
-
