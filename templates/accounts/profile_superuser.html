@@ -44,26 +44,26 @@
           {%endif%}
             <input id="sample" name="sample" value={{sample.id}} hidden>
             <div class="from-group row">
-              <label for="inputStartTime" class="col-sm-4 control-label">开始时间:</label>
+              <label for="inputStartTime" class="col-sm-4 input-lg">开始时间:</label>
               <div class="col-sm-8">
-                <input class="form-control" id="start_time" name="start_time" value='{{sample.start_time|date:"Y-m-d H:i:s"}}'>
+                <input class="form-control" id="id_start_time" name="start_time" data-default-date='{{sample.start_time|date:"Y-m-d H:i"}}'>
               </div>
             </div>
 
             <div class="from-group row">
-              <label class="col-sm-4 control-label">用时/小时:</label>
+              <label class="col-sm-4 input-lg">用时/小时:</label>
               <div class="col-sm-8">
                 <input class="form-control" id="times" name="times" value={{sample.times}}>
               </div>
             </div>
             <div class="from-group row">
-              <label class="col-sm-4 control-label">回馈:</label>
+              <label class="col-sm-4 input-lg">回馈:</label>
               <div class="col-sm-8">
                 <textarea class="form-control" id="feedback" name="feedback" rows="2">通过</textarea>
               </div>
             </div>
             <div class="from-group row">
-              <label class="col-sm-4 control-label">Yes/On:</label>
+              <label class="col-sm-4 input-lg">Yes/On:</label>
               <div class="switch col-sm-8" data-on="success" data-off="danger">
                   <input type="checkbox" id="check" name="check" value="check" checked />
               </div>
@@ -98,7 +98,7 @@
 </div><!--responsive-->
 {% endif %}
 
-{% if entrances %}
+{% if trains%}
 <h3>仪器培训申请情况：</h3>
 <div class="table-responsive">
 <table class="table table-striped">
@@ -113,16 +113,16 @@
     </tr>
   </thead>
   <tbody>
-  {% for entrance in entrances %}
+  {% for train in trains %}
     <tr>
       <td><span class="label label-danger">B{{ forloop.counter }}<span></td>
-      <td><a data-toggle="tooltip" data-placement="top" title="{{entrance.user.username}}-{{entrance.user.identify}}-{{entrance.user.phone_number}}-{{entrance.user.email}}">{{entrance.user.surname}}</a>[<a data-toggle="tooltip" data-placement="top" title="{{entrance.user.person_in_charge.phone_number0}}-{{entrance.user.person_in_charge.email0}}-{{entrance.user.person_in_charge.orgnization}}">{{entrance.user.person_in_charge}}</a>]</td>
-      <td>{% for inst in entrance.instrument.all %}{{inst.short_name}}{% if forloop.last %}{%else%},{%endif%}{%endfor%}</td>
-      <td>{{ entrance.target_datetime }}</td>
-      <td>{{ entrance.times }}</td>
-      <td><button type="button" class="btn {% if entrance.has_approved == None %}btn-primary{% elif entrance.has_approved %}btn-success{%else%}btn-danger{%endif%}" data-toggle="modal" data-target="#myModal{{forloop.counter}}" data-toggle="modal" data-target="#myModal{{forloop.counter}}" >Yes/No</button></td>
+      <td><a data-toggle="tooltip" data-placement="top" title="{{train.user.username}}-{{train.user.identify}}-{{train.user.phone_number}}-{{train.user.email}}">{{train.user.surname}}</a>[<a data-toggle="tooltip" data-placement="top" title="{{train.user.person_in_charge.phone_number0}}-{{train.user.person_in_charge.email0}}-{{train.user.person_in_charge.orgnization}}">{{train.user.person_in_charge}}</a>]</td>
+      <td>{% for inst in train.instrument.all %}{{inst.short_name}}{% if forloop.last %}{%else%},{%endif%}{%endfor%}</td>
+      <td>{{ train.target_datetime }}</td>
+      <td>{{ train.times }}</td>
+      <td><button type="button" class="btn {% if train.has_approved == None %}btn-primary{% elif train.has_approved %}btn-success{%else%}btn-danger{%endif%}" data-toggle="modal" data-target="#myModal{{forloop.counter}}" data-toggle="modal" data-target="#myModal{{forloop.counter}}" >Yes/No</button></td>
     </tr>
-{% if entrance.has_approved == None %}
+{% if train.has_approved == None %}
 <div class="modal fade" id="myModal{{forloop.counter}}" tabindex="-1" role="dialog">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -133,30 +133,30 @@
       <div class="modal-body">
       <form action="{% url 'schedule:dealInstrumentAppoint' %}" method="post">
       {% csrf_token %}
-        <p>{{ entrance.user.surname }} 申请{% for inst in entrance.instrument.all %}{{inst.short_name}}{% if forloop.last %}{%else%},{%endif%}{%endfor%}培训，用户预计在{{ entrance.target_datetime }}进行培训！
+        <p>{{ train.user.surname }} 申请{% for inst in train.instrument.all %}{{inst.short_name}}{% if forloop.last %}{%else%},{%endif%}{%endfor%}培训，用户预计在{{ train.target_datetime }}进行培训！
         是否给予支持？</p>
-        <input id="entrance" name="entrance" value={{entrance.id}} hidden>
+        <input id="train" name="train" value={{train.id}} hidden>
         <div class="from-group row">
-          <label for="inputStartTime" class="col-sm-4 control-label">开始时间:</label>
+          <label for="inputStartTime" class="col-sm-4 input-lg">开始时间:</label>
           <div class="col-sm-8">
-            <input class="form-control" id="start_time" name="start_time" value='{{entrance.target_datetime|date:"Y-m-d H:i:s"}}'>
+            <input class="form-control" id="id_start_time" name="start_time" data-default-date='{{train.target_datetime|date:"Y-m-d H:i"}}'>
           </div>
         </div>
 
         <div class="from-group row">
-          <label class="col-sm-4 control-label">用时/小时:</label>
+          <label class="col-sm-4 input-lg">用时/小时:</label>
           <div class="col-sm-8">
-            <input class="form-control" id="times" name="times" value={{entrance.times}}>
+            <input class="form-control" id="times" name="times" value={{train.times}}>
           </div>
         </div>
         <div class="from-group row">
-          <label class="col-sm-4 control-label">回馈:</label>
+          <label class="col-sm-4 input-lg">回馈:</label>
           <div class="col-sm-8">
             <textarea class="form-control" id="feedback" name="feedback" rows="2">通过</textarea>
           </div>
         </div>
         <div class="from-group row">
-          <label class="col-sm-4 control-label">Yes/On:</label>
+          <label class="col-sm-4 input-lg">Yes/On:</label>
           <div class="switch col-sm-8" data-on="success" data-off="danger">
               <input type="checkbox" id="check" name="check" checked />
           </div>
@@ -174,7 +174,7 @@
   </tbody>
 </table>
 </div><!--responsive-->
-{% endif %}<!--entrance-->
+{% endif %}<!--train-->
 
 {% if entrances %}
 <h3>门禁申请情况：</h3>

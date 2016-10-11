@@ -6,7 +6,7 @@ from django.contrib.auth.models import Group
 from .admin import ExperimentCreationForm, SampleAppointmentForm, SampleForm
 from .models import Experiment, Instrument, InstrumentAppointment, SampleAppointment, Sample
 from accounts.models import PersonInCharge
-from .tz import cnfromutc, cntoutc
+from .tz import cnfromutc, cntoutc, strptime, navicetoaware
 
 from django.conf import settings
 
@@ -15,6 +15,64 @@ from datetime import timedelta, datetime
 from .colorlist import textcolor, bordercolor, colorlist
 from mail.sendmail import sendEmail
 # Create your views here.
+
+@login_required
+def delSampleAppoint(request, pk):
+    if request.method=='GET':
+        pk = int(pk)
+        try:
+            sampleApp = SampleAppointment.objects.get(id=pk)
+            sampleApp.delete()
+        except SampleAppointment.DoesNotExist:
+            pass
+    return redirect( reverse("accounts:profile" ))
+
+@login_required
+def delExpriment(request, pk):
+    if request.method=='GET':
+        pk = int(pk)
+        try:
+            exp = Experiment.objects.get(id=pk)
+            exp.delete()
+        except Experiment.DoesNotExist:
+            pass
+    return redirect( reverse("accounts:profile") )
+
+@login_required
+def updateExpriment(request):
+    if request.method == 'POST':
+        pk = request.POST['sample_id']
+        stop_time = request.POST['stop_time']
+        if not stop_time:
+            start_time = request.POST['start_time']
+            times = request.POST['times']
+        try:
+            exp = Experiment.objects.get(id=pk)
+            if not stop_time:
+                exp.start_time = strptime(start_time)
+                exp.times = times
+            else:
+                if strptime(stop_time) > exp.start_time + timedelta(hours=0.25):
+                    exp.times = (strptime(stop_time)-exp.start_time).seconds*1.0/3600
+            exp.save()
+        except Experiment.DoesNotExist:
+            pass
+    return redirect( reverse("accounts:profile") )
+
+@login_required
+def updateSampleAppoint(request):
+    if request.method == 'POST':
+        pk = request.POST['sample_id']
+        start_time = request.POST['start_time']
+        times = request.POST['times']
+        try:
+            sampleApp = SampleAppointment.objects.get(id=pk)
+            sampleApp.start_time = strptime(start_time)
+            sampleApp.times = times
+            sampleApp.save()
+        except SampleAppointment.DoesNotExist:
+            pass
+    return redirect( reverse("accounts:profile" ))
 
 @login_required
 def dealSampleAppoint(request):
@@ -28,7 +86,7 @@ def dealSampleAppoint(request):
             start_time = datetime.strptime(request.POST['start_time']+"+0800", "%Y-%m-%d %H:%M:%S%z" )
             if (appointment.start_time - start_time).seconds > 60:
                 has_changed_start_time = True
-                appointment.start_time = start_time
+                appointment.start_time = strptime(start_time)
             times = float(request.POST['times'])
             if  appointment.times != times:
                 has_changed_times = True
@@ -70,7 +128,7 @@ def dealInstrumentAppoint(request):
         appointment = get_object_or_404(InstrumentAppointment, id=request.POST['train'])
         appointment.has_approved = bool(request.POST.get('check', False))
         if ( appointment.has_approved ):
-            appointment.target_datetime = datetime.strptime(request.POST['start_time'], "%Y-%m-%d %H:%M:%S")
+            appointment.target_datetime = strptime(request.POST['start_time'])
             appointment.times = float(request.POST['times'])
         appointment.feedback = request.POST['feedback']
 
@@ -90,29 +148,20 @@ def sample(request):
             checked_instrument = Instrument.objects.get(id=checked_instrument_id)
             sample_app = SampleAppointment(user=request.user)
             sample_app.instrument = checked_instrument
-            sample_app.start_time = request.POST['start_time']
+            sample_app.start_time = strptime(request.POST['start_time'])
             sample_app.times = request.POST['times']
             sample_app.measure_type = request.POST['measure_type']
             
-            null_sample = True
             sample_name = request.POST['name']
-            if sample_name:
-                null_sample = False
             sample_solvent = request.POST['solvent']
-            if sample_solvent:
-                null_sample = False
-            sample_concentration = request.POST['concentration']
-            if sample_concentration:
-                null_sample = False
-            sample_mw = request.POST['molecular_weight']
-            if sample_mw:
-                null_sample = False
+            sample_concentration = request.POST['concentration'] or 0.0
+            sample_mw = request.POST['molecular_weight'] or 0.0
             sample_structure = request.POST['structure']
-            if sample_structure:
-                null_sample = False
             sample_others = request.POST['others']
-            if sample_others:
-                null_sample = False
+            null_sample = sample_name and sample_solvent and \
+                          sample_concentration and sample_mw  and \
+                          sample_structure and sample_others
+
             if not null_sample:
                 sample = Sample(name=sample_name,
                                 solvent=sample_solvent,
@@ -131,23 +180,51 @@ def sample(request):
                 'instruments': instruments,
                 })
     
+def checkOverwrite( start, stop, instrument ):
+    num = 0
+    experiments = Experiment.objects.filter(instrument=instrument)
+    for exp in experiments:
+        start0 = exp.start_time
+        stop0  = exp.stop_time()
+        if start <= start0 and stop > start0:
+            num += 1
+        if start < stop0 and stop >= stop0:
+            num += 1
+        if start >= start0 and stop <= stop0:
+            num += 1
+
+    return bool(num)
+
 def viewSchedule(request, instrument=None):
     is_perm = False
 
     if request.user.is_authenticated() and instrument:
         user = Instrument.objects.filter(short_name=instrument, user=request.user)
-        if user:
-            is_perm = True
-        inst = Instrument.objects.get(short_name=instrument)
-        form = ExperimentCreationForm(initial={'user':request.user, 'instrument':inst})
-
+        if user: is_perm = True
+        errors = {}
         if request.method == 'POST':
-            form = ExperimentCreationForm(request.POST)
-            if form.is_valid():
-                form.save()
+            start_time   = strptime(request.POST['start_time'])
+            times        = float(request.POST['times'])
+            measure_type = request.POST['measure_type']
+            inst = Instrument.objects.get(short_name=instrument)
+
+            if( int(start_time.strftime("%U"))-int(datetime.today().strftime("%U"))>1):
+                errors['start_time'] = "预约开始时间限定在这周以内"
+            if ( start_time < navicetoaware(datetime.now()) ):
+                errors['start_time'] = "预约开始时间已经过去，请重新选择！"
+
+            if( checkOverwrite( start_time, start_time+timedelta(hours=times), inst) ):
+                errors['times'] = "您申请的时间有包含他人实验，请另外选择时间！"
+
+            if not errors:
+                exp = Experiment(user=request.user, measure_type=measure_type,
+                                 instrument=inst, start_time=start_time,
+                                 times=times)
+                exp.save()
                 return HttpResponseRedirect("/schedule/view/{0}/".format(instrument))
+
         return render(request, 'schedule/index.html', 
-                {'instrument': instrument, 'is_perm': is_perm, 'form': form})
+                {'instrument': instrument, 'is_perm': is_perm, 'errors': errors})
     else:
         return render(request, 'schedule/index.html', 
                 {'instrument': instrument, 'is_perm': is_perm, })

@@ -17,14 +17,15 @@ from .models import CustomUser, PersonInCharge, Orgnization
 from eguard.admin import EntranceAppointmentForm
 from eguard.models import Entrance, EntranceAppointment
 from schedule.admin import InstrumentAppointmentForm
-from schedule.models import Instrument, InstrumentAppointment, SampleAppointment
+from schedule.models import Instrument, InstrumentAppointment, SampleAppointment, Experiment
 from eguard.eguardcrawler import checkUserExist
 
 import uuid
 import json
 import time
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
 from mail.sendmail import sendEmail
+from schedule.tz import navicetoaware, strptime
 
 # Create your views here.
 
@@ -65,15 +66,22 @@ def login(request):
 @login_required
 def profile(request):
     today = date.today()
+    today = datetime.fromordinal(today.toordinal())
+    today = navicetoaware(today)
+    dayBeforeYesteoday = today - timedelta(days=2)
+
     if request.user.is_superuser:
-        samples = SampleAppointment.objects.all().order_by("-created_time").filter(Q(start_time__gte=today)| Q(has_approved=None))
+        samples = SampleAppointment.objects.all().order_by("-created_time").filter(Q(start_time__gte=dayBeforeYesteoday)| Q(has_approved=None))
+        experiments = Experiment.objects.all().order_by("-created_time")
     else:
         samples = SampleAppointment.objects.all().order_by("-created_time").filter(user=request.user)
+        experiments = Experiment.objects.filter(user=request.user).order_by("-created_time")
+    experiments = filter(lambda x: x.stop_time() >= today, experiments)
 
-    trains = InstrumentAppointment.objects.all().order_by("-created_datetime").filter(Q(target_datetime__gte=today)|Q(has_approved=None))
-    entrances = EntranceAppointment.objects.all().order_by("-created_datetime").filter(Q(created_datetime__gte=today)|Q(has_approved=None))
+    trains = InstrumentAppointment.objects.all().order_by("-created_datetime").filter(Q(target_datetime__gte=dayBeforeYesteoday)|Q(has_approved=None))
+    entrances = EntranceAppointment.objects.all().order_by("-created_datetime").filter(Q(created_datetime__gte=dayBeforeYesteoday)|Q(has_approved=None))
 
-    return render(request, "accounts/profile.html", {'samples': samples, "trains": trains, "entrances": entrances} )
+    return render(request, "accounts/profile.html", {'samples': samples, "trains": trains, "entrances": entrances, 'experiments': experiments} )
 
 def getPersonInChargeInfo( request, surname ):
     values = {}
@@ -137,7 +145,7 @@ def apermission(request, item=None):
             if door_list:
                 door_appintment = EntranceAppointment(user=request.user)
                 door_appintment.reason = request.POST['reason']
-                door_appintment.expired_time = request.POST['expired_time']
+                door_appintment.expired_time = strptime(request.POST['expired_time'])
                 door_appintment.save()
                 for door_id in door_list:
                     door = Entrance.objects.get(id=door_id)
@@ -147,7 +155,8 @@ def apermission(request, item=None):
             instr_list = request.POST.getlist('instrument')
             if instr_list:
                 instr_appintment = InstrumentAppointment(user=request.user)
-                instr_appintment.target_datetime = request.POST['target_datetime']
+                instr_appintment.target_datetime = strptime(request.POST['target_datetime'])
+                print(request.POST['target_datetime'])
                 instr_appintment.times = request.POST['times']
                 instr_appintment.save()
                 for dev_id in instr_list:

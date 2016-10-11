@@ -5,6 +5,7 @@
 [X][*   ] fix the user avator updated function
 [X][*** ] make the 15 min appoint table for 500M, so do nice for the old user
 [X][*** ] make the every cark can appoint the door
+[X][*** ] add the deletion and updation for experiment appointment
 [X][*   ] make work for weixin to display the instr appointment and appoint the exp.
 [X][*   ] change the datetime picker to flatpickr on jqueryrain.com
 [X][*   ] update the resign web

@@ -85,7 +85,7 @@ class InstrumentAppointment(models.Model):
         all_instrument = ",".join( [inst.name for inst in self.instrument.all()] )
         target_datetime = "None"
         if self.target_datetime:
-            target_datetime = cnfromutc(self.target_datetime).strftime("%Y-%m-%d %H:%m")
+            target_datetime = cnfromutc(self.target_datetime).strftime("%Y-%m-%d %H:%M")
         strforback = '[{0}]申请[{1}]预计在{2}培训'.format(self.user.surname, all_instrument, target_datetime )
         return strforback
 
@@ -107,6 +107,9 @@ class Experiment(models.Model):
     def stop_time(self):
         return self.start_time + timedelta(hours=self.times)
     stop_time.short_description = "结束时间"
+
+    def hasInstrumentLicense(self):
+        return self.user in self.instrument.user.all()
 
     def __str__(self):
         return "{0}[{1}]在“{2}”上预约从{3}到{4}的实验".format(self.user, self.user.person_in_charge, self.instrument.short_name, cnfromutc(self.start_time).strftime("%m-%d %H:%M"), cnfromutc(self.stop_time()).strftime("%m-%d %H:%M"))

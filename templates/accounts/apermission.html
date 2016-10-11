@@ -1,8 +1,9 @@
 {% extends "base.html" %}
 {% block title %} 权限申请 {% endblock %}
-{% block css %}
 {% load staticfiles %}
-<link href="//mugifly.github.io/jquery-simple-datetimepicker/jquery.simple-dtpicker.css" rel="stylesheet" />
+{% block css %}
+<link rel="stylesheet" href="//cdn.bootcss.com/flatpickr/2.0.5/flatpickr.airbnb.min.css">
+<script type="text/javascript" src="//cdn.bootcss.com/flatpickr/2.0.5/flatpickr.js"></script>
 <style>
   .register .row {
     padding-top: 10px;
@@ -145,7 +146,7 @@
             <label class="input-lg">截止日期：</label>
           </div>
           <div class="col-sm-8">
-               <input class="form-control input-lg" id="id_expired_time" name="expired_time" type="text" value="2116-07-01" required />
+               <input class="form-control input-lg" id="id_expired_time" name="expired_time" type="text" data-default-date={{user.expired_time|date:'Y-m-d'}} required />
                <span style="font-size:12px;" class="helptext"></span>
           </div>
         </div>
@@ -189,7 +190,7 @@
             <label class="input-lg">预定时间：</label>
           </div>
           <div class="col-sm-8">
-               <input class="form-control input-lg" id="id_target_datetime" name="target_datetime" type="text" required />
+               <input class="form-control input-lg" id="id_target_datetime" data-default-date="{% now "Y-m-d H:i" %}" name="target_datetime" type="text" required />
           </div>
         </div>
       </div>
@@ -224,12 +225,34 @@
 </div>
 {% endblock %}
 {% block js %}
-<script src="//mugifly.github.io/jquery-simple-datetimepicker/jquery.simple-dtpicker.js"></script>
 <script>
-  $("#id_target_datetime").appendDtpicker({'futureOnly': true});
-  $("#id_expired_time").appendDtpicker({'dateOnly':true, 'futureOnly': true});
-  $("#id_expired_time").attr('readonly', 'readonly');
-  $("#id_target_datetime").attr('readonly', 'readonly');
+  $("#id_target_datetime").flatpickr({
+        "enableTime": true,
+        "mode": "single",
+        "time_24hr": true,
+        enable: [
+            {
+                from: "today",
+                to: new Date().fp_incr(14)
+            }
+        ]
+      });
+    $("#id_target_datetime").change(function(){
+        now = new Date();
+        set = new Date($(this).val());
+        if(set.getTime() < now.getTime()){
+            $(this).val("{% now 'Y-m-d H:i' %}");
+        };
+    });
+  $("#id_expired_time").flatpickr({
+        "mode": "single",
+        enable: [
+            {
+                from: "{% now 'Y-m' %}",
+                to: "2116-07-01"
+            }
+        ]
+      });
   {% for entrance in has_permission_entrance %}
     $("input#id_entrance[value='{{entrance.id}}']").attr("disabled", true);
   {% endfor %}

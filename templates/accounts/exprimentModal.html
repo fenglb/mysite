@@ -1,0 +1,87 @@
+{% load func_extras %}
+<button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModel{{exp.id}}">更新申请</button>
+<div class="modal fade" id="myModel{{exp.id}}" tabindex="-1" role="dialog" aria-labelledby="sampleModelLabel{{exp.id}}">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title text-center" id="sampleModelLabel{{exp.id}}">更新申请</h4>
+            </div>
+            <form method="post" action="{% url 'schedule:updateExp' %}">
+            <div class="modal-body">
+                {% csrf_token %}
+                <input name="sample_id" id="id_sample_id" value="{{exp.id}}" type="text" hidden>
+                <div class="row">
+                    <label class="input-lg">您申请{{exp.instrument}}的测试实验，如果您需要修改时间，请修改！</label>
+                </div>
+                {% if exp.start_time|isBeforeNow %}
+                <div class="row">
+                    <div class="form-group">
+                    <div class="col-sm-4">
+                        <label class="input-lg">结束时间：</label>
+                    </div>
+                    <div class="col-sm-6">
+                        <input class="form-control input-lg" name="stop_time" id="id_stop_time{{exp.id}}" type="text" data-default-date="{{exp.stop_time|date:"Y-m-d H:i"}}">
+                    </div>
+                    </div>
+                </div>
+                {% else %}
+                <div class="row">
+                    <div class="form-group">
+                    <div class="col-sm-4">
+                        <label class="input-lg">开始时间：</label>
+                    </div>
+                    <div class="col-sm-6">
+                        <input class="form-control input-lg" name="start_time" id="id_start_time{{exp.id}}" type="text" data-default-date="{{exp.start_time|date:"Y-m-d H:i"}}">
+                    </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group">
+                    <div class="col-sm-4">
+                        <label class="input-lg">机时/小时：</label>
+                    </div>
+                    <div class="col-sm-6">
+                        <input class="form-control input-lg" name="times" id="id_times" type="number" min="0" value="{{exp.times}}">
+                    </div>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Save changes</button>
+            </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $("#id_start_time{{exp.id}}").flatpickr({
+        "enableTime": true,
+        "mode": "single",
+        "time_24hr": true,
+        enable: [
+            {
+                from: "today",
+                to: new Date().fp_incr(14)
+            }
+        ]
+    });
+    $("#id_stop_time{{exp.id}}").flatpickr({
+        "enableTime": true,
+        "mode": "single",
+        "time_24hr": true,
+        "minDate": "today"
+    });
+    $("#id_start_time{{exp.id}},#id_stop_time{{exp.id}}").change(function(){
+        now = new Date();
+        set = new Date($(this).val());
+        if(set.getTime() < now.getTime()){
+            $(this).val("{% now 'Y-m-d H:i' %}");
+        };
+    });
+
+</script>
+

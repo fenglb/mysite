@@ -3,7 +3,8 @@
 {% load staticfiles %}
 {% block css %}
 <link href="//cdn.bootcss.com/fullcalendar/2.6.1/fullcalendar.min.css" rel="stylesheet" />
-<link href="https://mugifly.github.io/jquery-simple-datetimepicker/jquery.simple-dtpicker.css" rel="stylesheet" />
+    <link rel="stylesheet" href="//cdn.bootcss.com/flatpickr/2.0.5/flatpickr.airbnb.min.css">
+    <script type="text/javascript" src="//cdn.bootcss.com/flatpickr/2.0.5/flatpickr.js"></script>
 
 <style>
   h4 {
@@ -189,6 +190,7 @@
                 </div>
               </div>
          </div>
+
          <div class="modal-footer">
             <button type="button" class="btn btn-default" 
                data-dismiss="modal">关闭
@@ -201,13 +203,38 @@
       </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog-->
 </div><!-- /.modal -->
+<script>
+  $("#id_start_time").flatpickr({
+        "enableTime": true,
+        "mode": "single",
+        "time_24hr": true,
+        enable: [
+            {
+                from: "today",
+                to: new Date().fp_incr(14)
+            }
+        ],
+        onOpen: function(dateObj, dateStr, instance){
+        },
+    });
+    $("#id_end_time").flatpickr({
+        "enableTime": true,
+        "mode": "single",
+        "time_24hr": true,
+        enable: [
+            {
+                from: "today",
+                to: new Date().fp_incr(100)
+            }
+        ]
+    });
+</script>
 {% endif %}
 {% endblock %}
 
 {% block js %}
 <script src="//cdn.bootcss.com/moment.js/2.11.2/moment.min.js"></script>
 <script src="//cdn.bootcss.com/fullcalendar/2.6.1/fullcalendar.min.js"></script>
-<script src="https://mugifly.github.io/jquery-simple-datetimepicker/jquery.simple-dtpicker.js"></script>
 <script type="text/javascript">
 	$(document).ready(function() {
 		$('#calendar').fullCalendar({
@@ -252,70 +279,66 @@
               $("#warning-for-add-exp").modal('show');
               return;
             }
+
             if ( start_time.isBefore( moment() ) ) {
               var start_add30m = moment().startOf('hours');
               start_add30m.add(30, 'minutes');
 
               if ( start_add30m.isAfter( moment() ) ) {
-                $('#id_start_time').val( start_add30m.format("YYYY-MM-DD HH:mm") );
+                $('#id_start_time').attr("data-default-date", start_add30m.format("YYYY-MM-DD HH:mm") );
                 $('#id_times').val( (end_time - start_add30m)/(3600*1000) );
               }
               else {
                 var start_add1h = moment().startOf('hours')
                 start_add1h.add(1, 'hours');
-                $('#id_start_time').val( start_add1h.format("YYYY-MM-DD HH:mm") );
+                $('#id_start_time').attr( "data-default-date", start_add1h.format("YYYY-MM-DD HH:mm") );
                 $('#id_times').val( (end_time - start_add1h)/(3600*1000) );
               }
 
             }
             else{
-              $('#id_start_time').val( start_str );
-              $('#id_times').val( span_time );
+            //$('#id_start_time').attr( "data-default-date", start_str);
+            $('#id_start_time').val(start_str);
+            $('#id_times').val( span_time );
             }
 
-            $('#id_end_time').val( end_str );
+            //$('#id_end_time').attr( "data-default-date", end_str );
+            $('#id_end_time').val(end_str);
             $('#create_experiment').modal( 'show' );
           },
         {% endif %}
 		});
 	});
-</script>
-
-<script>
-  {% if errors %}
-    $(document).ready( function() {
-      var start0 = moment($("input#id_start_time").val());
-      var end = start0.add($("input#id_times").val(), 'h');
-      var end0 = end.format("YYYY-MM-DD HH:mm");
-      $("input#id_end_time").val( end0 );
-      $('#create_experiment').modal( 'show' );
-    });
-  {% endif %}
   {% if is_perm %}
-  $("input#id_start_time").appendDtpicker({'futureOnly': true});
-  $("input#id_end_time").appendDtpicker({'futureOnly': true});
-  $("input#id_start_time").attr('readonly', 'readonly');
-  $("input#id_end_time").attr('readonly', 'readonly');
-
-  $("input#id_times").change( function() {
+  $("#id_times").change( function() {
       var start0 = moment($("input#id_start_time").val());
       var end = start0.add($(this).val(), 'h');
       var end0 = end.format("YYYY-MM-DD HH:mm");
-      $("input#id_end_time").val( end0 );
+      $('#id_end_time').attr( "data-default-date", end0);
     });
-  $("input#id_start_time").change( function() {
+  $("#id_start_time").change( function() {
       var start0 = moment($(this).val());
       var times  = $("input#id_times").val( );
       var end = start0.add(times, 'h');
       var end0 = end.format("YYYY-MM-DD HH:mm");
-      $("input#id_end_time").val( end0 );
+      $('#id_end_time').attr( "data-default-date", end0);
     });
-  $("input#id_end_time").change( function() {
-      var start0 = moment($("input#id_start_time").val());
+  $("#id_end_time").change( function() {
+      var start0 = moment($("#id_start_time").val());
       var end0 = moment($(this).val());
       var times = 1.0*(end0-start0)/(3600*1000);
-      $("input#id_times").val( times );
+      $("#id_times").val( times );
     });
   {% endif %}
+  {% if errors %}
+    $(document).ready( function() {
+      var start0 = moment($("#id_start_time").val());
+      var end = start0.add($("#id_times").val(), 'h');
+      var end0 = end.format("YYYY-MM-DD HH:mm");
+      $("#id_end_time").val( end0 );
+      $('#create_experiment').modal( 'show' );
+    });
+  {% endif %}
+
 </script>
 {% endblock %}

@@ -1,6 +1,11 @@
 {% extends "base.html" %}
 {% block title %} 个人中心 {% endblock %}
+{% block css %}
+    <link rel="stylesheet" href="//cdn.bootcss.com/flatpickr/2.0.5/flatpickr.airbnb.min.css">
+    <script type="text/javascript" src="//cdn.bootcss.com/flatpickr/2.0.5/flatpickr.js"></script>
+{% endblock %}
 {% load staticfiles %}
+{% load func_extras %}
 {% block content %}
 <div class="container">
   <div class="row">
@@ -28,6 +33,37 @@
         <a href="{% url 'schedule:sample' %}">送样测试</a></p>
     </div>
     <div class="col-sm-10">
+    {% if experiments %}
+        <h3>已经安排上还没有结束的实验，请注意按时送样或者上机实验!</h3>
+        <div class="table-responsive">
+            <table class="table">
+                {% for exp in experiments %}
+                    <tr class="">
+                        <td><span class="label label-info">E{{forloop.counter}}</span></td>
+                        <td>{{ exp }}</td>
+                        {% if exp.hasInstrumentLicense or user.is_superuser %}
+                            <td><a class="btn btn-success" {% if user.is_superuser or exp.start_time|isMoreThan12Hours %} href="/schedule/delExp/{{exp.id}}/"{%else%} disabled {% endif %}>删除实验</a></td>
+                            <td>{% if exp.stop_time|isAfterNow:1 and exp.times > 1%}{% include 'accounts/exprimentModal.html' %}{%else%}<button class="btn btn-success" disabled>更新申请</button>{%endif%}</td>
+                        {% else %}
+                            <td></td>
+                            <td></td>
+                        {% endif %}
+                        <td>
+                            {% if exp.start_time|isAfterNow %}
+                                还没有开始
+                            {% elif exp.stop_time|isAfterNow %}
+                                正在进行
+                            {% else %}
+                                已经结束
+                            {% endif %}
+                         </td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+
+    {% endif %}
+
     {% if samples %}<h3>送样申请处理状态：</h3>{% endif %}
     <div class="table-responsive">
       <table class="table">
@@ -37,13 +73,22 @@
             <td><span class="label label-info">O{{ forloop.counter }}</span></td>
             <td>{{ appoint }}</td>
             <td>
-              {% if appoint.has_approved == None %}
-                未处理，请等待！
-              {% elif appoint.has_approved %}
-                已经通过！<span>{{appoint.feedback}}</span>
-              {% else %}
-                未通过！<span style="color:red">{{appoint.feedback}}</span>
-              {% endif %}
+                  {% if appoint.has_approved == None %}
+                    {% if appoint.start_time|isAfterNow %}
+                        未处理，请等待！
+                        <a class="btn btn-success" href="/schedule/delSample/{{appoint.id}}/">删除申请</a>
+                        {% include 'accounts/sampleModal.html' %}
+                    {% else %}
+                        作废，请重新申请！
+                    {% endif %}
+                  {% elif appoint.has_approved %}
+                    已经通过！<span>{{appoint.feedback}}</span>
+                    {% if user.is_superuser %}
+                    {% endif %}
+
+                  {% else %}
+                    未通过！<span style="color:red">{{appoint.feedback}}</span>
+                  {% endif %}
             </td>
           </tr>
         {% endfor %}
