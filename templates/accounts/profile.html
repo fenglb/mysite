@@ -10,7 +10,7 @@
 <div class="container">
   <div class="row">
     <div class="col-sm-2" style="padding-top:16px">
-      <p><img class="img-rounded" src="{{ user.profile_image.url }}" alt="{{ user.surname }}的照片"/></p>
+      <p><img class="img-rounded" src="{{ user.profile_image.url }}" alt="{{ user.surname }}的照片" style="max-width:120px" /></p>
       <p> {{ user.surname }}[{{ user.username }}] {{user.get_position_name}}</p>
       {% if user.position == 'visit' %}
         <p>编号：{{ user.identify }}</p>
@@ -42,8 +42,8 @@
                         <td><span class="label label-info">E{{forloop.counter}}</span></td>
                         <td>{{ exp }}</td>
                         {% if exp.hasInstrumentLicense or user.is_superuser %}
-                            <td><a class="btn btn-success" {% if user.is_superuser or exp.start_time|isMoreThan12Hours %} href="/schedule/delExp/{{exp.id}}/"{%else%} disabled {% endif %}>删除实验</a></td>
-                            <td>{% if exp.stop_time|isAfterNow:1 and exp.times > 1%}{% include 'accounts/exprimentModal.html' %}{%else%}<button class="btn btn-success" disabled>更新申请</button>{%endif%}</td>
+                            <td><a class="btn btn-success" {% if exp.stop_time|isAfterNow and user.is_superuser or exp.start_time|isMoreThan12Hours%} href="/schedule/delExp/{{exp.id}}/"{%else%} disabled {% endif %}>删除实验</a></td>
+                            <td>{% if exp.start_time|isAfterNow or exp.stop_time|isAfterNow:0.5 and exp.times > 1%}{% include 'accounts/exprimentModal.html' %}{%else%}<button class="btn btn-success" disabled>更新申请</button>{%endif%}</td>
                         {% else %}
                             <td></td>
                             <td></td>
@@ -60,6 +60,13 @@
                     </tr>
                 {% endfor %}
             </table>
+        </div>
+        <div class="text-danger">
+        提示： 
+        <ol>
+           <li> 送样测试并管理员已经通过申请的实验用户没有权限删除和更改实验；原则上请按时送样，如有必要请联系管理员修改！</li>
+            <li>具有仪器操作权限的用户在实验开始前12个小时仍可删除实验或者更改实验；或则如果实验s申请总时长超过一个小时并且目前离实验申请结束还有半个小时以上，即使实验开始仍可更改实验结束时间。这个功能主要用于长时间实验提早结束，您需要更新您结束实验！</li>
+        </ol>
         </div>
 
     {% endif %}

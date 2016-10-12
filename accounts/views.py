@@ -131,6 +131,30 @@ def userinfo(request):
     return render(request, "accounts/userinfo.html", {'userform': user_form, 'piform': pi_form, 'orgform': org_form,})
 
 @login_required
+def delDoorApp(request, pk):
+    if request.method =="GET":
+        pk = int(pk)
+        try:
+            doorApp = EntranceAppointment.objects.get(id=pk)
+            if doorApp.has_approved == None and request.user == doorApp.user:
+                doorApp.delete()
+        except EntranceAppointment.DoesNotExist:
+            pass
+    return redirect("/accounts/apermission/")
+
+@login_required
+def delInstrumentApp(request, pk):
+    if request.method =="GET":
+        pk = int(pk)
+        try:
+            instrumentApp = InstrumentAppointment.objects.get(id=pk)
+            if instrumentApp.has_approved == None and request.user == instrumentApp.user:
+                instrumentApp.delete()
+        except InstrumentAppointment.DoesNotExist:
+            pass
+    return redirect("/accounts/apermission/")
+
+@login_required
 def apermission(request, item=None):
     doors = Entrance.objects.all()
     instruments = Instrument.objects.all()

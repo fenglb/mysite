@@ -142,7 +142,10 @@
                     <label class="input-lg">起始时间：</label>
                   </div>
                   <div class="col-sm-8">
-                    <input class="form-control input-lg" type="text" id="id_start_time" name="start_time" data-input data-enable-time="true" required>
+                    <input class="form-control input-lg flatpickr" data-enabletime=true data-time_24hr=true data-timeFormat="H:i" id="id_start_time" name="start_time"  required>
+                    <script>
+                        flatpickr('#id_start_time');
+                    </script>
                     {% if errors.start_time %}
                       <span class="text-danger">
                         {{ errors.start_time }}
@@ -204,19 +207,6 @@
     </div><!-- /.modal-dialog-->
 </div><!-- /.modal -->
 <script>
-  $("#id_start_time").flatpickr({
-        "enableTime": true,
-        "mode": "single",
-        "time_24hr": true,
-        enable: [
-            {
-                from: "today",
-                to: new Date().fp_incr(14)
-            }
-        ],
-        onOpen: function(dateObj, dateStr, instance){
-        },
-    });
     $("#id_end_time").flatpickr({
         "enableTime": true,
         "mode": "single",
@@ -297,8 +287,8 @@
 
             }
             else{
-            //$('#id_start_time').attr( "data-default-date", start_str);
-            $('#id_start_time').val(start_str);
+            $('#id_start_time').attr( "data-defaultDate", start_str);
+            //$('#id_start_time').val(start_str);
             $('#id_times').val( span_time );
             }
 

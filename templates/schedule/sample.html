@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% block title %}送样申请{% endblock %}
 {% load staticfiles %}
+{% load operator_extras %}
 {% block css %}
 <link rel="stylesheet" href="//cdn.bootcss.com/flatpickr/2.0.5/flatpickr.airbnb.min.css">
 <script type="text/javascript" src="//cdn.bootcss.com/flatpickr/2.0.5/flatpickr.js"></script>
@@ -36,7 +37,37 @@
       <li>对于样品信息，请尽量详细提供，让管理员可以更好的安排您的实验时间！</li>
       <li><strong>所有的实验安排，以最终管理员确认为准！</strong></li>
     </ol>
-  </div><!--col-sm-4-->
+
+    <h3 style="border-bottom:1px solid #eee;">仪器的实验安排情况</h3>
+    <ul class="nav nav-tabs">
+        {% for inst in instruments %}
+        <li {% if forloop.first %}class="active"{% endif %}><a data-toggle="tab" href="#{{inst.short_name}}">{{inst.short_name}}</a></li>
+        {% endfor %}
+    </ul>
+    <div class="tab-content">
+        {% for inst in instruments %}
+        <div id="{{inst.short_name}}" class="tab-pane fade {% if forloop.first %}in active{%endif%}">
+            <h5 class="text-center">{{inst}}的实验安排情况</h5>
+            <table class="table">
+                <tr>
+                    <th>User</th>
+                    <th>Start Time</th>
+                    <th>Stop  Time</th>
+                    <th>Times/hours</th>
+                </tr>
+                {% for exp in experiments|key:inst.short_name %}
+                    <tr>
+                        <td>{{ exp.user }}</td>
+                        <td>{{exp.start_time|date:"m-d H:i"}}</td>
+                        <td>{{exp.stop_time|date:"m-d H:i"}}</td>
+                        <td>{{exp.times}}</td>
+                     </tr>
+                {% endfor %}
+            </table>
+        </div>
+        {% endfor %}
+    </div>
+  </div><!--col-sm-3-->
 
 	<div class="col-sm-4">
     <h3>申请信息</h3>
@@ -80,6 +111,9 @@
                     </div>
 			</div>
 		</div>
+        <div class="row text-info">
+        <span><strong>提醒：</strong>请参考左侧的“仪器的实验安排情况”设置，不要设置在已经有实验安排的时间内！</span>
+        </div>
 		<div class="row">
   		<div class="col-sm-12 form-group">
   			<label class="input-lg">实验说明(Spectrum Measure Info.)</label><br>

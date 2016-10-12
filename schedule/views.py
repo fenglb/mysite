@@ -54,7 +54,9 @@ def updateExpriment(request):
             else:
                 if strptime(stop_time) > exp.start_time + timedelta(hours=0.25):
                     exp.times = (strptime(stop_time)-exp.start_time).seconds*1.0/3600
-            exp.save()
+            # not experiment in this time
+            if(not checkOverwrite( exp.start_time, exp.stop_time, exp.instrument)):
+                exp.save()
         except Experiment.DoesNotExist:
             pass
     return redirect( reverse("accounts:profile") )
@@ -83,10 +85,10 @@ def dealSampleAppoint(request):
         has_changed_start_time = False
         has_changed_times = False
         if ( appointment.has_approved ):
-            start_time = datetime.strptime(request.POST['start_time']+"+0800", "%Y-%m-%d %H:%M:%S%z" )
+            start_time = strptime(request.POST['start_time'])
             if (appointment.start_time - start_time).seconds > 60:
                 has_changed_start_time = True
-                appointment.start_time = strptime(start_time)
+                appointment.start_time = start_time
             times = float(request.POST['times'])
             if  appointment.times != times:
                 has_changed_times = True
@@ -138,9 +140,16 @@ def dealInstrumentAppoint(request):
 
 @login_required
 def sample(request):
-    #app_form = SampleAppointmentForm( request.POST or None, initial={'user': request.user, 'instrument': 1} )
-    #sample_form = SampleForm( request.POST or None )
     instruments = Instrument.objects.all()
+    
+    experiments = Experiment.objects.all()
+    experiments = filter(lambda x: x.stop_time() > navicetoaware(datetime.now()), experiments)
+    experiments_dict = {}
+    for exp in experiments:
+        if exp.instrument.short_name not in experiments_dict:
+            experiments_dict[exp.instrument.short_name] = [exp,]
+        else:
+            experiments_dict[exp.instrument.short_name].append(exp)
 
     if request.method == 'POST':
         checked_instrument_id = request.POST['instrument']
@@ -178,6 +187,7 @@ def sample(request):
 
     return render(request, 'schedule/sample.html', {
                 'instruments': instruments,
+                'experiments': experiments_dict,
                 })
     
 def checkOverwrite( start, stop, instrument ):
