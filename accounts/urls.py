@@ -14,14 +14,16 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include(blog_urls))
 """
 from django.conf.urls import include, url
-from accounts.views import register, register_done, verifyUserMail, profile, userinfo, apermission, getPersonInChargeInfo, activeUser, checkUsername, delDoorApp, delInstrumentApp
-from django.contrib.auth.views import login, logout, password_change, password_change_done
+from accounts.views import register, register_done, verifyUserMail, profile, userinfo, apermission, getPersonInChargeInfo, activeUser, checkUsername, delDoorApp, delInstrumentApp, login, uploadImage, updateUserImage
+from django.contrib.auth.views import logout, password_change, password_change_done
 
 urlpatterns = [
     url(r'^register/$', register, name='register'),
     url(r'^register_done/$', register_done),
     url(r'^profile/$', profile, name='profile'),
     url(r'^userinfo/$', userinfo, name='userinfo'),
+    url(r'^uploadImage/$', uploadImage, name='uploadImage'),
+    url(r'^updateUserImage/$', updateUserImage, name='updateUserImage'),
     url(r'^activeUser/$', activeUser, name='activeUser'),
     url(r'^apermission/$', apermission, name='apermission'),
     url(r'^apermission/(\w+)$', apermission, name='apermission'),
@@ -30,9 +32,7 @@ urlpatterns = [
     url(r'^verifymail/(?P<username>\w+)/(?P<email_code>\w+)$', verifyUserMail ),
     url(r'^getpi/(\w+)$', getPersonInChargeInfo, name='getpi'),
     url(r'^checkUsername/(\w+)/$', checkUsername, name='checkUsername'),
-
-    url(r'^login/$', login,
-        name='login', kwargs={'template_name': 'accounts/login.html'}),
+    url(r'^login/$', login, name='login'),
 
     url(r'^logout/$', logout,
         name='logout', kwargs={'next_page': '/'}),

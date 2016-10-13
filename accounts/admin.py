@@ -177,6 +177,9 @@ class CustomUserAdmin(UserAdmin):
     #def  has_add_permission( self, request):
     #    return True
 
+class ImageUploadForm(forms.Form):
+    image = forms.ImageField()
+
 # Now register the new UserAdmin...
 admin.site.register(CustomUser, CustomUserAdmin)
 admin.site.register(Orgnization, OrgnizationAdmin )

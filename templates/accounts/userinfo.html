@@ -2,18 +2,33 @@
 {% block title %} 个人资料 {% endblock %}
 {% load staticfiles %}
 {% block css %}
+<link rel="stylesheet" href="http://fengyuanchen.github.io/cropper/css/cropper.min.css">
 <style type="text/css">
   h3 {
     font-family: "AR PL UKai CN", "KaiTi", "STKaiti", monospace;
     font-weight: bold;
   }
   #image-preview {
-      width: 160px;
-      height: 160px;
+      width: 200px;
+      height: 200px;
       position: relative;
       overflow: hidden;
       background-color: #ffffff;
       color: #000;
+    }
+    .img-container {
+        width: 100%;
+        min-height: 200px;
+        max-height: 516px;
+    }
+    @media (min-width: 768px) {
+        .img-container {
+            min-height: 516px;
+            max-height: 716px;
+        }
+    }
+    .img-container img {
+        max-width: 100%;
     }
    #image-preview label {
         position: absolute;
@@ -41,14 +56,114 @@
   <div class="row">
     <div class="col-sm-2" style="padding-top:16px">
         <div id="image-preview">
+            <a data-toggle="modal" data-target="#modal">
             <label for="image-upload" id="image-label">修改头像</label>
-            <img class="img img-rounded" src="{{ user.profile_image.url }}" alt="{{user.surname}}">
+            <img id="profile" class="img img-rounded" style="width:200px" src="{{ user.profile_image.url }}" alt="{{user.surname}}"></a>
         </div>
     </div>
+
+<!-- Modal -->
+<div class="modal fade" id="modal" aria-labelledby="modalLabel" role="dialog" tabindex="-1">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="modalLabel">Crop the image</h4>
+            </div>
+            <div class="modal-body">
+                <div class="img-container">
+                    <img id="image" src={{user.profile_image.url}} index=0 alt="Picture">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <input type="file" id="image_to_upload" />
+                    </div>
+                    <div class="col-sm-6">
+                        <button type="button" id="save" class="btn btn-primary" data-dismiss="modal">Save</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    jQuery.noConflict();    
+    formdata = new FormData();      
+    jQuery("#image_to_upload").on("change", function() {
+        var file = this.files[0];
+        if (formdata) {
+        formdata.append("image", file);
+        jQuery.ajax({
+        url: "{% url 'accounts:uploadImage' %}",
+        type: "POST",
+        headers: {'X-CSRFToken': '{{csrf_token}}'},
+        data: formdata,
+        processData: false,
+        contentType: false,
+        success:function(data){
+            data = data.replace(/\"/g, "");
+            list = data.split(",");
+            url = list[0];
+            id  = list[1];
+            jQuery("#image").attr('src', url);
+            jQuery("#image").attr('index', id);
+            jQuery("#image").one('build.cropper').cropper('replace', url).cropper('reset');
+            }
+        });
+        }                       
+        }); 
+    jQuery("#save").on("click", function(){
+        var imagedata = jQuery("#image").cropper("getData");
+        formdata = new FormData();      
+        formdata.append("x", Math.round(imagedata.x));
+        formdata.append("y", Math.round(imagedata.y));
+        formdata.append("width", Math.round(imagedata.width));
+        formdata.append("height", Math.round(imagedata.height));
+        formdata.append("image", jQuery("#image").attr("index"));
+        jQuery.ajax({
+        url: "{% url 'accounts:updateUserImage' %}",
+        type: "POST",
+        headers: {'X-CSRFToken': '{{csrf_token}}'},
+        data: formdata,
+        processData: false,
+        contentType: false,
+        success:function(data){
+            data = data.replace(/\"/g, "");
+            jQuery("#profile").attr('src', data);
+
+        }
+        });
+    });
+</script>
+
 
     <div class="col-sm-5">
       <div class="row">
       <h3 class="text-center">个人信息更新</h3>
+      </div>
+      <div class="row">
+        <div class="form-group">
+          <div class="col-sm-4">
+            <label class="input-lg">用户名：</label>
+          </div>
+          <div class="col-sm-8">
+               <input class="form-control input-lg" value="{{user.username}}" type="text" disabled>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="form-group">
+          <div class="col-sm-4">
+            <label class="input-lg">姓名：</label>
+          </div>
+          <div class="col-sm-8">
+               <input class="form-control input-lg" value="{{user.surname}}" type="text" disabled>
+          </div>
+        </div>
       </div>
       <form action="{% url 'accounts:userinfo' %}" method="post">
         {% csrf_token %}
@@ -56,13 +171,24 @@
           <div class="row">
             <div class="form-group">
               <div class="col-sm-4">
-                <label class="input-lg">{{ userform.phone_number.label_tag }}</label>
+                <label class="input-lg">编号：</label>
               </div>
               <div class="col-sm-8">
-                   {{ userform.phone_number }}
-                  {% if userform.phone_number.errors %}
-                    <span class="text-danger">{{userform.phone_number.errors}}</span>
-                  {% endif %}
+                <input class="form-control input-lg" id="id_identify" name="identify" value="{{user.identify}}" {% if user.position == 'visit' %} disabled {%endif%}>
+                {% if error %}
+                    <span class="text-danger">{{error}}</span>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="form-group">
+              <div class="col-sm-4">
+                <label class="input-lg">电话号码：</label>
+              </div>
+              <div class="col-sm-8">
+                  <input class="form-control input-lg" id="id_phone_number" name="phone_number" value="{{user.phone_number}}">
               </div>
             </div>
           </div>
@@ -70,13 +196,10 @@
          <div class="row">
             <div class="form-group">
               <div class="col-sm-4">
-                <label class="input-lg">{{ userform.email.label_tag }}</label>
+                <label class="input-lg">邮箱：</label>
               </div>
               <div class="col-sm-8">
-                   {{ userform.email }}
-                  {% if userform.email.errors %}
-                    <span class="text-danger">{{userform.email.errors}}</span>
-                  {% endif %}
+                  <input class="form-control input-lg" id="id_email" name="email" value="{{user.email}}" disabled>
               </div>
             </div>
           </div>
@@ -84,13 +207,10 @@
          <div class="row">
             <div class="form-group">
               <div class="col-sm-4">
-                <label class="input-lg">{{ userform.user_bio.label_tag }}</label>
+                <label class="input-lg">自我介绍：</label>
               </div>
               <div class="col-sm-8">
-                   {{ userform.user_bio }}
-                  {% if userform.user_bio.errors %}
-                    <span class="text-danger">{{userform.user_bio.errors}}</span>
-                  {% endif %}
+                  <textarea class="form-control input-lg" id="id_user_bio" name="user_bio" value="{{user.user_bio}}"></textarea>
               </div>
             </div>
           </div>
@@ -118,46 +238,27 @@
               <label class="input-lg">负责人:</label>
             </div>
             <div class="col-sm-8">
-                 <input id="id_surname0" name="surname0" value="{{ user.person_in_charge.surname0 }}" placeholder="课题组PI/公司领导/经费负责人">
+                 <input class="form-control input-lg" id="id_surname0" name="surname0" value="{{ user.person_in_charge.surname0 }}" placeholder="课题组PI/公司领导/经费负责人">
             </div>
           </div>
         </div>
         <div class="row">
           <div class="form-group">
             <div class="col-sm-4">
-              <label class="input-lg"{{ piform.phone_number0.label_tag }}</label>
+              <label class="input-lg">电话号码：</label>
             </div>
             <div class="col-sm-8">
-                 {{ piform.phone_number0 }}
-                 {% if piform.phone_number0.errors %}
-                  <span class="text-danger">{{ piform.phone_number0.errors }}</span>
-                 {% endif %}
+                 <input class="form-control input-lg" id="id_phone_number0" name="phone_number0" value="{{ user.person_in_charge.phone_number0 }}">
             </div>
           </div>
         </div>
         <div class="row">
           <div class="form-group">
             <div class="col-sm-4">
-              <label class="input-lg"{{ piform.email0.label_tag }}</label>
+              <label class="input-lg">邮箱：</label>
             </div>
             <div class="col-sm-8">
-                 {{ piform.email0 }}
-                 {% if piform.email0.errors %}
-                  <span class="text-danger">{{ piform.email0.errors }}</span>
-                 {% endif %}
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="form-group">
-            <div class="col-sm-4">
-              <label class="input-lg"{{ piform.titles.label_tag }}</label>
-            </div>
-            <div class="col-sm-8">
-                 {{ piform.titles }}
-                 {% if piform.titles.errors %}
-                  <span class="text-danger">{{ piform.titles.errors }}</span>
-                 {% endif %}
+                 <input class="form-control input-lg" id="id_email0" name="email0" value="{{ user.person_in_charge.email0 }}">
             </div>
           </div>
         </div>
@@ -169,13 +270,10 @@
         <div class="row">
           <div class="form-group">
             <div class="col-sm-4">
-              <label class="input-lg"{{ orgform.name.label_tag }}</label>
+              <label class="input-lg">单位名称：</label>
             </div>
             <div class="col-sm-8">
-                 {{ orgform.name }}
-                 {% if orgform.name.errors %}
-                  <span class="text-danger">{{ orgform.name.errors }}</span>
-                 {% endif %}
+                 <input class="form-control input-lg" id="id_name" name="name" value="{{ user.person_in_charge.orgnization.name }}">
             </div>
           </div>
         </div>
@@ -183,13 +281,10 @@
         <div class="row">
           <div class="form-group">
             <div class="col-sm-4">
-              <label class="input-lg"{{ orgform.department.label_tag }}</label>
+              <label class="input-lg">部门：</label>
             </div>
             <div class="col-sm-8">
-                 {{ orgform.department }}
-                 {% if orgform.department.errors %}
-                  <span class="text-danger">{{ orgform.department.errors }}</span>
-                 {% endif %}
+                 <input class="form-control input-lg" id="id_department" name="department" value="{{ user.person_in_charge.orgnization.department }}">
             </div>
           </div>
         </div>
@@ -197,13 +292,10 @@
         <div class="row">
           <div class="form-group">
             <div class="col-sm-4">
-              <label class="input-lg"{{ orgform.address.label_tag }}</label>
+              <label class="input-lg">地址：</label>
             </div>
             <div class="col-sm-8">
-                 {{ orgform.address }}
-                 {% if orgform.address.errors %}
-                  <span class="text-danger">{{ orgform.address.errors }}</span>
-                 {% endif %}
+                 <input class="form-control input-lg" id="id_address" name="address" value="{{ user.person_in_charge.orgnization.address }}">
             </div>
           </div>
         </div>
@@ -211,11 +303,22 @@
     </div>
   </div>
 </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cropper/2.3.4/cropper.min.js"></script>
 <script>
-  $("input").toggleClass('form-control input-lg');
-  $("textarea").toggleClass('form-control input-lg');
-  $("select").toggleClass('form-control input-lg');
-  $("#id_surname0").change(
+  jQuery(function () {
+      var $image = jQuery('#image');
+      jQuery('#modal').on('shown.bs.modal', function () {
+           $image.cropper({
+           autoCropArea: 0.5,
+           aspectRatio: 1/1,
+           movable: false,
+           rotatable: false,
+           scalable: false,
+           zoom: false,
+           });
+           })
+           });
+  jQuery("#id_surname0").change(
     function (element) {
       $.getJSON('/accounts/getpi/'+$(this).val(), function(data){
         if( data.phone_number0 ) {
@@ -224,17 +327,14 @@
         if( data.email0 ) {
             document.getElementById("id_email0").value = data.email0;
         };
-        if( data.titles ) {
-            document.getElementById("id_titles").value = data.titles;
-        };
         document.getElementById("id_name").value = data.name;
         document.getElementById("id_department").value = data.department;
         document.getElementById("id_address").value = data.address;
         });
     }
   );
-  $('#id_name').attr('placeholder', '厦门大学');
-  $('#id_department').attr('placeholder', '化学化工学院');
-  $('#id_address').attr('placeholder', '厦门市思明区思明南路220号');
+  jQuery('#id_name').attr('placeholder', '厦门大学');
+  jQuery('#id_department').attr('placeholder', '化学化工学院');
+  jQuery('#id_address').attr('placeholder', '厦门市思明区思明南路220号');
 </script>
 {% endblock %}

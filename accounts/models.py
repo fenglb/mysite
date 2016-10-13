@@ -6,6 +6,7 @@ from django.contrib.auth.models import Group
 from django.core.validators import RegexValidator
 from django.utils import timezone
 from datetime import datetime, timedelta
+from django.conf import settings
 # Create your models here.
 
 class CustomUserManager( BaseUserManager ):
@@ -110,6 +111,10 @@ class CustomUser( AbstractBaseUser, PermissionsMixin ):
     def get_full_name(self):
         return self.surname
 
+    @property
+    def get_absolute_url(self):
+        return '%s%s' % (settings.BASE_DIR, self.profile_image.url)
+
     def get_position_name(self):
         return dict(self.position_choice)[self.position]
 
@@ -125,3 +130,11 @@ class CustomUser( AbstractBaseUser, PermissionsMixin ):
 
     def __str__(self):
         return self.surname
+
+class ImageAttachment(models.Model):
+    image = models.ImageField(upload_to="upload")
+    @property
+    def get_absolute_url(self):
+        return '%s%s' % (settings.BASE_DIR, self.image.url)
+    def __str__(self):
+        return self.image.name

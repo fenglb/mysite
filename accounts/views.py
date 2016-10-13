@@ -12,8 +12,8 @@ try:
 except ImportError:
     from django.contrib.sites.models import get_current_site
 
-from .admin import UserCreationForm, UserInforForm, PersonInChargeForm, OrgnizationForm
-from .models import CustomUser, PersonInCharge, Orgnization
+from .admin import UserCreationForm, UserInforForm, PersonInChargeForm, OrgnizationForm, ImageUploadForm
+from .models import CustomUser, PersonInCharge, Orgnization, ImageAttachment
 from eguard.admin import EntranceAppointmentForm
 from eguard.models import Entrance, EntranceAppointment
 from schedule.admin import InstrumentAppointmentForm
@@ -26,8 +26,52 @@ import time
 from datetime import date, datetime, timedelta
 from mail.sendmail import sendEmail
 from schedule.tz import navicetoaware, strptime
+from PIL import Image
+from django.core.files.base import ContentFile
+from django.core.files.uploadedfile import InMemoryUploadedFile
+
+from io import BytesIO
 
 # Create your views here.
+
+@login_required
+def uploadImage(request):
+    if request.method == 'POST':
+        form = ImageUploadForm(request.POST, request.FILES)
+        if form.is_valid():
+            image = ImageAttachment(image=request.FILES['image'])
+            image.save()
+            data = image.image.url+","+str(image.id)
+            return HttpResponse(json.dumps(data, ensure_ascii=False))
+    return HttpResponse('fail')
+
+@login_required
+def updateUserImage(request):
+    if request.method == 'POST':
+        x,y,width,height=map(lambda x: int(request.POST.get(x)), ["x", "y", "width", "height"])
+        image_id = int(request.POST['image'])
+        user = request.user
+        if image_id != 0:
+            image = ImageAttachment.objects.get(id=image_id)
+            image_filename = image.image.name.split("/")[-1]
+        else:
+            image = user
+            image_filename = image.profile_image.name.split("/")[-1]
+        raw_image = Image.open(image.get_absolute_url)
+        crop_image = raw_image.crop((x,y,abs(x)+width,abs(y)+height))
+        crop_image.thumbnail((200,200))
+
+        buffer = BytesIO()
+        crop_image.save(fp=buffer, format='JPEG')
+        buff_val = buffer.getvalue()
+        buff_image = ContentFile(buff_val)
+
+        image_file = InMemoryUploadedFile(buff_image, None, image_filename, 'image/jpeg', buff_image.tell, None)
+        user.profile_image = image_file
+        user.save()
+        data = user.profile_image.url
+        return HttpResponse(json.dumps(data, ensure_ascii=False))
+    return HttpResponse('fail')
 
 def getActiveCode( email ):
     email_code = uuid.uuid5( uuid.NAMESPACE_DNS, email+str(time.time())).hex
@@ -48,7 +92,8 @@ def verifyUserMail(request, username, email_code ):
 
 
 def login(request):
-    context = {}
+    errors = {}
+    username=""
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
@@ -58,10 +103,10 @@ def login(request):
                 auth_login(request, user)
                 return HttpResponseRedirect( request.POST['next'] )
             else:
-                context['errors'] = '您的用户没有激活！请激活！'
+                errors['username'] = '您的用户没有激活！请激活！'
         else:
-            context['errors'] = '您的密码和用户名不匹配！'
-    return render( request, 'accounts/login.html', context )
+            errors['password'] = '您的密码和用户名不匹配！'
+    return render( request, 'accounts/login.html', {"username": username, "errors": errors,})
 
 @login_required
 def profile(request):
@@ -76,7 +121,7 @@ def profile(request):
     else:
         samples = SampleAppointment.objects.all().order_by("-created_time").filter(user=request.user)
         experiments = Experiment.objects.filter(user=request.user).order_by("-created_time")
-    experiments = filter(lambda x: x.stop_time() >= today, experiments)
+    experiments = list(filter(lambda x: x.stop_time() >= today, experiments))
 
     trains = InstrumentAppointment.objects.all().order_by("-created_datetime").filter(Q(target_datetime__gte=dayBeforeYesteoday)|Q(has_approved=None))
     entrances = EntranceAppointment.objects.all().order_by("-created_datetime").filter(Q(created_datetime__gte=dayBeforeYesteoday)|Q(has_approved=None))
@@ -106,29 +151,63 @@ def getPersonInChargeInfo( request, surname ):
 @login_required
 def userinfo(request):
 
-    user_form = UserInforForm( request.POST or None, instance=request.user )
-    pi_form = PersonInChargeForm( request.POST or None, instance=request.user.person_in_charge )
-    if request.user.person_in_charge:
-        org_form = OrgnizationForm( request.POST or None, instance=request.user.person_in_charge.orgnization )
-    else:
-        org_form = OrgnizationForm( request.POST or None )
-
+    error = ""
     if request.method == 'POST':
+        user = request.user
 
-        is_valid = user_form.is_valid() and pi_form.is_valid() and org_form.is_valid()
+        if user.position != 'visit':
+            identify     = request.POST['identify']
+            if request.user.identify != identify:
+                surname = request.user.surname
+                matched = checkUserExist(surname, identify)
+                if not matched:
+                    error = "姓名和卡号不匹配，请重新输入！"
+                    return render(request, "accounts/userinfo.html", {'error': error,})
+                else:
+                    user.identify = identify
+                    user.expired_time = getDefaultExpiredDate(identify)
+        phone_number = request.POST['phone_number']
+        if request.user.phone_number != phone_number:
+            user.phone_number = phone_number
 
-        if is_valid:
-            person_in_charge = request.POST.get("surname0")
-            user = user_form.save(commit=False)
-            pi   = pi_form.save(person_in_charge, commit=False)
-            org  = org_form.save()
-            pi.orgnization = org
-            pi.save()
-            user.person_in_charge = pi
-            user.save()
-            return HttpResponseRedirect("/accounts/profile")
+        pi_name         = request.POST['surname0']
+        pi_phone_number = request.POST['phone_number0']
+        pi_email        = request.POST['email0']
 
-    return render(request, "accounts/userinfo.html", {'userform': user_form, 'piform': pi_form, 'orgform': org_form,})
+        org_name    = request.POST['name']
+        department  = request.POST['department']
+        address     = request.POST['address']
+
+        pi = user.person_in_charge
+        if pi_name and pi_phone_number and pi_email:
+            try:
+                pi = PersonInCharge.objects.get(surname0=pi_name)
+            except PersonInCharge.DoesNotExist:
+                pi = PersonInCharge(surname0=pi_name)
+            if pi_phone_number != pi.phone_number0:
+                pi.phone_number0 = pi_phone_number
+            if pi_email != pi.email0:
+                pi.email0 = pi_email
+
+        org = pi.orgnization
+        if org_name and address and department:
+            try:
+                org = Orgnization.objects.filter(name=org_name,department=department)
+                if org: org = org[0]
+                if address != org.address:
+                    org.address = address
+            except Orgnization.DoesNotExist:
+                org = Orgnization(name=org_name,
+                        department=department,
+                        address=address)
+            org.save()
+        pi.orgnization = org
+        pi.save()
+        user.person_in_charge = pi
+        user.save()
+        return HttpResponseRedirect("/accounts/userinfo")
+
+    return render(request, "accounts/userinfo.html")
 
 @login_required
 def delDoorApp(request, pk):
@@ -169,7 +248,7 @@ def apermission(request, item=None):
             if door_list:
                 door_appintment = EntranceAppointment(user=request.user)
                 door_appintment.reason = request.POST['reason']
-                door_appintment.expired_time = strptime(request.POST['expired_time'])
+                door_appintment.expired_time = strptime(request.POST['expired_time']+" 00:00")
                 door_appintment.save()
                 for door_id in door_list:
                     door = Entrance.objects.get(id=door_id)
@@ -267,16 +346,18 @@ def register(request):
         if identify and not matched:
             errors['identify'] = "姓名和卡号不匹配，如果您没有厦大一卡通，请留空！"
         else:
-            user = CustomUser.objects.get(surname=surname, identify=identify)
-            if user:
+            try:
+                user = CustomUser.objects.get(surname=surname, identify=identify)
                 errors['identify'] = "这个姓名和卡号已经注册过。您可以通过邮箱找回密码！"
+            except CustomUser.DoesNotExist:
+                pass
 
         email_code = getActiveCode( email )
         site = get_current_site(request)
         html_content = render_to_string( 'accounts/send_email.html', 
             {'email_code': email_code, 'username': username, 'site': site} )
         subject, from_email, to_email = '您注册了厦门大学高场核磁中心网站', settings.DEFAULT_FROM_EMAIL, email
-        if ( not sendEmail(  to_email, from_email, subject, html_content ) ):
+        if ( not errors and not sendEmail(  to_email, from_email, subject, html_content ) ):
             errors['email'] = "您输入电子邮箱无效，请重新输入！"
         if ( not errors ):
 

@@ -69,6 +69,10 @@
         </ol>
         </div>
 
+    {% else %}
+        <h4>
+            您可以更改您的<a href="{% url 'accounts:userinfo' %}">个人资料</a>(个人基本信息和课题组信息)，<a href="{% url 'accounts:apermission' %}">申请门禁</a>，<a href="{% url 'accounts:apermission' %}">申请仪器操作权限</a>和<a href="{% url 'schedule:sample' %}">送样测试</a>!
+        </h4>
     {% endif %}
 
     {% if samples %}<h3>送样申请处理状态：</h3>{% endif %}

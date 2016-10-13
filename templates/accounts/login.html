@@ -15,14 +15,6 @@
       <h3><strong>用户登录</strong></h3>
     </div>
   </div>
-    {% if errors %}
-        <div class="row">
-          <div class="col-sm-offset-4 col-sm-5" style="font-size:16px;color:red;">
-            <p>Error: {{ errors }}</p>
-          </div>
-        </div>
-    {% endif %}
-
     {% if user.is_authenticated %}
     <div class="row">
         <div class="col-sm-offset-4 col-sm-5">
@@ -39,7 +31,10 @@
 	          <label class="input-lg">用户名: </label>
           </div>
           <div class="col-sm-3">
-          <input name="username" type="text" placeholder="enter username" />
+          <input name="username" type="text" value="{{username}}" placeholder="enter username" />
+          {% if errors.username %}
+                <label class="text-danger" style="font-size:10px">{{ errors.username }}</label>
+          {% endif %}
           </div>
           <div class="col-sm-5">
               <span class="text-danger" style="font-size:12px">
@@ -57,6 +52,9 @@
           </div>
           <div class="col-sm-3">
           <input name="password" type="password" placeholder="enter password" />
+          {% if errors.password %}
+                <label class="text-danger" style="font-size:10px">{{ errors.password }}</label>
+          {% endif %}
           </div>
         </div>
     </div>
