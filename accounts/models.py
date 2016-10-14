@@ -86,6 +86,7 @@ class CustomUser( AbstractBaseUser, PermissionsMixin ):
     position_choice = (
                 ('student', "厦大学生"),
                 ('staff',   "厦大教师"),
+                ('temp',   "临时卡"),
                 ('visit',   "其他"),
     )
     position     = models.CharField( verbose_name='身份', max_length=7, choices=position_choice, default='student' )

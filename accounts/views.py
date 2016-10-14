@@ -18,7 +18,7 @@ from eguard.admin import EntranceAppointmentForm
 from eguard.models import Entrance, EntranceAppointment
 from schedule.admin import InstrumentAppointmentForm
 from schedule.models import Instrument, InstrumentAppointment, SampleAppointment, Experiment
-from eguard.eguardcrawler import checkUserExist
+from eguard.eguardcrawler import checkUserExist, EntranceGuard
 
 import uuid
 import json
@@ -130,7 +130,7 @@ def profile(request):
 
 def getPersonInChargeInfo( request, surname ):
     values = {}
-    if request.method == 'GET':
+    if surname and request.method == 'GET':
         try:
             person_in_charge = PersonInCharge.objects.get(surname0=surname)
         except PersonInCharge.DoesNotExist:
@@ -155,6 +155,7 @@ def userinfo(request):
     if request.method == 'POST':
         user = request.user
 
+        tips = ""
         if user.position != 'visit':
             identify     = request.POST['identify']
             if request.user.identify != identify:
@@ -164,8 +165,18 @@ def userinfo(request):
                     error = "姓名和卡号不匹配，请重新输入！"
                     return render(request, "accounts/userinfo.html", {'error': error,})
                 else:
+                    oldIdentify = user.identify
                     user.identify = identify
-                    user.expired_time = getDefaultExpiredDate(identify)
+                    user.expired_time,user.position = getDefaultExpiredDate(identify)
+                    has_doors = user.entrance_set.all()
+                    # delete the door
+                    if has_doors:
+                        tips += "如果您之前有实验室出入权限，请重新申请门禁!"
+                        doorOpt = EntranceGuard()
+                        for door in has_doors:
+                            doorOpt.doEntranceUserDeleted(oldIdentify, door.code)
+                            door.user.remove(user)
+
         phone_number = request.POST['phone_number']
         if request.user.phone_number != phone_number:
             user.phone_number = phone_number
@@ -204,8 +215,12 @@ def userinfo(request):
         pi.orgnization = org
         pi.save()
         user.person_in_charge = pi
-        user.save()
-        return HttpResponseRedirect("/accounts/userinfo")
+        try:
+            user.save()
+            tips += "更新成功"
+            return render(request, "accounts/userinfo.html", {'tips': tips})
+        except Exception:
+            pass
 
     return render(request, "accounts/userinfo.html")
 
@@ -286,6 +301,7 @@ def checkUsername(request,name):
     return HttpResponse(json.dumps(values, ensure_ascii=False))
 
 def getDefaultExpiredDate(identify):
+    identify = identify.strip()
     years = 1
     position = "visit"
     start_years = datetime.now().year
@@ -304,6 +320,9 @@ def getDefaultExpiredDate(identify):
         else: # 教工
             years = 100
             position = "staff"
+    elif identify.startswith('LS'):
+        years = 2
+        position = "temp"
     return date(start_years+years, 7, 1),position
 
 @csrf_protect

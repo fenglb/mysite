@@ -218,6 +218,9 @@
         <div class="row">
           <div class="col-sm-offset-4 col-sm-8" style="padding-right: 10px; padding-top: 10px">
             <button type="submit" class="btn btn-primary btn-lg btn-block" value="update">更新</button>
+            {% if tips %}
+            <span class="text-success">{{ tips }}</span>
+            {% endif %}
           </div>
         </div>
 
@@ -316,23 +319,25 @@
            scalable: false,
            zoom: false,
            });
-           })
+           });
            });
   jQuery("#id_surname0").change(
     function (element) {
-      $.getJSON('/accounts/getpi/'+$(this).val(), function(data){
-        if( data.phone_number0 ) {
-        document.getElementById("id_phone_number0").value = data.phone_number0;
-        };
-        if( data.email0 ) {
-            document.getElementById("id_email0").value = data.email0;
-        };
-        document.getElementById("id_name").value = data.name;
-        document.getElementById("id_department").value = data.department;
-        document.getElementById("id_address").value = data.address;
-        });
-    }
-  );
+        jQuery.getJSON('/accounts/getpi/'+jQuery("#id_surname0").val(), function(data){
+            if( data.phone_number0 ) {
+            jQuery("#id_phone_number0").val(data.phone_number0);
+            };
+            if( data.email0 ) {
+                document.getElementById("id_email0").value = data.email0;
+            };
+            if(data.name)
+            {
+                document.getElementById("id_name").value = data.name;
+                document.getElementById("id_department").value = data.department;
+                document.getElementById("id_address").value = data.address;
+            }
+    })
+    });
   jQuery('#id_name').attr('placeholder', '厦门大学');
   jQuery('#id_department').attr('placeholder', '化学化工学院');
   jQuery('#id_address').attr('placeholder', '厦门市思明区思明南路220号');

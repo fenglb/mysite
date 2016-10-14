@@ -14,6 +14,9 @@ def cntoutc( time ):
     return time
 
 def strptime( time_str ):
-    time = datetime.strptime(time_str, "%Y-%m-%d %H:%M")
+    try:
+        time = datetime.strptime(time_str, "%Y-%m-%d %H:%M")
+    except ValueError:
+        time = datetime.strptime(time_str, "%Y-%m-%dT%H:%M:%S")
     time = navicetoaware(time)
     return time

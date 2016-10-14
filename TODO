@@ -1,9 +1,11 @@
 [X][**  ] update the "aobut me", "lab intro", "instr intro" webpage
 [X][*   ] update the index function, like as the ...
 [X][*   ] add the weixin function
-[X][*** ] make the 15 min appoint table for 500M, so do nice for the old user
 [X][*   ] make work for weixin to display the instr appointment and appoint the exp.
 [X][*   ] delete the not active user
+[O][*** ] make the 15 min appoint table for 500M, so do nice for the old user. custom the fullcalendar
+[O][*** ] update the comment system to UYan
+[O][*** ] update the identify, and delete the door licence
 [O][*** ] update the identify, 
 [O][*** ] make the every cark can appoint the door, the LinShi car also can appoint the door. and the user can change the identify when user has the e-card
 [O][*   ] fix the user avator updated function, user can update the image profile.

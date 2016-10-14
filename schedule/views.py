@@ -272,5 +272,29 @@ def getEvent(request, instrument):
                 event['color'] = colorlist[exp.instrument.id]
             # 0 --> 500MHz , 1 --> 600MHz, 2 --> 850MHz, 3 --> MS
             event['textColor'] = textcolor
+            event['backgroundColor'] = "#cffbf4"
             data.append(event)
+    return HttpResponse(json.dumps(data, ensure_ascii=False))
+
+def uploadEvent(request):
+    data = {}
+    if request.method == 'POST':
+        events_string = request.POST.get('events',None)
+        instrument = request.POST.get('instrument', None)
+        if events_string:
+            events = json.loads(events_string)
+            if instrument:
+                try:
+                    instrument = Instrument.objects.get(short_name=instrument)
+                    user = request.user
+                    for event in events:
+                        start = strptime(event['_start'])
+                        end   = strptime(event['_end'])
+                        times = (end-start).seconds*1.0/3600
+                        exp = Experiment(user=request.user, instrument=instrument,
+                        start_time=start, times=times)
+                        exp.save()
+                except Instrument.DoesNotExist:
+                    pass
+
     return HttpResponse(json.dumps(data, ensure_ascii=False))

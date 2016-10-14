@@ -9,17 +9,14 @@
   h4 {
     font-family: "AR PL UKai CN", "KaiTi", "STKaiti", monospace;
   }
- img {
-     width: 100%;
- }
  label#image-label {
     position: absolute;
     z-index: 5;
     opacity: 0.8;
     cursor: pointer;
     background-color: #f8fbef;
-    width: 100%;
-    height: 15%;
+    width: 200px;
+    height: 50px;
     font-size: 14px;
     line-height: 50px;
     text-transform: uppercase;
@@ -87,10 +84,8 @@
   <h4>查看仪器预约情况或者预约实验(<small class="bg-primary">请点击下方相应仪器照片！</small>)</h4>
     {% for instrument in instruments %}
       <div class="col-sm-3 col-xs-4">
-        <a href="{% url 'schedule:view' instrument.short_name %}">
-            <label for="image-upload" id="image-label">{{instrument}}</label>
-            <img class="img-rounded img-responsive" src="{{ instrument.image.url }}" />
-        </a>
+        <label for="image-upload" id="image-label">{{instrument}}</label>
+        <a href="{% url 'schedule:view' instrument.short_name %}"><img class="img-rounded img-responsive" src="{{ instrument.image.url }}" /></a>
       </div>
     {% endfor %}
 </div>

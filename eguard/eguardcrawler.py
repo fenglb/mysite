@@ -40,7 +40,7 @@ def parseUsersInfo( f ):
     if "没有相关的查询结果，请重试！" in f:
         return True, ""
 
-    soup = BeautifulSoup( f )
+    soup = BeautifulSoup( f, 'html.parser' )
     tables = soup.find_all("table")
     curPage, endPage = [int(x) for x in tables[1].select("td strong")[0].text.split("/")]
     trs = tables[0].select("tr")
@@ -96,7 +96,7 @@ def parseEntranceUsersInfo( f ):
     if "没有相关的查询结果，请重试！" in f:
         return True, ""
 
-    soup = BeautifulSoup( f  )
+    soup = BeautifulSoup( f, 'html.parser')
     tables = soup.find_all("table")
     curPage, endPage = [int(x) for x in tables[1].select("td strong")[0].text.split("/")]
     trs = tables[0].select("tr")
@@ -116,7 +116,7 @@ def parseEntranceUsersInfo( f ):
 
 def deleteEntranceUser( s, cmd ):
 
-    data =  { 'ck': cmd, 'action': 'ListBatchDel', 'Submit':'查询', }
+    data =  { 'ck': cmd, 'action': 'ListBatchDel', 'Submit':'移除', }
 
     f = s.post(entrance_delete_link, data=data, headers=headers)
     return True
@@ -153,7 +153,7 @@ def parseEntranceRecordInfo( f ):
     if "没有相关的查询结果，请重试！" in f:
         return True, ""
 
-    soup = BeautifulSoup( f )
+    soup = BeautifulSoup( f, 'html.parser' )
     tables = soup.find_all("table")
     curPage, endPage = [int(x) for x in tables[1].select("td strong")[0].text.split("/")]
     trs = tables[0].select("tr")
@@ -245,15 +245,16 @@ class EntranceGuard:
    
 if __name__ == "__main__":
 
-    #eguard = EntranceGuard()
+    eguard = EntranceGuard()
     #users = eguard.getEntranceRecords( door_dict["B"][0], "2016-2-18", "2016-2-19", "00:00:00", "23:59:59" )
     #users = eguard.getEntranceUsers( "D102" )
     #for user in users:
     #    print( "{0}\t {1}".format( user['name'], user['identify'] ) )
     #print eguard.doEntranceUserCreated( ["15720111151868", "20620078101155"], "D102" )
+    print(eguard.doEntranceUserDeleted( "15720111151868", "D500" ))
     #for i, d in zip( ["20620078101155"], ["D500"] ):
     #    eguard.doEntranceUserDeleted( i, d )
     #for i, d in zip( ["20620078101155", "20620078101155", "15720111151868"], ["D102","D500", "D500"] ):
     #    print eguard.doEntranceUserCreated( i, d )
     #print( checkUserExist( '冯柳宾'.encode('gbk'), '2013100213' ))
-    print( checkUserExist( '陈玥莹'.encode('gbk'), '26920161152886' ))
+    #print( checkUserExist( '陈玥莹'.encode('gbk'), '26920161152886' ))
