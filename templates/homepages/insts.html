@@ -1,8 +1,25 @@
 {% extends "base.html" %}
+{% load string_extras %}
 {% block title %} 仪器介绍 {% endblock %}
 {% block insts %} active {% endblock %}
 {% block content %} 
 <div class="container">
-  <h3>Coming soon</h3>
+    {% for instrument in instruments %}
+        <div class="row" style="border-bottom: 1px solid black; padding-bottom: 10px; margin-bottom: 10px;">
+            <div class="col-sm-4">
+                <img src="{{ instrument.image.url }}" alt="">
+            </div>
+            <div class="col-sm-8">
+                <div class="row">
+                    <h3><a name="{{instrument.short_name}}">{{ instrument.name }}</a> <small>{{instrument.short_name}}</small></h3>
+                    <div class="introduct">
+                        {{ instrument.introduct|markdown2html|safe }}
+                    </div>
+                </div>
+                <div class="row">
+                </div>
+            </div>
+        </div>
+    {% endfor %}
 </div>
 {% endblock %}

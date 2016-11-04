@@ -29,8 +29,8 @@ def labs( request ):
     return render( request, 'homepages/labs.html' )
 
 def insts( request ):
-    
-    return render( request, 'homepages/insts.html' )
+    instruments = Instrument.objects.all()
+    return render( request, 'homepages/insts.html', {'instruments': instruments} )
 
 def service( request ):
     
