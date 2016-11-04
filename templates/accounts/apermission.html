@@ -125,7 +125,7 @@
             {% for door in doors %}
                 <div><input type="checkbox" name="entrance" id="id_entrance" value="{{ door.id }}">{{ door.name }}</input></div>
             {% endfor %}
-            <p style="font-size:12px;color:red;" class="helptext">进出核磁中心请同时申请“值班室大门”，“值班室里门”；而其他申请请根据需求来。</p>
+            <p style="font-size:12px;color:red;" class="helptext">进出实验室的只需要申请“值班室大门”和“靠500M核磁室门”，而需要出入大厅的才需要申请“值班室里门”；而其他申请请根据需求来。</p>
           </div>
         </div>
       </div>
@@ -180,9 +180,9 @@
           </div>
           <div class="col-sm-8">
             {% for instr in instruments %}
-                <div><input type="checkbox" name="instrument" id="id_instrument" value="{{ instr.id }}">{{instr.name}}</input></div>
+                <div><input type="checkbox" name="instrument" id="id_instrument" value="{{ instr.id }}" {%if instr.short_name == "500MHz" %}disabled{%endif%}>{{instr.name}}</input></div>
             {% endfor %}
-               <span style="font-size:12px;color:red;" class="helptext"></span>
+               <span style="font-size:12px;color:red;" class="helptext">目前500M仪器培训申请，需要先在化院仪器预约平台预约培训机时，告诉我时间，在预约时间过来培训并且<a href="http://nmrcen.xmu.edu.cn/static/files/OperatorApplicationForm.pdf">提交培训表格</a>！</span>
           </div>
         </div>
       </div>

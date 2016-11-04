@@ -20,12 +20,12 @@ import requests
 from django.core.files.base import ContentFile
 from accounts.models import CustomUser
 
+from datetime import datetime
 # tagging
 from taggit.managers import TaggableManager
 from mistune.markdown_mistune import markdown2html_mistune as md
 
 exclude_category = ("news", "pr", "hot")
-
 
 upload_dir = 'BlogPost/{0}/{1}'
 def get_upload_md_name(instance, filename):
@@ -63,7 +63,6 @@ class BlogPost(models.Model):
         (u'pg', 'Python/Programming'),
         (u'ot', 'Others' )
         )
-    md5  = models.CharField(unique=True, max_length=32)
     title = models.CharField(max_length=150)
     thumbnail = models.ImageField(upload_to=get_upload_img_name, blank=True)
     body = models.TextField(blank=True)
@@ -76,6 +75,7 @@ class BlogPost(models.Model):
     description = models.TextField(blank=True)
     author = models.ManyToManyField( CustomUser )
     tags = TaggableManager() 
+    md5  = models.CharField(unique=True, max_length=32, blank=True)
 
     def __str__(self):
         return self.title
@@ -93,7 +93,7 @@ class BlogPost(models.Model):
             self.body = self.md_file.read()
         if not self.md5:
             md5_model = hashlib.md5()
-            md5_str = self.pub_date.isoformat()+self.slug
+            md5_str = datetime.now().isoformat() + self.slug
             md5_model.update(md5_str.encode('utf-8'))
             self.md5 = md5_model.hexdigest()
         # generate rendered html file with same name as md

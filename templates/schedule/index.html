@@ -216,11 +216,7 @@
 		    header: {
 				left: 'prev,next today',
 				center: 'title',
-                {% if instrument == "500MHz" %}
-				    right: 'customWeek, month',
-                {% else %}
-				    right: 'month, customWeek',
-                {% endif %}
+				right: 'customWeek, month',
 			    },
 		    defaultDate: '{% now "Y-m-d" %}',
 		    events: { url: "{% url 'schedule:getEvent' instrument|default_if_none:'all' %}", },
@@ -228,10 +224,8 @@
             {% if instrument == "500MHz" %}
                 minTime: "08:00:00",
                 maxTime: "24:00:00",
-                defaultView: 'customWeek',
-            {% else %}
-                defaultView: 'month',
             {% endif %}
+            defaultView: 'customWeek',
 		    timeFormat: 'H:mm',
 		    eventLimit: true,
 		    displayEventEnd: true,

@@ -446,7 +446,7 @@ def activeUser(request):
                 user.email_code = email_code
                 user.email = email
                 site = get_current_site( request )
-                html_content = render_to_string( 'accounts/send_email.html', {'email_code': email_code, 'pk': user.id, 'site': site } )
+                html_content = render_to_string( 'accounts/send_email.html', {'email_code': email_code, 'username': user.username, 'site': site } )
                 subject, from_email, to_email = '您注册了厦门大学高场核磁中心网站', settings.DEFAULT_FROM_EMAIL, user.email
                 if ( sendEmail(  to_email, from_email, subject, html_content ) ):
                     user.email = email
