@@ -83,6 +83,7 @@ class CustomUser( AbstractBaseUser, PermissionsMixin ):
     identify     = models.CharField( verbose_name='学号/教工号', help_text='厦大学生号或者教工号，非厦大学生或者教师不用填', max_length=30, unique=True, null=True, blank=True )
     phonenumeric = RegexValidator(r'^\+?1?\d{9,15}$', message='格式为05922186874或者手机号码')
     phone_number = models.CharField( verbose_name='电话号码', help_text='格式为05922186874或者手机号码', max_length=18, default="05920000000" )
+    website      = models.URLField( verbose_name='个人网页', blank=True, null=True )
     position_choice = (
                 ('student', "厦大学生"),
                 ('staff',   "厦大教师"),

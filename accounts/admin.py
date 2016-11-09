@@ -14,7 +14,7 @@ class UserCreationForm(forms.ModelForm):
     password2 = forms.CharField(label='确认密码', widget=forms.PasswordInput)
     class Meta:
         model = CustomUser
-        fields = ('username', 'surname','position', 'identify', 'phone_number', 'email', 'person_in_charge' )
+        fields = ('username', 'surname','position', 'identify', 'phone_number', 'email', 'website', 'person_in_charge' )
 
     def clean_password2(self):
         password1 = self.cleaned_data.get("password1")
@@ -138,7 +138,7 @@ class UserChangeForm(forms.ModelForm):
 
     class Meta:
         model = CustomUser
-        fields = ('username', 'surname', 'identify', 'phone_number', 'email', 'person_in_charge', 'position', 'is_staff')
+        fields = ('username', 'surname', 'identify', 'phone_number', 'email', 'website', 'person_in_charge', 'position', 'is_staff')
 
     def clean_password(self):
         # Regardless of what the user provides, return the initial value.
@@ -154,12 +154,12 @@ class CustomUserAdmin(UserAdmin):
     # The fields to be used in displaying the User model.
     # These override the definitions on the base UserAdmin
     # that reference specific fields on auth.User.
-    list_display = ('username', 'surname', 'identify', 'phone_number', 'email', 'position', 'person_in_charge', 'is_staff', 'is_active', 'is_expired')
+    list_display = ('username', 'surname', 'identify', 'phone_number', 'email', 'website', 'position', 'person_in_charge', 'is_staff', 'is_active', 'is_expired')
     list_filter = ('person_in_charge',)
     fieldsets = (
         (None, {'fields': ('username', 'password')}),
         ('Personal info', {'fields': ('surname','title', 'identify', 'position', 'person_in_charge', 'expired_time', 'profile_image', 'user_bio')}),
-        ('Contract', {'fields': ('phone_number','email')}),
+        ('Contract', {'fields': ('phone_number','email', 'website')}),
         ('Permissions', {'fields': ('is_staff', 'is_active')}),
     )
     # add_fieldsets is not a standard ModelAdmin attribute. UserAdmin
@@ -167,7 +167,7 @@ class CustomUserAdmin(UserAdmin):
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
-            'fields': ('username', 'title', 'surname', 'position',  'identify', 'phone_number', 'email','person_in_charge', 'expired_time', 'password1', 'password2' )}
+            'fields': ('username', 'title', 'surname', 'position',  'identify', 'phone_number', 'email', 'website', 'person_in_charge', 'expired_time', 'password1', 'password2' )}
         ),
     )
     search_fields = ('surname', 'username')

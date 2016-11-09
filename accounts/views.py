@@ -178,8 +178,11 @@ def userinfo(request):
                             door.user.remove(user)
 
         phone_number = request.POST['phone_number']
-        if request.user.phone_number != phone_number:
+        if user.phone_number != phone_number:
             user.phone_number = phone_number
+        website = request.POST['website']
+        if user.website != website:
+            user.website = website
 
         pi_name         = request.POST['surname0']
         pi_phone_number = request.POST['phone_number0']
