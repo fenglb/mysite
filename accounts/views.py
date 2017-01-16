@@ -118,6 +118,7 @@ def profile(request):
     if request.user.is_superuser:
         samples = SampleAppointment.objects.all().order_by("-created_time").filter(Q(start_time__gte=dayBeforeYesteoday)| Q(has_approved=None))
         experiments = Experiment.objects.all().order_by("-created_time")
+        samples = list(filter(lambda x: x.stop_time() > today, samples))
     else:
         samples = SampleAppointment.objects.all().order_by("-created_time").filter(user=request.user)
         experiments = Experiment.objects.filter(user=request.user).order_by("-created_time")
@@ -183,6 +184,9 @@ def userinfo(request):
         website = request.POST['website']
         if user.website != website:
             user.website = website
+        user_bio = request.POST['user_bio']
+        if user.user_bio != user_bio:
+            user.user_bio = user_bio
 
         pi_name         = request.POST['surname0']
         pi_phone_number = request.POST['phone_number0']

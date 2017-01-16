@@ -1,16 +1,17 @@
 <div class="post">
-  <div class="panel panel-primary">
+  <div class="panel panel-success">
     <div class="panel-heading">
         <div class="row">
             <div class="col-xs-3">
                 <i class="glyphicon glyphicon-tags"></i>
+                博文
             </div>
             <div class="col-xs-9 text-right">
-                <a href="/blogs/" class="glyphicon glyphicon-circle-arrow-right" style="color:#fff"></a>
+                <a href="/blogs/">更多...</a>
             </div>
         </div>
     </div>
-    <div class="panel-footer">
+    <div class="panel-body">
     {% for post in lastest_blogs %}
         <li>
         <a href="{{ post.get_absolute_url }}"> {{ post.title }} </a>

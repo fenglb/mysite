@@ -3,9 +3,10 @@
 {% block contact %} active {% endblock %}
 {% block content %} 
 <div class="container">
-   <div class="ui header"> 联系方式 </div>
-   <div>地址：福建省厦门市思明区厦门大学化学化工学院高场核磁中心 高102室</div>
-   <div>电话：0592-2186874</div>
-   <div>邮箱：tonyfeng@xmu.edu.cn</div>
+   <h3> 联系方式 </h3>
+   <div><strong>地址：</strong>福建省厦门市思明区厦门大学化学化工学院高场核磁中心 高102室</div>
+   <iframe src="{% url 'homepages:map' %}" width="697" height="300" frameborder="0" scrolling="no"></iframe><!--baidu map--!>
+   <div><strong>电话：</strong>0592-2186874</div>
+   <div><strong>邮箱：</strong>tonyfeng@xmu.edu.cn</div>
 </div>
 {% endblock %}

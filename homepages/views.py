@@ -43,3 +43,6 @@ def contact( request ):
 def appoint( request ):
     instruments = Instrument.objects.all()
     return render( request, 'homepages/appoint.html', {'instruments': instruments,} )
+
+def map(request):
+    return render(request, 'homepages/map.html')

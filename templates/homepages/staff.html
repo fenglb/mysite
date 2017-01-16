@@ -6,9 +6,9 @@
           <div class="item" style="background-color:{% cycle '#86e8fa' '#cdf4d7' '#edacb5' '#febfba' '#33ffbd' %};">
           <center>
             {% if staff.website %}
-              <a href="{{staff.website|default_if_none:''}}" target="_blank"><img class="img-circle img-responsive" src="{{ staff.profile_image.url }}"></a>
+              <a href="{{staff.website|default_if_none:''}}" target="_blank"><img class="img-circle img-responsive" src="{{ staff.profile_image.url }}" width="160"></a>
             {% else %}
-              <img class="img-circle img-responsive" src="{{ staff.profile_image.url }}">
+              <img class="img-circle img-responsive" src="{{ staff.profile_image.url }}" width="160">
             {% endif %}
                 <h3 class="media-heading">{{ staff.surname }} <small>{{staff.title}}</small></h3>
                 <p>{{ staff.user_bio }}</p>

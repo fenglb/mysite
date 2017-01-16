@@ -17,13 +17,6 @@
   .calendar {
     margin: 10px 40px 0px 40px;
   }
-  #calendar {
-    font-size: 14px;
-    padding-top: 20px;
-  }
- #calendar .fc-content {
-   font-size: 10px;
-   }
 </style>
 {% endblock %}
 
@@ -81,7 +74,7 @@
       </ol>
       
     </div>
-    <div class="col-sm-9 col-xs-12">
+    <div class="col-md-6 col-sm-6 col-xs-12">
       <h4>“{{ instrument|default_if_none:'所有仪器' }}”的预约情况</h4>
       {% if instrument == "500MHz" %}<button id="uploadEvent" class="btn btn-success">提交</button>{%endif%}
       <div id='calendar'></div>
@@ -229,7 +222,7 @@
 		    timeFormat: 'H:mm',
 		    eventLimit: true,
 		    displayEventEnd: true,
-            aspectRatio: 2,
+            allDaySlot: false,
 		    views: {
 			  customWeek: { 
 			  type: 'agenda',

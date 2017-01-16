@@ -1,8 +1,10 @@
-[X][**  ] update the "aobut me", "lab intro", "instr intro" webpage
+[X][**  ] update the "about me", "lab intro", "instr intro" webpage
 [X][*   ] update the index function, like as the ...
 [X][*   ] add the weixin function
 [X][*   ] make work for weixin to display the instr appointment and appoint the exp.
 [X][*   ] delete the not active user
+[X][*   ] update the contact webpage
+[X][*   ] opt. the service webpage
 [O][*** ] make the 15 min appoint table for 500M, so do nice for the old user. custom the fullcalendar
 [O][*** ] update the comment system to UYan
 [O][*** ] update the identify, and delete the door licence
