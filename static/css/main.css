@@ -1,16 +1,34 @@
+@font-face {
+    font-family: 'Galdeano';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Galdeano Regular'), local('Galdeano-Regular'),
+    url('/static/font/galdeano-v6-latin-regular.woff2') format('woff2'),
+    url('/static/font/galdeano-v6-latin-regular.woff') format('woff');
+}
+@font-face {
+    font-family: 'Cuprum';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Cuprum'), local('Cuprum-Regular'),
+    url('/static/font/cuprum-v7-latin-regular.woff2') format('woff2'),
+    url('/static/font/cuprum-v7-latin-regular.woff') format('woff');
+}
+
 html, body {
     margin: auto;
     background: #FFFFFF repeat;
 }
 * {
-  font-family: "Georgia", "times", "AR PL UMing CN", "STSong", "SimSun", serif;
+  font-family: "Galdeano","Hiragino Sans GB","Microsoft YaHei",Trebuchet,"Trebuchet MS",Tahoma,"Lucida Grande","Lucida Sans Unicode",Verdana,sans-serif;
 }
 
-h1,h2,h3 {
-  font-family: "AR PL UKai CN", "KaiTi", "STKaiti", monospace !important; 
-  font-weight: bold !important;
-}
-
+h1{font-family:"Cuprum","Hiragino Sans GB","Microsoft YaHei",sans-serif;font-size:1.6em;color:#000;}
+h2{font-family:"Cuprum","Hiragino Sans GB","Microsoft YaHei",sans-serif;font-size:1.4em;color:#111;}
+h3{font-family:"Cuprum","Hiragino Sans GB","Microsoft YaHei",sans-serif;font-size:1.2em;color:#222;}
+h4{font-family:"Cuprum","Hiragino Sans GB","Microsoft YaHei",sans-serif;font-size:1.1em;color:#333;}
+h5{font-family:"Cuprum","Hiragino Sans GB","Microsoft YaHei",sans-serif;font-size:1em;color:#444;}
+h6{font-family:"Cuprum","Hiragino Sans GB","Microsoft YaHei",sans-serif;font-size:0.875em;color:#555;}
 .header-item {
   background-color: #1861ad;
   border-bottom: 1px solid #333;
@@ -129,17 +147,14 @@ h1,h2,h3 {
     padding: 10px 0 10px 0;
 }
 .blogs {
-  background: #F8F7EE url(/static/images/pattern.png);
+  background: #eee url(/static/images/paper.png);
   margin-top: -20px;
   margin-bottom: -10px;
-}
-.blogs p {
-  font: normal .80em ;
-  font-family: "Georgia", "times", "AR PL UMing CN", "STSong", "SimSun", serif;
-  color: #7A7A68;
-  line-height: 1.7em;
-  text-indent: 2em;
   font-size: 120%;
+  color: #222;
+  line-height: 1.8em;
+  font-weight: 200;
+  padding: .3em 0;
 }
 .blogs img {
     max-width: 60% !important;
@@ -147,3 +162,5 @@ h1,h2,h3 {
     margin-right: auto;
     display:block;
 }
+
+

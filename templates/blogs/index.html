@@ -21,12 +21,16 @@
     <div style="border-bottom: 1px solid #e5e5e5;padding-top:10px;"></div>
 {% endfor %}
   <div class="pagination" style="margin-top: 20px;">
-    {% if newer_page %}
-      <a class="next" href="/blogs/{{ newer_page }}/">← Newer</a>
-    {% endif %}
+    <nav>
+    <ul class="pager">
     {% if prev_page %}
-      <a class="prev" href="/blogs/{{ prev_page }}/">Older →</a>
+      <li class="previous"><a href="/blogs/{{ prev_page }}/"><span aria-hidden="true">&larr;</span> Older</a></li>
     {% endif %}
+    {% if newer_page %}
+      <li class="next"><a href="/blogs/{{ newer_page }}/">Newer <span aria-hidden="true">&rarr;</span></a></li>
+    {% endif %}
+    </ul>
+    </nav>
   </div>
 </div>
 </div>
